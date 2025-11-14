@@ -144,6 +144,8 @@ export default function DashboardPage() {
 
     setXp(updatedProfile.xp);
     setMessage(`Completed "${chore.title}"! +${xpAwarded} XP`);
+
+    setChores((prev) => prev.filter((c) => c.id !== chore.id));
   }
 
   async function handleLogout() {
