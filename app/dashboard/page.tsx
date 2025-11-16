@@ -1,8 +1,9 @@
-"use client";
+// app/dashboard/page.tsx
+'use client';
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 type Chore = {
   id: string;
@@ -11,22 +12,42 @@ type Chore = {
   base_xp: number;
 };
 
+type Completion = {
+  id: string;
+  xp_awarded: number;
+  completed_at: string;
+  chores?: {
+    title: string;
+  } | null;
+};
+
 export default function DashboardPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [xp, setXp] = useState(0);
   const [chores, setChores] = useState<Chore[]>([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [recentCompletions, setRecentCompletions] = useState<Completion[]>([]);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [baseXp, setBaseXp] = useState(10);
   const [message, setMessage] = useState<string | null>(null);
 
-  async function fetchChores() {
+  function computeLevel(xp: number): number {
+    return Math.floor(Math.sqrt(xp / 10)) + 1;
+  }
+
+  function xpForLevel(level: number): number {
+    // simple curve: xpNeeded = level^2 * 20
+    return level * level * 20;
+  }
+
+  async function fetchChores(userId: string) {
     const { data, error } = await supabase
-      .from("chores")
-      .select("id, title, description, base_xp")
-      .eq("is_active", true)
-      .order("created_at", { ascending: false });
+      .from('chores')
+      .select('id, title, description, base_xp')
+      .eq('user_id', userId)
+      .eq('is_active', true)
+      .order('created_at', { ascending: false });
 
     if (error) {
       console.error(error);
@@ -35,44 +56,65 @@ export default function DashboardPage() {
     setChores(data || []);
   }
 
+  async function fetchRecentCompletions(userId: string) {
+    const { data, error } = await supabase
+      .from('chore_completions')
+      .select('id, xp_awarded, completed_at, chores ( title )')
+      .eq('user_id', userId)
+      .order('completed_at', { ascending: false })
+      .limit(5);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+    setRecentCompletions(data || []);
+  }
+
   useEffect(() => {
     async function init() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
       if (!user) {
-        router.replace("/");
+        router.replace('/login');
         return;
       }
 
       // ensure profile exists
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
         .maybeSingle();
 
+      if (profileError) {
+        console.error(profileError);
+      }
+
       if (!profile) {
-        const { data } = await supabase
-          .from("profiles")
+        const { data: created, error: insertError } = await supabase
+          .from('profiles')
           .insert({ id: user.id, display_name: user.email, xp: 0 })
           .select()
           .single();
-        setXp(data?.xp ?? 0);
+        if (insertError) {
+          console.error(insertError);
+        } else {
+          setXp(created?.xp ?? 0);
+        }
       } else {
         setXp(profile.xp ?? 0);
       }
 
-      await fetchChores();
+      await fetchChores(user.id);
+      await fetchRecentCompletions(user.id);
+
       setLoading(false);
     }
 
     init();
   }, [router]);
-
-  function computeLevel(xp: number): number {
-    return Math.floor(Math.sqrt(xp / 10)) + 1;
-  }
 
   async function handleAddChore(e: React.FormEvent) {
     e.preventDefault();
@@ -84,27 +126,27 @@ export default function DashboardPage() {
     if (!user) return;
 
     const { data, error } = await supabase
-      .from("chores")
+      .from('chores')
       .insert({
         user_id: user.id,
         title: title.trim(),
         description: description.trim() || null,
         base_xp: baseXp,
       })
-      .select("id, title, description, base_xp")
+      .select('id, title, description, base_xp')
       .single();
 
     if (error) {
       console.error(error);
-      setMessage("Error creating chore.");
+      setMessage('Error creating chore.');
       return;
     }
 
     setChores((prev) => [data, ...prev]);
-    setTitle("");
-    setDescription("");
+    setTitle('');
+    setDescription('');
     setBaseXp(10);
-    setMessage("Chore added.");
+    setMessage('Chore added.');
   }
 
   async function handleCompleteChore(chore: Chore) {
@@ -116,7 +158,7 @@ export default function DashboardPage() {
     const xpAwarded = chore.base_xp;
 
     const { error: completionError } = await supabase
-      .from("chore_completions")
+      .from('chore_completions')
       .insert({
         chore_id: chore.id,
         user_id: user.id,
@@ -125,57 +167,78 @@ export default function DashboardPage() {
 
     if (completionError) {
       console.error(completionError);
-      setMessage("Error completing chore.");
+      setMessage('Error completing chore.');
       return;
     }
 
     const { data: updatedProfile, error: xpError } = await supabase
-      .from("profiles")
+      .from('profiles')
       .update({ xp: xp + xpAwarded })
-      .eq("id", user.id)
-      .select("xp")
+      .eq('id', user.id)
+      .select('xp')
       .single();
 
     if (xpError || !updatedProfile) {
       console.error(xpError);
-      setMessage("Error updating XP.");
+      setMessage('Error updating XP.');
       return;
     }
 
     setXp(updatedProfile.xp);
     setMessage(`Completed "${chore.title}"! +${xpAwarded} XP`);
 
+    // remove chore from local list
     setChores((prev) => prev.filter((c) => c.id !== chore.id));
+
+    // refresh recent completions
+    await fetchRecentCompletions(user.id);
   }
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.replace("/");
+    router.replace('/');
   }
 
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-50">
-        <p>Loading your chores...</p>
+        <p>Loading your quests...</p>
       </main>
     );
   }
 
   const level = computeLevel(xp);
+  const currentLevelXpFloor = xpForLevel(level - 1);
+  const nextLevelXpRequired = xpForLevel(level);
+  const xpInLevel = xp - currentLevelXpFloor;
+  const xpLevelSpan = Math.max(nextLevelXpRequired - currentLevelXpFloor, 1);
+  const progressPercent = Math.min(
+    100,
+    Math.max(0, (xpInLevel / xpLevelSpan) * 100),
+  );
+  const xpToNext = Math.max(0, nextLevelXpRequired - xp);
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
       <header className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900">
         <div>
-          <h1 className="text-xl font-bold">ChoreQuest</h1>
+          <h1 className="text-xl font-bold">Questify</h1>
           <p className="text-xs text-slate-400">
             Turn your chores into XP and levels.
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <div className="text-right">
+          <div className="space-y-1 text-right">
             <div className="text-sm font-semibold">Level {level}</div>
-            <div className="text-xs text-slate-400">XP: {xp}</div>
+            <div className="text-xs text-slate-400">
+              XP: {xp} ({xpToNext} to next)
+            </div>
+            <div className="w-40 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+              <div
+                className="h-1.5 rounded-full bg-gradient-to-r from-sky-400 to-emerald-400"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
           </div>
           <button
             onClick={handleLogout}
@@ -186,19 +249,20 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
+      <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
         {message && (
           <div className="text-xs rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-slate-300">
             {message}
           </div>
         )}
 
+        {/* Add chore form */}
         <section className="space-y-3 border border-slate-800 bg-slate-900 rounded-xl p-4">
-          <h2 className="text-sm font-semibold">Add a new chore</h2>
+          <h2 className="text-sm font-semibold">Add a new quest</h2>
           <form onSubmit={handleAddChore} className="space-y-2">
             <input
               className="w-full rounded-md bg-slate-950 border border-slate-700 px-3 py-2 text-sm outline-none focus:border-sky-500"
-              placeholder="Chore title (e.g., Wash dishes)"
+              placeholder="Quest title (e.g., Wash dishes)"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -224,46 +288,76 @@ export default function DashboardPage() {
               type="submit"
               className="rounded-md bg-sky-600 hover:bg-sky-500 px-4 py-2 text-sm font-medium"
             >
-              Add chore
+              Add quest
             </button>
           </form>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="text-sm font-semibold">Your chores</h2>
-          {chores.length === 0 ? (
-            <p className="text-xs text-slate-500">
-              No chores yet. Add one above to get started.
-            </p>
-          ) : (
-            <ul className="space-y-2">
-              {chores.map((chore) => (
-                <li
-                  key={chore.id}
-                  className="flex items-center justify-between border border-slate-800 bg-slate-900 rounded-lg px-3 py-2"
-                >
-                  <div>
-                    <p className="text-sm font-medium">{chore.title}</p>
-                    {chore.description && (
-                      <p className="text-xs text-slate-400">
-                        {chore.description}
-                      </p>
-                    )}
-                    <p className="text-[10px] text-slate-500 mt-1">
-                      {chore.base_xp} XP
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => handleCompleteChore(chore)}
-                    className="text-xs px-3 py-1 rounded-md bg-emerald-600 hover:bg-emerald-500"
+        <div className="grid gap-6 md:grid-cols-3">
+          {/* Chores list */}
+          <section className="space-y-3 md:col-span-2">
+            <h2 className="text-sm font-semibold">Your active quests</h2>
+            {chores.length === 0 ? (
+              <p className="text-xs text-slate-500">
+                No quests yet. Add one above to get started.
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {chores.map((chore) => (
+                  <li
+                    key={chore.id}
+                    className="flex items-center justify-between border border-slate-800 bg-slate-900 rounded-lg px-3 py-2"
                   >
-                    Complete
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+                    <div>
+                      <p className="text-sm font-medium">{chore.title}</p>
+                      {chore.description && (
+                        <p className="text-xs text-slate-400">
+                          {chore.description}
+                        </p>
+                      )}
+                      <p className="text-[10px] text-slate-500 mt-1">
+                        {chore.base_xp} XP
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => handleCompleteChore(chore)}
+                      className="text-xs px-3 py-1 rounded-md bg-emerald-600 hover:bg-emerald-500"
+                    >
+                      Complete
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          {/* Recent completions */}
+          <section className="space-y-3">
+            <h2 className="text-sm font-semibold">Recent completions</h2>
+            {recentCompletions.length === 0 ? (
+              <p className="text-xs text-slate-500">
+                Complete a quest to see it here.
+              </p>
+            ) : (
+              <ul className="space-y-2 text-xs">
+                {recentCompletions.map((c) => (
+                  <li
+                    key={c.id}
+                    className="border border-slate-800 bg-slate-900 rounded-lg px-3 py-2"
+                  >
+                    <p className="font-medium">
+                      {c.chores?.title ?? 'Quest completed'}
+                    </p>
+                    <p className="text-slate-400">
+                      +{c.xp_awarded} XP •{' '}
+                      {new Date(c.completed_at).toLocaleString()}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </div>
       </div>
     </main>
   );
