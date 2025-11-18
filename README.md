@@ -1,70 +1,36 @@
-# ⚔️ Questify — Gamified Chore & Productivity Web App
+# Questify — Gamified Chore App
 
-Questify is a cloud-native full-stack productivity platform that turns chores into a gamified experience. Built with Next.js, TypeScript, Supabase, and the Google Calendar API, it automates task scheduling, tracks real-time progress, and provides an engaging XP/points system.
+Questify is a full-stack productivity and chore-tracking web app built with Next.js, TypeScript, Supabase, and the Google Calendar API.
 
----
+## Features
+- User authentication (Supabase)
+- Create and complete chores
+- Points and gamification mechanics
+- Real-time updates
+- Google Calendar integration
+- Clean, responsive UI
 
-## 🚀 Features
+## Tech Stack
+- Frontend: Next.js, TypeScript, TailwindCSS
+- Backend: Supabase (PostgreSQL), Next.js API Routes
+- Integrations: Google Calendar API
+- Deployment: Vercel
 
-### ✅ Authentication & User System
-- Secure Supabase auth (email/password)
-- Row-level security policies
-- User-specific task isolation
+## How to Run
 
-### 🎮 Gamified Task System
-- Create, assign, and complete chores
-- XP, points, streaks, progress records
-- Real-time task status updates
+    git clone https://github.com/YOUR_USERNAME/questify
+    cd questify
+    npm install
+    npm run dev
 
-### 📅 Google Calendar Integration
-- Automated scheduling to user calendars
-- Bi-directional syncing
-- Webhook-triggered updates
+## Environment Variables Needed
+- SUPABASE_URL
+- SUPABASE_ANON_KEY
+- GOOGLE_CLIENT_ID
+- GOOGLE_CLIENT_SECRET
+- NEXTAUTH_SECRET
 
-### ⚙️ Optimized Architecture
-- Next.js SSR/ISR for fast rendering
-- Route caching + optimized DB queries
-- Scalable relational schema
-
----
-
-## 🛠 Tech Stack
-
-- **Frontend:** Next.js, TypeScript, TailwindCSS
-- **Backend:** Supabase (PostgreSQL), RLS, SQL Policies, Next.js API Routes
-- **Integrations:** Google Calendar API, Webhooks
-- **Deployment:** Vercel + Supabase
-
----
-
-## 📁 Database Schema (Simplified)
-
-users  
-• id  
-• email  
-• xp  
-• created_at  
-
-chores  
-• id  
-• user_id  
-• title  
-• description  
-• schedule_time  
-• points  
-
-chore_logs  
-• id  
-• chore_id  
-• user_id  
-• completed_at  
-
----
-
-## 🖥️ Running Locally
-
-```bash
-git clone https://github.com/YOUR_USERNAME/questify
-cd questify
-npm install
-npm run dev
+## Author
+Miguel Beltran  
+UC Davis — Computer Science  
+LinkedIn: https://www.linkedin.com/in/miguel-beltran-184741294/
