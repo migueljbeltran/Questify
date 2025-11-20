@@ -1,15 +1,15 @@
-// app/dashboard/page.tsx
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
 type Chore = {
   id: string;
   title: string;
   description: string | null;
   base_xp: number;
+  is_active?: boolean;
 };
 
 type Completion = {
@@ -27,8 +27,8 @@ export default function DashboardPage() {
   const [xp, setXp] = useState(0);
   const [chores, setChores] = useState<Chore[]>([]);
   const [recentCompletions, setRecentCompletions] = useState<Completion[]>([]);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [baseXp, setBaseXp] = useState(10);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -37,17 +37,16 @@ export default function DashboardPage() {
   }
 
   function xpForLevel(level: number): number {
-    // simple curve: xpNeeded = level^2 * 20
     return level * level * 20;
   }
 
   async function fetchChores(userId: string) {
     const { data, error } = await supabase
-      .from('chores')
-      .select('id, title, description, base_xp')
-      .eq('user_id', userId)
-      .eq('is_active', true)
-      .order('created_at', { ascending: false });
+      .from("chores")
+      .select("id, title, description, base_xp")
+      .eq("user_id", userId)
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.error(error);
@@ -58,17 +57,43 @@ export default function DashboardPage() {
 
   async function fetchRecentCompletions(userId: string) {
     const { data, error } = await supabase
-      .from('chore_completions')
-      .select('id, xp_awarded, completed_at, chores ( title )')
-      .eq('user_id', userId)
-      .order('completed_at', { ascending: false })
+      .from("chore_completions")
+      .select(
+        `
+      id,
+      xp_awarded,
+      completed_at,
+      chores:chore_id (
+        title
+      )
+    `
+      )
+      .eq("user_id", userId)
+      .order("completed_at", { ascending: false })
       .limit(5);
 
     if (error) {
       console.error(error);
+      // Consider throwing the error or returning an empty array to handle it in the calling code
       return;
     }
-    setRecentCompletions(data || []);
+
+    // Map the data to flatten the nested 'chores' object for easier use
+    // Map the data to flatten the nested 'chores' object for easier use
+    const formattedData =
+      data?.map((completion) => ({
+        id: completion.id,
+        xp_awarded: completion.xp_awarded,
+        completed_at: completion.completed_at,
+        chores:
+          completion.chores && completion.chores.length > 0
+            ? { title: completion.chores[0].title }
+            : null,
+      })) ?? [];
+
+    setRecentCompletions(formattedData);
+
+    setRecentCompletions(formattedData);
   }
 
   useEffect(() => {
@@ -76,33 +101,36 @@ export default function DashboardPage() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
       if (!user) {
-        router.replace('/login');
+        router.replace("/login");
         return;
       }
 
-      // ensure profile exists
       const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
         .maybeSingle();
-
-      if (profileError) {
-        console.error(profileError);
-      }
 
       if (!profile) {
         const { data: created, error: insertError } = await supabase
-          .from('profiles')
-          .insert({ id: user.id, display_name: user.email, xp: 0 })
+          .from("profiles")
+          .insert({
+            id: user.id,
+            display_name: user.email,
+            xp: 0,
+          })
           .select()
           .single();
+
+        // FIX: Log the readable message property
         if (insertError) {
+          console.error("Supabase Insert Error:", insertError.message);
+          // Optional: Log the full object for deep debugging
           console.error(insertError);
-        } else {
-          setXp(created?.xp ?? 0);
         }
+        setXp(created?.xp ?? 0);
       } else {
         setXp(profile.xp ?? 0);
       }
@@ -126,28 +154,31 @@ export default function DashboardPage() {
     if (!user) return;
 
     const { data, error } = await supabase
-      .from('chores')
+      .from("chores")
       .insert({
         user_id: user.id,
         title: title.trim(),
         description: description.trim() || null,
         base_xp: baseXp,
+        is_active: true,
       })
-      .select('id, title, description, base_xp')
+      .select("id, title, description, base_xp")
       .single();
 
     if (error) {
       console.error(error);
-      setMessage('Error creating chore.');
+      setMessage("Error creating chore.");
       return;
     }
 
     setChores((prev) => [data, ...prev]);
-    setTitle('');
-    setDescription('');
+    setTitle("");
+    setDescription("");
     setBaseXp(10);
-    setMessage('Chore added.');
+    setMessage("Chore added.");
   }
+
+  // app/dashboard/page.tsx
 
   async function handleCompleteChore(chore: Chore) {
     const {
@@ -157,8 +188,9 @@ export default function DashboardPage() {
 
     const xpAwarded = chore.base_xp;
 
+    // 1. INSERT the completion record (You already had this)
     const { error: completionError } = await supabase
-      .from('chore_completions')
+      .from("chore_completions")
       .insert({
         chore_id: chore.id,
         user_id: user.id,
@@ -167,36 +199,51 @@ export default function DashboardPage() {
 
     if (completionError) {
       console.error(completionError);
-      setMessage('Error completing chore.');
+      setMessage("Error completing chore.");
       return;
     }
 
+    // 🔑 2. FIX: Deactivate the chore in the 'chores' table
+    const { error: deactivateError } = await supabase
+      .from("chores")
+      .update({ is_active: false }) // <--- THIS IS THE CRITICAL LINE
+      .eq("id", chore.id);
+
+    if (deactivateError) {
+      console.error(deactivateError);
+      // Note: You might want to revert the completion insert here for robustness
+      setMessage("Error deactivating chore.");
+      return;
+    }
+
+    // 3. Update the user's XP (You already had this)
     const { data: updatedProfile, error: xpError } = await supabase
-      .from('profiles')
+      .from("profiles")
       .update({ xp: xp + xpAwarded })
-      .eq('id', user.id)
-      .select('xp')
+      .eq("id", user.id)
+      .select("xp")
       .single();
 
     if (xpError || !updatedProfile) {
       console.error(xpError);
-      setMessage('Error updating XP.');
+      setMessage("Error updating XP.");
       return;
     }
 
+    // 4. Update local state
     setXp(updatedProfile.xp);
     setMessage(`Completed "${chore.title}"! +${xpAwarded} XP`);
 
-    // remove chore from local list
+    // This line is correct: it removes the chore from the UI immediately.
     setChores((prev) => prev.filter((c) => c.id !== chore.id));
 
-    // refresh recent completions
+    // This line is correct: it updates the Recent Completions list.
     await fetchRecentCompletions(user.id);
   }
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.replace('/');
+    router.replace("/");
   }
 
   if (loading) {
@@ -214,7 +261,7 @@ export default function DashboardPage() {
   const xpLevelSpan = Math.max(nextLevelXpRequired - currentLevelXpFloor, 1);
   const progressPercent = Math.min(
     100,
-    Math.max(0, (xpInLevel / xpLevelSpan) * 100),
+    Math.max(0, (xpInLevel / xpLevelSpan) * 100)
   );
   const xpToNext = Math.max(0, nextLevelXpRequired - xp);
 
@@ -256,7 +303,6 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Add chore form */}
         <section className="space-y-3 border border-slate-800 bg-slate-900 rounded-xl p-4">
           <h2 className="text-sm font-semibold">Add a new quest</h2>
           <form onSubmit={handleAddChore} className="space-y-2">
@@ -294,7 +340,6 @@ export default function DashboardPage() {
         </section>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {/* Chores list */}
           <section className="space-y-3 md:col-span-2">
             <h2 className="text-sm font-semibold">Your active quests</h2>
             {chores.length === 0 ? (
@@ -331,7 +376,6 @@ export default function DashboardPage() {
             )}
           </section>
 
-          {/* Recent completions */}
           <section className="space-y-3">
             <h2 className="text-sm font-semibold">Recent completions</h2>
             {recentCompletions.length === 0 ? (
@@ -346,10 +390,10 @@ export default function DashboardPage() {
                     className="border border-slate-800 bg-slate-900 rounded-lg px-3 py-2"
                   >
                     <p className="font-medium">
-                      {c.chores?.title ?? 'Quest completed'}
+                      {c.chores?.title ?? "Quest completed"}
                     </p>
                     <p className="text-slate-400">
-                      +{c.xp_awarded} XP •{' '}
+                      +{c.xp_awarded} XP •{" "}
                       {new Date(c.completed_at).toLocaleString()}
                     </p>
                   </li>
