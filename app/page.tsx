@@ -1,7 +1,7 @@
 // app/page.tsx
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -21,7 +21,10 @@ export default function LandingPage() {
             <a href="#features" className="text-slate-300 hover:text-slate-100">
               Features
             </a>
-            <a href="#how-it-works" className="text-slate-300 hover:text-slate-100">
+            <a
+              href="#how-it-works"
+              className="text-slate-300 hover:text-slate-100"
+            >
               How it works
             </a>
             <Link
@@ -106,7 +109,7 @@ export default function LandingPage() {
                 <div className="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
                   <div
                     className="h-2 rounded-full bg-gradient-to-r from-sky-400 to-emerald-400"
-                    style={{ width: '85%' }}
+                    style={{ width: "85%" }}
                   />
                 </div>
               </div>
@@ -201,10 +204,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section
-        id="features"
-        className="border-t border-slate-800 bg-slate-950"
-      >
+      <section id="features" className="border-t border-slate-800 bg-slate-950">
         <div className="max-w-5xl mx-auto px-4 py-10 space-y-4">
           <h2 className="text-sm font-semibold text-slate-100">
             Features built for shared spaces
@@ -212,24 +212,28 @@ export default function LandingPage() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-xs">
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4 space-y-1">
-              <p className="font-semibold text-slate-100">XP, levels & streaks</p>
+              <p className="font-semibold text-slate-100">
+                XP, levels & streaks
+              </p>
               <p className="text-slate-300">
-                Every quest adds XP. Track streaks and unlock milestones to
-                make progress visible.
+                Every quest adds XP. Track streaks and unlock milestones to make
+                progress visible.
               </p>
             </div>
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4 space-y-1">
               <p className="font-semibold text-slate-100">AI chore assistant</p>
               <p className="text-slate-300">
-                Auto-generate chore lists and fair distributions so you don&apos;t
-                argue about who does what.
+                Auto-generate chore lists and fair distributions so you
+                don&apos;t argue about who does what.
               </p>
             </div>
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4 space-y-1">
-              <p className="font-semibold text-slate-100">Roommate leaderboard</p>
+              <p className="font-semibold text-slate-100">
+                Roommate leaderboard
+              </p>
               <p className="text-slate-300">
-                See who&apos;s been carrying the house this week and who&apos;s due
-                for a quest.
+                See who&apos;s been carrying the house this week and who&apos;s
+                due for a quest.
               </p>
             </div>
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4 space-y-1">
@@ -240,7 +244,9 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4 space-y-1">
-              <p className="font-semibold text-slate-100">Calendar & reminders</p>
+              <p className="font-semibold text-slate-100">
+                Calendar & reminders
+              </p>
               <p className="text-slate-300">
                 Sync recurring chores to your calendar so trash day and
                 deep-clean sessions never sneak up.
