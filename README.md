@@ -3,6 +3,7 @@
 Questify is a full-stack 🧹 productivity and chore-tracking web app built with **Next.js**, **TypeScript**, **Supabase**, and the **Google Calendar API**.
 
 ## ✨ Features
+
 - 🔐 User authentication (Supabase)
 - ✔️ Create and complete chores
 - ⭐ Gamification: points, streaks, rewards
@@ -11,6 +12,7 @@ Questify is a full-stack 🧹 productivity and chore-tracking web app built with
 - 📱 Clean and responsive UI
 
 ## 🛠 Tech Stack
+
 - **Frontend:** Next.js, TypeScript, TailwindCSS
 - **Backend:** Supabase (PostgreSQL), Next.js API Routes
 - **Integrations:** Google Calendar API
@@ -24,13 +26,15 @@ Questify is a full-stack 🧹 productivity and chore-tracking web app built with
     npm run dev
 
 ## 🔑 Environment Variables
-- SUPABASE_URL  
-- SUPABASE_ANON_KEY  
-- GOOGLE_CLIENT_ID  
-- GOOGLE_CLIENT_SECRET  
-- NEXTAUTH_SECRET  
+
+- SUPABASE_URL
+- SUPABASE_ANON_KEY
+- GOOGLE_CLIENT_ID
+- GOOGLE_CLIENT_SECRET
+- NEXTAUTH_SECRET
 
 ## 👤 Author
+
 Miguel Beltran  
 UC Davis — Computer Science  
-LinkedIn: https://www.linkedin.com/in/miguel-beltran-184741294/
+LinkedIn: https://www.linkedin.com/in/miguel-j-beltran/
