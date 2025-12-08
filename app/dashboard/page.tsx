@@ -42,34 +42,77 @@ export default async function DashboardPage() {
   // If profile doesn't exist (e.g. old user), use default
   const xp = profile?.xp || 0;
 
+  const email = user.email || "";
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-4 md:p-8">
-      <div className="max-w-5xl mx-auto">
-        <DashboardHeader email={user.email || ""} />
+    <main className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-50">
+      {/* Background glows */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-32 -top-24 h-80 w-80 rounded-full bg-sky-500/20 blur-3xl" />
+        <div className="absolute right-0 top-20 h-72 w-72 rounded-full bg-emerald-500/15 blur-3xl" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
+      </div>
 
-        <UserStats xp={xp} />
+      <div className="relative mx-auto max-w-6xl px-4 py-10 space-y-8">
+        <div className="rounded-3xl border border-slate-900 bg-slate-900/70 p-5 shadow-2xl shadow-slate-950/40 backdrop-blur">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-sky-500 to-emerald-400 text-sm font-black text-slate-950 shadow-lg shadow-sky-900/40">
+                QF
+              </div>
+              <div className="leading-tight">
+                <p className="text-sm font-semibold tracking-tight">Questify</p>
+                <p className="text-[12px] text-slate-300">
+                  Keep your streak alive and ship quests.
+                </p>
+              </div>
+            </div>
+            <div className="text-right text-[12px] text-slate-300">
+              <p className="font-semibold text-slate-100">Signed in</p>
+              <p>{email}</p>
+            </div>
+          </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-6">
+          <div className="mt-6">
+            <DashboardHeader email={email} />
+          </div>
+
+          <div className="mt-4">
+            <UserStats xp={xp} />
+          </div>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+          <div className="space-y-4 rounded-3xl border border-slate-900 bg-slate-900/70 p-5 shadow-xl shadow-slate-950/30 backdrop-blur">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-white">
-                Active Quests
-              </h2>
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
+                  Active quests
+                </p>
+                <h2 className="text-xl font-semibold text-slate-50">
+                  Today&apos;s board
+                </h2>
+              </div>
               <AddChore />
             </div>
             <ChoreList chores={chores} />
           </div>
 
-          <div className="space-y-6">
-            <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-              <h3 className="text-sm font-medium text-slate-400 mb-4">
-                Recent Activity
-              </h3>
-              <RecentActivity activities={completions} />
+          <div className="space-y-4 rounded-3xl border border-slate-900 bg-slate-900/70 p-5 shadow-xl shadow-slate-950/30 backdrop-blur">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
+                  Recent activity
+                </p>
+                <h3 className="text-lg font-semibold text-slate-50">
+                  Latest completions
+                </h3>
+              </div>
             </div>
+            <RecentActivity activities={completions} />
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
