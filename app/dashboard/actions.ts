@@ -2,100 +2,178 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import {
+  addChoreSchema,
+  choreIdSchema,
+  completeChoreSchema,
+} from "@/lib/validations/chore";
+import { rateLimit } from "@/lib/rate-limit";
 
-export async function addChore(formData: FormData) {
-        const supabase = await createClient();
-        const {
-                data: { user },
-        } = await supabase.auth.getUser();
+export type ActionResult =
+  | { success: true }
+  | { error: string; fieldErrors?: Record<string, string[]> };
 
-        if (!user) return { error: "Unauthorized" };
+export async function addChore(formData: FormData): Promise<ActionResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-        const title = formData.get("title") as string;
-        const description = formData.get("description") as string;
-        const base_xp = parseInt(formData.get("xp") as string) || 10;
+  if (!user) return { error: "Unauthorized" };
 
-        const { error } = await supabase.from("chores").insert({
-                user_id: user.id,
-                title,
-                description,
-                base_xp,
-        });
+  // Rate limiting: 20 chores per minute per user
+  const { success: withinLimit } = rateLimit(`addChore:${user.id}`, {
+    maxRequests: 20,
+    windowMs: 60000,
+  });
 
-        if (error) return { error: error.message };
+  if (!withinLimit) {
+    return { error: "Too many requests. Please slow down." };
+  }
 
-        revalidatePath("/dashboard");
-        return { success: true };
+  const parsed = addChoreSchema.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description") || undefined,
+    xp: formData.get("xp"),
+  });
+
+  if (!parsed.success) {
+    return {
+      error: "Validation failed",
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  const { error } = await supabase.from("chores").insert({
+    user_id: user.id,
+    title: parsed.data.title,
+    description: parsed.data.description || null,
+    base_xp: parsed.data.xp,
+  });
+
+  if (error) {
+    console.error("[addChore] Database error:", error);
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return { success: true };
 }
 
-export async function deleteChore(choreId: string) {
-        const supabase = await createClient();
-        const {
-                data: { user },
-        } = await supabase.auth.getUser();
+export async function deleteChore(choreId: string): Promise<ActionResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-        if (!user) return { error: "Unauthorized" };
+  if (!user) return { error: "Unauthorized" };
 
-        const { error } = await supabase
-                .from("chores")
-                .delete()
-                .eq("id", choreId)
-                .eq("user_id", user.id);
+  // Rate limiting: 20 deletions per minute per user
+  const { success: withinLimit } = rateLimit(`deleteChore:${user.id}`, {
+    maxRequests: 20,
+    windowMs: 60000,
+  });
 
-        if (error) return { error: error.message };
+  if (!withinLimit) {
+    return { error: "Too many requests. Please slow down." };
+  }
 
-        revalidatePath("/dashboard");
-        return { success: true };
+  const parsed = choreIdSchema.safeParse({ choreId });
+  if (!parsed.success) {
+    return { error: "Invalid chore ID" };
+  }
+
+  const { error } = await supabase
+    .from("chores")
+    .delete()
+    .eq("id", parsed.data.choreId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error("[deleteChore] Database error:", error);
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  return { success: true };
 }
 
-export async function completeChore(choreId: string, xp: number) {
-        const supabase = await createClient();
-        const {
-                data: { user },
-        } = await supabase.auth.getUser();
+export async function completeChore(
+  choreId: string,
+  xp: number
+): Promise<ActionResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-        if (!user) return { error: "Unauthorized" };
+  if (!user) return { error: "Unauthorized" };
 
-        // 1. Log completion
-        const { error: completionError } = await supabase
-                .from("chore_completions")
-                .insert({
-                        user_id: user.id,
-                        chore_id: choreId,
-                        xp_awarded: xp,
-                });
+  // Rate limiting: 30 completions per minute per user
+  const { success: withinLimit } = rateLimit(`completeChore:${user.id}`, {
+    maxRequests: 30,
+    windowMs: 60000,
+  });
 
-        if (completionError) return { error: completionError.message };
+  if (!withinLimit) {
+    return { error: "Too many requests. Please slow down." };
+  }
 
-        // 2. Update user XP
-        // We fetch current XP first to be safe, or use an RPC if we had one.
-        // For now, simple update.
-        const { data: userData, error: userError } = await supabase
-                .from("users")
-                .select("xp")
-                .eq("id", user.id)
-                .single();
+  const parsed = completeChoreSchema.safeParse({ choreId, xp });
+  if (!parsed.success) {
+    return { error: "Invalid input" };
+  }
 
-        if (userError) return { error: userError.message };
+  // 1. Log completion
+  const { error: completionError } = await supabase
+    .from("chore_completions")
+    .insert({
+      user_id: user.id,
+      chore_id: parsed.data.choreId,
+      xp_awarded: parsed.data.xp,
+    });
 
-        const newXp = (userData?.xp || 0) + xp;
+  if (completionError) {
+    console.error("[completeChore] Completion error:", completionError);
+    return { error: completionError.message };
+  }
 
-        const { error: updateError } = await supabase
-                .from("users")
-                .update({ xp: newXp })
-                .eq("id", user.id);
+  // 2. Update user XP
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("xp")
+    .eq("id", user.id)
+    .single();
 
-        if (updateError) return { error: updateError.message };
+  if (userError) {
+    console.error("[completeChore] User fetch error:", userError);
+    return { error: userError.message };
+  }
 
-        // 3. Mark chore as inactive (completed)
-        const { error: choreError } = await supabase
-                .from("chores")
-                .update({ is_active: false })
-                .eq("id", choreId)
-                .eq("user_id", user.id);
+  const newXp = (userData?.xp || 0) + parsed.data.xp;
 
-        if (choreError) return { error: choreError.message };
+  const { error: updateError } = await supabase
+    .from("users")
+    .update({ xp: newXp })
+    .eq("id", user.id);
 
-        revalidatePath("/dashboard");
-        return { success: true };
+  if (updateError) {
+    console.error("[completeChore] XP update error:", updateError);
+    return { error: updateError.message };
+  }
+
+  // 3. Mark chore as inactive (completed)
+  const { error: choreError } = await supabase
+    .from("chores")
+    .update({ is_active: false })
+    .eq("id", parsed.data.choreId)
+    .eq("user_id", user.id);
+
+  if (choreError) {
+    console.error("[completeChore] Chore update error:", choreError);
+    return { error: choreError.message };
+  }
+
+  revalidatePath("/dashboard");
+  return { success: true };
 }
