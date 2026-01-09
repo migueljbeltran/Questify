@@ -7,23 +7,26 @@ test.describe("Authentication", () => {
     // Check form elements
     await expect(page.getByLabel(/email/i)).toBeVisible();
     await expect(page.getByLabel(/password/i)).toBeVisible();
-    await expect(page.getByRole("button", { name: /sign in/i })).toBeVisible();
+    // Use form-specific selector to avoid matching tab buttons
+    await expect(
+      page.locator("form").getByRole("button", { name: /sign in/i })
+    ).toBeVisible();
   });
 
   test("should toggle between login and signup modes", async ({ page }) => {
     await page.goto("/login");
 
-    // Find toggle button (looking for "Create account" or similar)
-    const toggleButton = page.getByRole("button", {
-      name: /create account|sign up|register/i,
+    // Find the tab toggle button specifically (not the form button)
+    const createAccountTab = page.getByRole("button", {
+      name: "Create account",
     });
 
-    if (await toggleButton.isVisible()) {
-      await toggleButton.click();
+    if (await createAccountTab.isVisible()) {
+      await createAccountTab.click();
 
-      // Check that we're now in signup mode
+      // Check that the form submit button now shows signup text
       await expect(
-        page.getByRole("button", { name: /sign up|create/i })
+        page.locator("form").getByRole("button", { name: /sign up|create/i })
       ).toBeVisible();
     }
   });
@@ -35,8 +38,11 @@ test.describe("Authentication", () => {
     await page.getByLabel(/email/i).fill("invalid-email");
     await page.getByLabel(/password/i).fill("password123");
 
-    // Submit the form
-    await page.getByRole("button", { name: /sign in/i }).click();
+    // Submit the form using the form's submit button
+    await page
+      .locator("form")
+      .getByRole("button", { name: /sign in/i })
+      .click();
 
     // Wait for potential error message (validation happens client or server side)
     await page.waitForTimeout(1000);
@@ -52,8 +58,11 @@ test.describe("Authentication", () => {
     await page.getByLabel(/email/i).fill("nonexistent@example.com");
     await page.getByLabel(/password/i).fill("wrongpassword123");
 
-    // Submit the form
-    await page.getByRole("button", { name: /sign in/i }).click();
+    // Submit the form using the form's submit button
+    await page
+      .locator("form")
+      .getByRole("button", { name: /sign in/i })
+      .click();
 
     // Wait for error response
     await page.waitForTimeout(2000);
