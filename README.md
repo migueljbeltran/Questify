@@ -27,6 +27,7 @@ Turn household tasks into quests with XP, levels, and streaks. Built for roommat
 ## Quick Start
 
 ### Prerequisites
+
 ```bash
 node >= 20.9.0
 npm or yarn or pnpm
@@ -35,22 +36,26 @@ npm or yarn or pnpm
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/yourusername/questify.git
 cd questify
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Set up environment variables**
+
 ```bash
 cp .env.example .env.local
 ```
 
 Add your credentials:
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -60,6 +65,7 @@ NEXTAUTH_SECRET=your_nextauth_secret
 ```
 
 4. **Run the development server**
+
 ```bash
 npm run dev
 ```
