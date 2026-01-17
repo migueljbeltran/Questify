@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Check, Trash2, Loader2 } from "lucide-react";
 import { completeChore, deleteChore } from "@/app/dashboard/actions";
 import { Database } from "@/lib/database.types";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 type Chore = Database["public"]["Tables"]["chores"]["Row"];
 
@@ -21,7 +23,6 @@ export function ChoreList({ chores }: ChoreListProps) {
     await completeChore(id, xp);
     setStatusMessage(`Quest completed: ${title}! +${xp} XP earned`);
     setProcessingId(null);
-    // Clear status after announcement
     setTimeout(() => setStatusMessage(""), 3000);
   }
 
@@ -50,7 +51,6 @@ export function ChoreList({ chores }: ChoreListProps) {
 
   return (
     <>
-      {/* Screen reader announcements */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {statusMessage}
       </div>
@@ -66,12 +66,13 @@ export function ChoreList({ chores }: ChoreListProps) {
                 <h4 className="truncate font-semibold text-slate-50">
                   {chore.title}
                 </h4>
-                <span
-                  className="rounded-full border border-slate-800 bg-slate-800 px-2 py-0.5 text-[11px] font-semibold text-sky-300"
+                <Badge
+                  variant="default"
+                  size="sm"
                   aria-label={`${chore.base_xp} experience points reward`}
                 >
                   +{chore.base_xp} XP
-                </span>
+                </Badge>
               </div>
               {chore.description && (
                 <p className="truncate text-xs text-slate-400">
@@ -85,22 +86,25 @@ export function ChoreList({ chores }: ChoreListProps) {
               role="group"
               aria-label={`Actions for ${chore.title}`}
             >
-              <button
+              <Button
+                variant="ghost"
+                size="icon-sm"
                 onClick={() => handleDelete(chore.id, chore.title)}
                 disabled={processingId === chore.id}
                 aria-label={`Abandon quest: ${chore.title}`}
-                className="rounded-lg p-2 text-slate-500 transition hover:bg-red-500/10 hover:text-red-300 disabled:opacity-50"
+                className="text-slate-500 hover:bg-red-500/10 hover:text-red-300"
               >
                 <Trash2 className="h-4 w-4" aria-hidden="true" />
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="success"
+                size="sm"
                 onClick={() =>
                   handleComplete(chore.id, chore.base_xp, chore.title)
                 }
                 disabled={processingId === chore.id}
                 aria-label={`Complete quest: ${chore.title} for ${chore.base_xp} XP`}
                 aria-busy={processingId === chore.id}
-                className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-300 transition hover:border-emerald-500/40 hover:bg-emerald-500/20 disabled:opacity-50"
               >
                 {processingId === chore.id ? (
                   <Loader2
@@ -111,7 +115,7 @@ export function ChoreList({ chores }: ChoreListProps) {
                   <Check className="h-4 w-4" aria-hidden="true" />
                 )}
                 Complete
-              </button>
+              </Button>
             </div>
           </li>
         ))}

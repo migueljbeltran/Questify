@@ -1,4 +1,5 @@
 import { CheckCircle2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface Activity {
   id: string;
@@ -32,17 +33,21 @@ export function RecentActivity({ activities }: RecentActivityProps) {
           <div className="mt-0.5">
             <CheckCircle2 className="h-4 w-4 text-emerald-400" />
           </div>
-          <div>
+          <div className="flex-1">
             <p className="text-sm text-slate-200">
               Completed{" "}
               <span className="font-semibold text-slate-50">
                 {activity.chores?.title || "Unknown Quest"}
               </span>
             </p>
-            <p className="text-xs text-slate-400">
-              +{activity.xp_awarded} XP •{" "}
-              {new Date(activity.completed_at).toLocaleDateString()}
-            </p>
+            <div className="mt-1 flex items-center gap-2 text-xs text-slate-400">
+              <Badge variant="success" size="sm">
+                +{activity.xp_awarded} XP
+              </Badge>
+              <span>
+                {new Date(activity.completed_at).toLocaleDateString()}
+              </span>
+            </div>
           </div>
         </div>
       ))}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Zap, Trophy, Star } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 interface UserStatsProps {
   xp: number;
@@ -13,10 +14,6 @@ export function UserStats({ xp }: UserStatsProps) {
   const nextLevelXp = Math.pow(level + 1, 2) * 100;
   const xpNeeded = nextLevelXp - currentLevelXp;
   const xpProgress = xp - currentLevelXp;
-  const progressPercent = Math.min(
-    100,
-    Math.max(0, (xpProgress / xpNeeded) * 100)
-  );
   const xpToNextLevel = Math.max(0, Math.round(nextLevelXp - xp));
 
   return (
@@ -59,19 +56,12 @@ export function UserStats({ xp }: UserStatsProps) {
             / {nextLevelXp} XP
           </span>
         </div>
-        <div
-          className="mt-3 h-2 w-full rounded-full bg-slate-800"
-          role="progressbar"
-          aria-valuenow={xpProgress}
-          aria-valuemin={0}
-          aria-valuemax={xpNeeded}
+        <Progress
+          value={xpProgress}
+          max={xpNeeded}
+          className="mt-3"
           aria-label={`XP progress: ${xpProgress} of ${xpNeeded} to next level`}
-        >
-          <div
-            className="h-2 rounded-full bg-gradient-to-r from-sky-400 to-emerald-400 transition-all duration-500"
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
+        />
         <p className="mt-2 text-xs text-slate-400">
           {xpToNextLevel} XP to next level
         </p>

@@ -1,65 +1,143 @@
 @import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
 
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ===== NEON QUEST THEME ===== */
+
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 222.2 47.4% 11.2%;
+  /* Background layers */
+  --background: 240 22% 5%;           /* #0a0a0f - Base */
+  --foreground: 210 40% 98%;          /* #f8fafc - Primary text */
+
+  /* Surface layers */
+  --surface-1: 240 18% 8%;            /* #12121a - Cards */
+  --surface-2: 240 17% 12%;           /* #1a1a24 - Elevated cards */
+  --surface-3: 240 15% 16%;           /* #22222e - Modals */
+
+  /* Card (using surface-1) */
+  --card: 240 18% 8%;
+  --card-foreground: 210 40% 98%;
+
+  /* Popover (using surface-3) */
+  --popover: 240 15% 16%;
+  --popover-foreground: 210 40% 98%;
+
+  /* Primary accent gradient colors */
+  --primary: 258 90% 66%;             /* #8b5cf6 - Violet center */
   --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
+  --accent-start: 239 84% 67%;        /* #6366f1 - Indigo */
+  --accent-via: 258 90% 66%;          /* #8b5cf6 - Violet */
+  --accent-end: 271 91% 65%;          /* #a855f7 - Purple */
+
+  /* Secondary */
+  --secondary: 240 17% 12%;
+  --secondary-foreground: 210 40% 98%;
+
+  /* Muted */
+  --muted: 240 17% 12%;
+  --muted-foreground: 215 16% 47%;    /* #64748b - Muted text */
+
+  /* Accent */
+  --accent: 258 90% 66%;
+  --accent-foreground: 210 40% 98%;
+
+  /* XP/Success colors */
+  --xp: 160 84% 39%;                  /* #10b981 - Emerald */
+  --xp-glow: 159 65% 51%;             /* #34d399 - Emerald glow */
+
+  /* Streak/Fire colors */
+  --streak: 38 92% 50%;               /* #f59e0b - Amber */
+  --streak-glow: 43 96% 56%;          /* #fbbf24 - Amber glow */
+
+  /* Level/Rank colors */
+  --level: 217 91% 60%;               /* #3b82f6 - Blue */
+  --level-glow: 213 94% 68%;          /* #60a5fa - Blue glow */
+
+  /* Destructive */
+  --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
-  --radius: 0.5rem;
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
+
+  /* Border & Input */
+  --border: 240 15% 16%;
+  --input: 240 17% 12%;
+  --ring: 258 90% 66%;
+
+  /* Radius */
+  --radius: 0.75rem;
+
+  /* Chart colors */
+  --chart-1: 258 90% 66%;             /* Violet */
+  --chart-2: 160 84% 39%;             /* Emerald */
+  --chart-3: 217 91% 60%;             /* Blue */
+  --chart-4: 38 92% 50%;              /* Amber */
+  --chart-5: 271 91% 65%;             /* Purple */
+
+  /* === GLOW & SHADOW SYSTEM === */
+
+  /* Glow colors (with alpha) */
+  --glow-primary: 258 90% 66%;
+  --glow-xp: 159 65% 51%;
+  --glow-streak: 43 96% 56%;
+  --glow-level: 213 94% 68%;
+
+  /* Shadow intensities */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+
+  /* Card shadows with glow */
+  --card-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 4px 24px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover:
+    0 0 0 1px rgba(139, 92, 246, 0.2) inset,
+    0 8px 32px rgba(139, 92, 246, 0.15);
+
+  /* Glow effects */
+  --glow-sm: 0 0 10px;
+  --glow-md: 0 0 20px;
+  --glow-lg: 0 0 30px;
 }
 
+/* Dark mode is the default/only mode for Neon Quest */
 .dark {
-  --background: 222.2 84% 4.9%;
+  --background: 240 22% 5%;
   --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
+  --card: 240 18% 8%;
   --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
+  --popover: 240 15% 16%;
   --popover-foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
+  --primary: 258 90% 66%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 240 17% 12%;
   --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
+  --muted: 240 17% 12%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 258 90% 66%;
   --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
+  --destructive: 0 62% 50%;
   --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+  --border: 240 15% 16%;
+  --input: 240 17% 12%;
+  --ring: 258 90% 66%;
+  --chart-1: 258 90% 66%;
+  --chart-2: 160 84% 39%;
+  --chart-3: 217 91% 60%;
+  --chart-4: 38 92% 50%;
+  --chart-5: 271 91% 65%;
 }
 
 @theme inline {
+  /* Base colors */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -79,18 +157,231 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+
+  /* Surface layers */
+  --color-surface-1: hsl(var(--surface-1));
+  --color-surface-2: hsl(var(--surface-2));
+  --color-surface-3: hsl(var(--surface-3));
+
+  /* Accent gradient */
+  --color-accent-start: hsl(var(--accent-start));
+  --color-accent-via: hsl(var(--accent-via));
+  --color-accent-end: hsl(var(--accent-end));
+
+  /* Game-specific colors */
+  --color-xp: hsl(var(--xp));
+  --color-xp-glow: hsl(var(--xp-glow));
+  --color-streak: hsl(var(--streak));
+  --color-streak-glow: hsl(var(--streak-glow));
+  --color-level: hsl(var(--level));
+  --color-level-glow: hsl(var(--level-glow));
+
+  /* Chart colors */
   --color-chart-1: hsl(var(--chart-1));
   --color-chart-2: hsl(var(--chart-2));
   --color-chart-3: hsl(var(--chart-3));
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
+
+  /* Radii */
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  /* Font families */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === UTILITY CLASSES FOR NEON QUEST === */
+
+/* Gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--accent-start)) 0%,
+    hsl(var(--accent-via)) 50%,
+    hsl(var(--accent-end)) 100%
+  );
+}
+
+/* Glow utilities */
+.glow-primary {
+  box-shadow: var(--glow-md) hsl(var(--glow-primary) / 0.4);
+}
+
+.glow-xp {
+  box-shadow: var(--glow-md) hsl(var(--glow-xp) / 0.4);
+}
+
+.glow-streak {
+  box-shadow: var(--glow-md) hsl(var(--glow-streak) / 0.4);
+}
+
+.glow-level {
+  box-shadow: var(--glow-md) hsl(var(--glow-level) / 0.4);
+}
+
+/* Card base styles */
+.card-neon {
+  background: linear-gradient(135deg, hsl(var(--surface-1)) 0%, hsl(var(--surface-2)) 100%);
+  border: 1px solid hsl(var(--border) / 0.5);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-neon:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Text gradients */
+.text-gradient-primary {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--accent-start)) 0%,
+    hsl(var(--accent-via)) 50%,
+    hsl(var(--accent-end)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Mono font for numbers */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* XP number styling */
+.xp-number {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: hsl(var(--xp));
+  text-shadow: 0 0 10px hsl(var(--xp-glow) / 0.5);
+}
+
+/* Streak number styling */
+.streak-number {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: hsl(var(--streak));
+  text-shadow: 0 0 10px hsl(var(--streak-glow) / 0.5);
+}
+
+/* Level number styling */
+.level-number {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: hsl(var(--level));
+  text-shadow: 0 0 10px hsl(var(--level-glow) / 0.5);
+}
+
+/* === ANIMATIONS === */
+
+/* Gradient shift for buttons */
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-shift {
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Shimmer effect for progress bars */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Pulse glow effect */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Fire flicker for streak icon */
+@keyframes fire-flicker {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.05) rotate(-2deg);
+  }
+  50% {
+    transform: scale(0.98) rotate(1deg);
+  }
+  75% {
+    transform: scale(1.02) rotate(-1deg);
+  }
+}
+
+.animate-fire-flicker {
+  animation: fire-flicker 0.5s ease-in-out infinite;
+}
+
+/* XP float up animation */
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+.animate-float-up {
+  animation: float-up 0.8s ease-out forwards;
+}
+
+/* Stagger fade in for page loads */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
 }
