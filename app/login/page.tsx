@@ -31,50 +31,48 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-50">
-      {/* Background glows */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-20 -left-24 h-72 w-72 rounded-full bg-sky-500/20 blur-3xl" />
-        <div className="absolute top-10 right-0 h-64 w-64 rounded-full bg-emerald-500/15 blur-3xl" />
-        <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
-      </div>
-
-      <div className="relative flex min-h-screen items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md space-y-8">
-          <div className="space-y-3 text-center">
+    <main className="min-h-screen bg-background text-foreground">
+      <div className="flex min-h-screen items-center justify-center px-4 py-12">
+        <div className="w-full max-w-sm space-y-6">
+          {/* Logo */}
+          <div className="text-center">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/70 px-3 py-2 text-sm font-semibold text-slate-50 shadow-md shadow-slate-950/40 hover:border-slate-700 hover:bg-slate-900"
+              className="inline-flex items-center gap-2 text-foreground hover:opacity-80"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-400 text-sm font-black text-slate-950 shadow-lg shadow-sky-900/40">
-                QF
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
+                Q
               </div>
-              Questify
+              <span className="font-semibold">Questify</span>
             </Link>
-            <div className="space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                {mode === "login" ? "Welcome back" : "Create your account"}
-              </h1>
-              <p className="text-sm text-slate-300">
-                {mode === "login"
-                  ? "Pick up your quests and keep the streak alive."
-                  : "Start turning tasks into XP, levels, and rewards."}
-              </p>
-            </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-900 bg-slate-900/70 p-6 shadow-2xl shadow-slate-950/40 backdrop-blur">
-            <div className="mb-5 flex items-center rounded-xl border border-slate-800 bg-slate-950/70 p-1 text-xs font-semibold text-slate-200">
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-xl font-semibold">
+              {mode === "login" ? "Welcome back" : "Create your account"}
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {mode === "login"
+                ? "Sign in to continue your quests"
+                : "Start turning tasks into XP"}
+            </p>
+          </div>
+
+          {/* Card */}
+          <div className="rounded-lg border border-border bg-surface-1 p-5">
+            {/* Mode toggle */}
+            <div className="mb-5 flex rounded-md bg-surface-2 p-1 text-sm">
               <button
                 type="button"
                 onClick={() => {
                   setMode("login");
                   setMessage(null);
                 }}
-                className={`flex-1 rounded-lg px-3 py-2 transition ${
+                className={`flex-1 rounded-md px-3 py-1.5 font-medium transition-colors ${
                   mode === "login"
-                    ? "bg-gradient-to-r from-sky-500 to-emerald-400 text-slate-950 shadow-md shadow-sky-900/30"
-                    : "text-slate-300 hover:text-slate-100"
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Sign in
@@ -85,63 +83,64 @@ export default function LoginPage() {
                   setMode("signup");
                   setMessage(null);
                 }}
-                className={`flex-1 rounded-lg px-3 py-2 transition ${
+                className={`flex-1 rounded-md px-3 py-1.5 font-medium transition-colors ${
                   mode === "signup"
-                    ? "bg-gradient-to-r from-sky-500 to-emerald-400 text-slate-950 shadow-md shadow-sky-900/30"
-                    : "text-slate-300 hover:text-slate-100"
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Create account
               </button>
             </div>
 
+            {/* Form */}
             <form action={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label
-                  className="text-xs font-medium text-slate-300"
+                  className="text-xs font-medium text-muted-foreground"
                   htmlFor="email"
                 >
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute top-2.5 left-3 h-4 w-4 text-slate-500" />
+                  <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
                     placeholder="name@example.com"
-                    className="w-full rounded-lg border border-slate-800 bg-slate-950 py-2 pl-10 text-sm text-white transition-colors outline-none placeholder:text-slate-600 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                    className="w-full rounded-md border border-border bg-background py-2 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label
-                  className="text-xs font-medium text-slate-300"
+                  className="text-xs font-medium text-muted-foreground"
                   htmlFor="password"
                 >
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute top-2.5 left-3 h-4 w-4 text-slate-500" />
+                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <input
                     id="password"
                     name="password"
                     type="password"
                     required
                     placeholder="••••••••"
-                    className="w-full rounded-lg border border-slate-800 bg-slate-950 py-2 pl-10 text-sm text-white transition-colors outline-none placeholder:text-slate-600 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                    className="w-full rounded-md border border-border bg-background py-2 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
                   />
                 </div>
               </div>
 
               {message && (
                 <div
-                  className={`rounded-lg border p-3 text-xs ${
+                  className={`rounded-md p-3 text-xs ${
                     message.includes("Check your email")
-                      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-                      : "border-red-500/30 bg-red-500/10 text-red-300"
+                      ? "bg-xp/10 text-xp"
+                      : "bg-red-500/10 text-red-400"
                   }`}
                 >
                   {message}
@@ -151,7 +150,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-emerald-400 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-sky-900/40 transition hover:from-sky-400 hover:to-emerald-300 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-slate-950 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-2 rounded-md bg-primary py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
                 {mode === "login" ? "Sign in" : "Create account"}
@@ -159,7 +158,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-6 text-center text-xs text-slate-400">
+            <div className="mt-4 text-center text-xs text-muted-foreground">
               {mode === "login"
                 ? "Don't have an account? "
                 : "Already have an account? "}
@@ -168,11 +167,21 @@ export default function LoginPage() {
                   setMode(mode === "login" ? "signup" : "login");
                   setMessage(null);
                 }}
-                className="font-semibold text-sky-300 underline-offset-4 hover:text-sky-200 hover:underline"
+                className="font-medium text-primary hover:underline"
               >
                 {mode === "login" ? "Sign up" : "Sign in"}
               </button>
             </div>
+          </div>
+
+          {/* Back to home */}
+          <div className="text-center">
+            <Link
+              href="/"
+              className="text-xs text-muted-foreground hover:text-foreground"
+            >
+              ← Back to home
+            </Link>
           </div>
         </div>
       </div>

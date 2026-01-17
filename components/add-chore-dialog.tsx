@@ -33,25 +33,20 @@ export function AddChore() {
     <>
       <Button onClick={() => setIsOpen(true)} size="sm">
         <Plus className="h-4 w-4" aria-hidden="true" />
-        New quest
+        New Quest
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogOverlay>
           <DialogContent aria-labelledby="dialog-title">
             <DialogHeader>
-              <div>
-                <p className="text-xs font-semibold tracking-[0.12em] text-slate-400 uppercase">
-                  New quest
-                </p>
-                <DialogTitle id="dialog-title">Add to your board</DialogTitle>
-              </div>
+              <DialogTitle id="dialog-title">New Quest</DialogTitle>
               <DialogClose />
             </DialogHeader>
 
             <form action={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="title">Quest title</Label>
+                <Label htmlFor="title">Title</Label>
                 <Input
                   id="title"
                   name="title"
@@ -66,18 +61,18 @@ export function AddChore() {
                 <Textarea
                   id="description"
                   name="description"
-                  rows={3}
-                  placeholder="Details about the quest..."
+                  rows={2}
+                  placeholder="Additional details..."
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="xp">XP reward</Label>
+                <Label htmlFor="xp">XP Reward</Label>
                 <Select id="xp" name="xp">
-                  <option value="10">10 XP (Easy)</option>
-                  <option value="20">20 XP (Medium)</option>
-                  <option value="50">50 XP (Hard)</option>
-                  <option value="100">100 XP (Epic)</option>
+                  <option value="10">10 XP - Easy</option>
+                  <option value="20">20 XP - Medium</option>
+                  <option value="50">50 XP - Hard</option>
+                  <option value="100">100 XP - Epic</option>
                 </Select>
               </div>
 
@@ -102,7 +97,7 @@ export function AddChore() {
                       aria-hidden="true"
                     />
                   )}
-                  {isLoading ? "Creating..." : "Create quest"}
+                  {isLoading ? "Creating..." : "Create"}
                 </Button>
               </DialogFooter>
             </form>

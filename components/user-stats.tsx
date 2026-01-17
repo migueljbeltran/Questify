@@ -1,6 +1,6 @@
 "use client";
 
-import { Zap, Trophy, Star } from "lucide-react";
+import { Trophy, Star, Zap } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 interface UserStatsProps {
@@ -19,72 +19,54 @@ export function UserStats({ xp }: UserStatsProps) {
   return (
     <section
       aria-label="Player statistics"
-      className="grid gap-4 md:grid-cols-3"
+      className="flex flex-wrap items-center gap-6"
     >
-      {/* Level Card */}
-      <article className="relative overflow-hidden rounded-2xl border border-slate-900 bg-slate-900/70 p-5 shadow-lg shadow-slate-950/40 backdrop-blur">
-        <div
-          className="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-sky-500/10 blur-2xl"
-          aria-hidden="true"
-        />
-        <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-300">
-          <Trophy className="h-4 w-4 text-sky-400" aria-hidden="true" />
-          <span>Current level</span>
+      {/* Level */}
+      <div className="flex items-center gap-2">
+        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-level/15">
+          <Trophy className="h-4 w-4 text-level" aria-hidden="true" />
         </div>
-        <p
-          className="text-3xl font-bold text-slate-50"
-          aria-label={`Level ${level}`}
-        >
-          {level}
-        </p>
-        <p className="text-xs text-slate-400">Adventurer</p>
-      </article>
+        <div>
+          <p className="text-xs text-muted-foreground">Level</p>
+          <p className="font-mono text-lg font-semibold text-foreground">
+            {level}
+          </p>
+        </div>
+      </div>
 
-      {/* XP Card */}
-      <article className="relative overflow-hidden rounded-2xl border border-slate-900 bg-slate-900/70 p-5 shadow-lg shadow-slate-950/40 backdrop-blur">
-        <div
-          className="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-emerald-500/10 blur-2xl"
-          aria-hidden="true"
-        />
-        <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-300">
-          <Star className="h-4 w-4 text-emerald-300" aria-hidden="true" />
-          <span>Experience</span>
+      {/* XP with progress */}
+      <div className="flex items-center gap-3">
+        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-xp/15">
+          <Star className="h-4 w-4 text-xp" aria-hidden="true" />
         </div>
-        <div className="flex items-end gap-2">
-          <span className="text-3xl font-bold text-slate-50">{xp}</span>
-          <span className="mb-1 text-sm text-slate-400">
-            / {nextLevelXp} XP
-          </span>
+        <div className="w-32">
+          <div className="flex items-baseline gap-1">
+            <span className="font-mono text-sm font-semibold text-xp">{xp}</span>
+            <span className="text-xs text-muted-foreground">XP</span>
+          </div>
+          <Progress
+            value={xpProgress}
+            max={xpNeeded}
+            variant="xp"
+            size="sm"
+            className="mt-1"
+            aria-label={`${xpToNextLevel} XP to next level`}
+          />
         </div>
-        <Progress
-          value={xpProgress}
-          max={xpNeeded}
-          className="mt-3"
-          aria-label={`XP progress: ${xpProgress} of ${xpNeeded} to next level`}
-        />
-        <p className="mt-2 text-xs text-slate-400">
-          {xpToNextLevel} XP to next level
-        </p>
-      </article>
+      </div>
 
-      {/* Streak Card */}
-      <article className="relative overflow-hidden rounded-2xl border border-slate-900 bg-slate-900/70 p-5 shadow-lg shadow-slate-950/40 backdrop-blur">
-        <div
-          className="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-amber-500/10 blur-2xl"
-          aria-hidden="true"
-        />
-        <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-300">
-          <Zap className="h-4 w-4 text-amber-300" aria-hidden="true" />
-          <span>Active streak</span>
+      {/* Streak */}
+      <div className="flex items-center gap-2">
+        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-streak/15">
+          <Zap className="h-4 w-4 text-streak" aria-hidden="true" />
         </div>
-        <p
-          className="text-3xl font-bold text-slate-50"
-          aria-label="1 day streak"
-        >
-          1 day
-        </p>
-        <p className="text-xs text-slate-400">Keep it alive today.</p>
-      </article>
+        <div>
+          <p className="text-xs text-muted-foreground">Streak</p>
+          <p className="font-mono text-lg font-semibold text-foreground">
+            1 day
+          </p>
+        </div>
+      </div>
     </section>
   );
 }

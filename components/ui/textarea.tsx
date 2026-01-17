@@ -5,12 +5,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const textareaVariants = cva(
-  "w-full rounded-lg border bg-slate-950 px-3 py-2.5 text-sm text-white transition-all duration-200 outline-none placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 resize-none",
+  "w-full rounded-md border bg-background px-3 py-2 text-sm transition-colors outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 resize-none",
   {
     variants: {
       variant: {
         default:
-          "border-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500",
+          "border-border focus:border-primary focus:ring-1 focus:ring-primary",
         error:
           "border-red-500/50 focus:border-red-500 focus:ring-1 focus:ring-red-500",
       },

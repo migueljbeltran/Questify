@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Trash2, Loader2 } from "lucide-react";
+import { Trash2, Loader2 } from "lucide-react";
 import { completeChore, deleteChore } from "@/app/dashboard/actions";
 import { Database } from "@/lib/database.types";
-import { Button } from "@/components/ui/button";
+import { CircleCheckbox } from "@/components/ui/circle-checkbox";
 import { Badge } from "@/components/ui/badge";
 
 type Chore = Database["public"]["Tables"]["chores"]["Row"];
@@ -27,11 +27,11 @@ export function ChoreList({ chores }: ChoreListProps) {
   }
 
   async function handleDelete(id: string, title: string) {
-    if (!confirm("Are you sure you want to abandon this quest?")) return;
+    if (!confirm("Are you sure you want to delete this quest?")) return;
     setProcessingId(id);
-    setStatusMessage(`Abandoning quest: ${title}`);
+    setStatusMessage(`Deleting quest: ${title}`);
     await deleteChore(id);
-    setStatusMessage(`Quest abandoned: ${title}`);
+    setStatusMessage(`Quest deleted: ${title}`);
     setProcessingId(null);
     setTimeout(() => setStatusMessage(""), 3000);
   }
@@ -39,11 +39,11 @@ export function ChoreList({ chores }: ChoreListProps) {
   if (chores.length === 0) {
     return (
       <div
-        className="rounded-2xl border border-dashed border-slate-800 bg-slate-900/40 px-4 py-10 text-center"
+        className="rounded-lg border border-dashed border-border bg-transparent px-4 py-10 text-center"
         role="status"
       >
-        <p className="text-sm text-slate-400">
-          No active quests. Create one to get started!
+        <p className="text-sm text-muted-foreground">
+          No quests yet. Create one to get started!
         </p>
       </div>
     );
@@ -55,70 +55,66 @@ export function ChoreList({ chores }: ChoreListProps) {
         {statusMessage}
       </div>
 
-      <ul className="space-y-3" aria-label="Active quests">
-        {chores.map((chore) => (
-          <li
-            key={chore.id}
-            className="group flex items-center justify-between rounded-2xl border border-slate-900 bg-slate-900/70 p-4 shadow-md shadow-slate-950/30 backdrop-blur transition hover:border-slate-800"
-          >
-            <div className="mr-4 min-w-0 flex-1">
-              <div className="mb-1 flex items-center gap-3">
-                <h4 className="truncate font-semibold text-slate-50">
-                  {chore.title}
-                </h4>
-                <Badge
-                  variant="default"
-                  size="sm"
-                  aria-label={`${chore.base_xp} experience points reward`}
-                >
-                  +{chore.base_xp} XP
-                </Badge>
-              </div>
-              {chore.description && (
-                <p className="truncate text-xs text-slate-400">
-                  {chore.description}
-                </p>
-              )}
-            </div>
+      <ul className="space-y-1" aria-label="Active quests">
+        {chores.map((chore) => {
+          const isProcessing = processingId === chore.id;
 
-            <div
-              className="flex items-center gap-2"
-              role="group"
-              aria-label={`Actions for ${chore.title}`}
+          return (
+            <li
+              key={chore.id}
+              className="task-item group flex items-center gap-3 rounded-md px-2 py-2.5 transition-colors hover:bg-surface-1"
             >
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={() => handleDelete(chore.id, chore.title)}
-                disabled={processingId === chore.id}
-                aria-label={`Abandon quest: ${chore.title}`}
-                className="text-slate-500 hover:bg-red-500/10 hover:text-red-300"
-              >
-                <Trash2 className="h-4 w-4" aria-hidden="true" />
-              </Button>
-              <Button
-                variant="success"
-                size="sm"
-                onClick={() =>
-                  handleComplete(chore.id, chore.base_xp, chore.title)
-                }
-                disabled={processingId === chore.id}
-                aria-label={`Complete quest: ${chore.title} for ${chore.base_xp} XP`}
-                aria-busy={processingId === chore.id}
-              >
-                {processingId === chore.id ? (
-                  <Loader2
-                    className="h-4 w-4 animate-spin"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <Check className="h-4 w-4" aria-hidden="true" />
+              {/* Circular checkbox */}
+              {isProcessing ? (
+                <div className="flex h-5 w-5 items-center justify-center">
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                </div>
+              ) : (
+                <CircleCheckbox
+                  checked={false}
+                  onChange={() =>
+                    handleComplete(chore.id, chore.base_xp, chore.title)
+                  }
+                  disabled={isProcessing}
+                  aria-label={`Complete quest: ${chore.title}`}
+                />
+              )}
+
+              {/* Task content */}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="truncate text-sm text-foreground">
+                    {chore.title}
+                  </span>
+                  <Badge variant="xp" size="sm">
+                    +{chore.base_xp} XP
+                  </Badge>
+                </div>
+                {chore.description && (
+                  <p className="truncate text-xs text-muted-foreground">
+                    {chore.description}
+                  </p>
                 )}
-                Complete
-              </Button>
-            </div>
-          </li>
-        ))}
+              </div>
+
+              {/* Hover actions */}
+              <div
+                className="task-actions flex items-center gap-1"
+                role="group"
+                aria-label={`Actions for ${chore.title}`}
+              >
+                <button
+                  onClick={() => handleDelete(chore.id, chore.title)}
+                  disabled={isProcessing}
+                  aria-label={`Delete quest: ${chore.title}`}
+                  className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-red-500/10 hover:text-red-400"
+                >
+                  <Trash2 className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </>
   );

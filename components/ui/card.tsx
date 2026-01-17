@@ -5,25 +5,21 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const cardVariants = cva(
-  "relative overflow-hidden rounded-2xl border backdrop-blur transition-all duration-200",
+  "rounded-lg border transition-colors duration-150",
   {
     variants: {
       variant: {
-        default:
-          "border-border/50 bg-surface-1 shadow-[0_0_0_1px_rgba(255,255,255,0.03)_inset,0_4px_24px_rgba(0,0,0,0.4)]",
-        elevated:
-          "border-border/50 bg-gradient-to-br from-surface-1 to-surface-2 shadow-[0_0_0_1px_rgba(255,255,255,0.03)_inset,0_4px_24px_rgba(0,0,0,0.4)]",
-        interactive:
-          "border-border/50 bg-gradient-to-br from-surface-1 to-surface-2 shadow-[0_0_0_1px_rgba(255,255,255,0.03)_inset,0_4px_24px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(139,92,246,0.2)_inset,0_8px_32px_rgba(139,92,246,0.15)]",
-        dashed:
-          "border-dashed border-border/70 bg-surface-1/40 shadow-none",
-        ghost: "border-transparent bg-transparent shadow-none",
+        default: "border-border bg-surface-1",
+        elevated: "border-border bg-surface-2",
+        interactive: "border-border bg-surface-1 hover:bg-surface-2",
+        dashed: "border-dashed border-border/70 bg-transparent",
+        ghost: "border-transparent bg-transparent",
       },
       padding: {
         none: "",
-        sm: "p-4",
-        md: "p-5",
-        lg: "p-6",
+        sm: "p-3",
+        md: "p-4",
+        lg: "p-5",
       },
     },
     defaultVariants: {
@@ -36,32 +32,16 @@ const cardVariants = cva(
 export interface CardProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof cardVariants> {
-  glow?: "primary" | "xp" | "streak" | "level" | "none";
-}
+    VariantProps<typeof cardVariants> {}
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, padding, glow = "none", children, ...props }, ref) => {
+  ({ className, variant, padding, children, ...props }, ref) => {
     return (
       <div
         className={cn(cardVariants({ variant, padding, className }))}
         ref={ref}
         {...props}
       >
-        {glow !== "none" && (
-          <div
-            className={cn(
-              "pointer-events-none absolute -top-6 -right-6 h-24 w-24 rounded-full blur-3xl",
-              {
-                "bg-violet-500/20": glow === "primary",
-                "bg-xp/20": glow === "xp",
-                "bg-streak/20": glow === "streak",
-                "bg-level/20": glow === "level",
-              }
-            )}
-            aria-hidden="true"
-          />
-        )}
         {children}
       </div>
     );
@@ -76,7 +56,7 @@ const CardHeader = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col space-y-1.5", className)}
+    className={cn("flex flex-col space-y-1", className)}
     {...props}
   />
 ));
@@ -88,7 +68,7 @@ const CardTitle = forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn("text-lg font-semibold text-slate-50", className)}
+    className={cn("font-semibold text-foreground", className)}
     {...props}
   />
 ));
@@ -98,7 +78,7 @@ const CardDescription = forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <p ref={ref} className={cn("text-sm text-slate-400", className)} {...props} />
+  <p ref={ref} className={cn("text-sm text-muted-foreground", className)} {...props} />
 ));
 CardDescription.displayName = "CardDescription";
 
@@ -116,7 +96,7 @@ const CardFooter = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center pt-4", className)}
+    className={cn("flex items-center pt-3", className)}
     {...props}
   />
 ));

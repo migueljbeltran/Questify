@@ -75,7 +75,7 @@ const DialogOverlay = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-8 backdrop-blur-sm",
+        "fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-8",
         className
       )}
       onClick={(e) => {
@@ -109,19 +109,11 @@ const DialogContent = forwardRef<
       role="dialog"
       aria-modal="true"
       className={cn(
-        "relative w-full max-w-md overflow-hidden rounded-3xl border border-slate-900 bg-slate-950/80 p-6 shadow-2xl shadow-slate-950/50 backdrop-blur",
+        "relative w-full max-w-md rounded-lg border border-border bg-surface-1 p-5",
         className
       )}
       {...props}
     >
-      <div
-        className="absolute -top-16 -left-12 h-48 w-48 rounded-full bg-sky-500/15 blur-3xl"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -right-12 -bottom-12 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl"
-        aria-hidden="true"
-      />
       <div ref={contentRef} className="relative">
         {children}
       </div>
@@ -137,7 +129,7 @@ const DialogHeader = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("mb-6 flex items-center justify-between", className)}
+    className={cn("mb-4 flex items-center justify-between", className)}
     {...props}
   />
 ));
@@ -148,16 +140,11 @@ const DialogTitle = forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
-  <div>
-    <p className="text-xs font-semibold tracking-[0.12em] text-slate-400 uppercase">
-      {props.children && typeof props.children === "string" ? "" : null}
-    </p>
-    <h3
-      ref={ref}
-      className={cn("text-lg font-semibold text-slate-50", className)}
-      {...props}
-    />
-  </div>
+  <h3
+    ref={ref}
+    className={cn("text-lg font-semibold text-foreground", className)}
+    {...props}
+  />
 ));
 
 DialogTitle.displayName = "DialogTitle";
@@ -182,7 +169,7 @@ const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(
         onClick={onClose}
         aria-label="Close dialog"
         className={cn(
-          "rounded-lg border border-slate-800 bg-slate-900 p-2 text-slate-400 transition hover:border-slate-700 hover:text-slate-100",
+          "rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground",
           className
         )}
         {...props}
@@ -199,7 +186,7 @@ const DialogFooter = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("flex gap-3 pt-2", className)} {...props} />
+  <div ref={ref} className={cn("flex gap-3 pt-4", className)} {...props} />
 ));
 
 DialogFooter.displayName = "DialogFooter";

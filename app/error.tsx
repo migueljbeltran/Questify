@@ -16,21 +16,21 @@ export default function GlobalError({
 
   return (
     <html lang="en">
-      <body className="min-h-screen bg-slate-950 text-slate-50">
+      <body className="min-h-screen bg-background text-foreground">
         <div className="flex min-h-screen items-center justify-center px-4">
           <div className="max-w-md space-y-6 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-500/20">
-              <span className="text-3xl text-red-400">!</span>
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-red-500/15">
+              <span className="text-2xl text-red-400">!</span>
             </div>
             <div className="space-y-2">
-              <h1 className="text-2xl font-semibold">Something went wrong</h1>
-              <p className="text-sm text-slate-400">
+              <h1 className="text-xl font-semibold">Something went wrong</h1>
+              <p className="text-sm text-muted-foreground">
                 We encountered an unexpected error. Please try again.
               </p>
             </div>
             <button
               onClick={reset}
-              className="rounded-lg bg-gradient-to-r from-sky-500 to-emerald-400 px-6 py-2.5 text-sm font-semibold text-slate-950 transition hover:from-sky-400 hover:to-emerald-300"
+              className="rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
               Try again
             </button>

@@ -17,31 +17,28 @@ interface RecentActivityProps {
 export function RecentActivity({ activities }: RecentActivityProps) {
   if (activities.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-900/40 px-4 py-8 text-center text-xs text-slate-400">
+      <div className="rounded-lg border border-dashed border-border px-4 py-8 text-center text-xs text-muted-foreground">
         No recent activity yet. Complete a quest to see it here.
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {activities.map((activity) => (
         <div
           key={activity.id}
-          className="flex items-start gap-3 rounded-xl border border-slate-900 bg-slate-900/60 px-3 py-3 shadow-sm shadow-slate-950/30"
+          className="flex items-start gap-3 rounded-md px-3 py-2 transition-colors hover:bg-surface-1"
         >
           <div className="mt-0.5">
-            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+            <CheckCircle2 className="h-4 w-4 text-xp" />
           </div>
-          <div className="flex-1">
-            <p className="text-sm text-slate-200">
-              Completed{" "}
-              <span className="font-semibold text-slate-50">
-                {activity.chores?.title || "Unknown Quest"}
-              </span>
+          <div className="flex-1 min-w-0">
+            <p className="truncate text-sm text-foreground">
+              {activity.chores?.title || "Unknown Quest"}
             </p>
-            <div className="mt-1 flex items-center gap-2 text-xs text-slate-400">
-              <Badge variant="success" size="sm">
+            <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+              <Badge variant="xp" size="sm">
                 +{activity.xp_awarded} XP
               </Badge>
               <span>

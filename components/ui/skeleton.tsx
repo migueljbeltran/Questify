@@ -9,7 +9,7 @@ interface SkeletonProps {
 export function Skeleton({ className }: SkeletonProps) {
   return (
     <div
-      className={cn("animate-pulse rounded-lg bg-slate-800/50", className)}
+      className={cn("animate-pulse rounded-md bg-surface-2", className)}
     />
   );
 }
@@ -26,7 +26,7 @@ export function SkeletonCard({ className }: SkeletonProps) {
   return (
     <div
       className={cn(
-        "rounded-2xl border border-slate-900 bg-slate-900/70 p-5",
+        "rounded-lg border border-border bg-surface-1 p-4",
         className
       )}
     >
@@ -45,20 +45,17 @@ export function SkeletonChoreItem({ className }: SkeletonProps) {
   return (
     <div
       className={cn(
-        "rounded-xl border border-slate-900 bg-slate-900/60 p-4",
+        "rounded-md px-2 py-2.5",
         className
       )}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 space-y-2">
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-5 w-5 rounded-full" />
+        <div className="flex-1 space-y-1">
           <SkeletonText className="h-4 w-3/4" />
           <SkeletonText className="h-3 w-1/2" />
         </div>
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-6 w-14 rounded-full" />
-          <Skeleton className="h-8 w-8 rounded-lg" />
-          <Skeleton className="h-8 w-8 rounded-lg" />
-        </div>
+        <Skeleton className="h-5 w-12 rounded-md" />
       </div>
     </div>
   );
@@ -67,7 +64,7 @@ export function SkeletonChoreItem({ className }: SkeletonProps) {
 export function SkeletonActivityItem({ className }: SkeletonProps) {
   return (
     <div className={cn("flex items-center gap-3 py-2", className)}>
-      <SkeletonCircle className="h-6 w-6" />
+      <SkeletonCircle className="h-5 w-5" />
       <div className="flex-1 space-y-1">
         <SkeletonText className="h-3 w-2/3" />
         <SkeletonText className="h-2 w-1/3" />

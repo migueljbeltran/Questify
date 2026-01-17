@@ -4,6 +4,7 @@ import { UserStats } from "@/components/user-stats";
 import { ChoreList } from "@/components/chore-list";
 import { AddChore } from "@/components/add-chore-dialog";
 import { DashboardHeader } from "@/components/dashboard-header";
+import { CompletionProgress } from "@/components/completion-progress";
 import { RecentActivity } from "@/components/recent-activity";
 import { Database } from "@/lib/database.types";
 
@@ -24,7 +25,7 @@ export default async function DashboardPage() {
   }
 
   // Fetch user profile, chores, and recent completions in parallel
-  const [profileResult, choresResult, completionsResult] = await Promise.all([
+  const [profileResult, choresResult, completionsResult, todayCompletionsResult] = await Promise.all([
     supabase.from("users").select("*").eq("id", user.id).single(),
     supabase
       .from("chores")
@@ -38,86 +39,65 @@ export default async function DashboardPage() {
       .eq("user_id", user.id)
       .order("completed_at", { ascending: false })
       .limit(5),
+    // Get today's completions count
+    supabase
+      .from("chore_completions")
+      .select("id", { count: "exact" })
+      .eq("user_id", user.id)
+      .gte("completed_at", new Date().toISOString().split("T")[0]),
   ]);
 
   const profile = profileResult.data;
   const chores = choresResult.data || [];
   const completions = (completionsResult.data || []) as CompletionWithChore[];
+  const todayCompleted = todayCompletionsResult.count || 0;
 
   // If profile doesn't exist (e.g. old user), use default
   const xp = profile?.xp || 0;
-
-  const email = user.email || "";
+  const totalQuests = chores.length;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-50">
-      {/* Background glows */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 -left-32 h-80 w-80 rounded-full bg-sky-500/20 blur-3xl" />
-        <div className="absolute top-20 right-0 h-72 w-72 rounded-full bg-emerald-500/15 blur-3xl" />
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
-      </div>
+    <div className="min-h-screen p-6 pt-16 md:pt-6">
+      <div className="mx-auto max-w-4xl">
+        {/* Header */}
+        <DashboardHeader
+          title="Today"
+          subtitle="Your daily quests and progress"
+        />
 
-      <div className="relative mx-auto max-w-6xl space-y-8 px-4 py-10">
-        <div className="rounded-3xl border border-slate-900 bg-slate-900/70 p-5 shadow-2xl shadow-slate-950/40 backdrop-blur">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-sky-500 to-emerald-400 text-sm font-black text-slate-950 shadow-lg shadow-sky-900/40">
-                QF
-              </div>
-              <div className="leading-tight">
-                <p className="text-sm font-semibold tracking-tight">Questify</p>
-                <p className="text-[12px] text-slate-300">
-                  Keep your streak alive and ship quests.
-                </p>
-              </div>
-            </div>
-            <div className="text-right text-[12px] text-slate-300">
-              <p className="font-semibold text-slate-100">Signed in</p>
-              <p>{email}</p>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <DashboardHeader email={email} />
-          </div>
-
-          <div className="mt-4">
-            <UserStats xp={xp} />
-          </div>
+        {/* Stats bar */}
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
+          <UserStats xp={xp} />
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-          <div className="space-y-4 rounded-3xl border border-slate-900 bg-slate-900/70 p-5 shadow-xl shadow-slate-950/30 backdrop-blur">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-xs font-semibold tracking-[0.12em] text-slate-400 uppercase">
-                  Active quests
-                </p>
-                <h2 className="text-xl font-semibold text-slate-50">
-                  Today&apos;s board
+        {/* Main content grid */}
+        <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
+          {/* Quest list section */}
+          <section>
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <h2 className="text-lg font-semibold text-foreground">
+                  Active Quests
                 </h2>
+                <CompletionProgress
+                  completed={todayCompleted}
+                  total={totalQuests}
+                />
               </div>
               <AddChore />
             </div>
             <ChoreList chores={chores} />
-          </div>
+          </section>
 
-          <div className="space-y-4 rounded-3xl border border-slate-900 bg-slate-900/70 p-5 shadow-xl shadow-slate-950/30 backdrop-blur">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-xs font-semibold tracking-[0.12em] text-slate-400 uppercase">
-                  Recent activity
-                </p>
-                <h3 className="text-lg font-semibold text-slate-50">
-                  Latest completions
-                </h3>
-              </div>
-            </div>
+          {/* Recent activity sidebar */}
+          <aside>
+            <h3 className="mb-4 text-sm font-medium text-muted-foreground">
+              Recent Activity
+            </h3>
             <RecentActivity activities={completions} />
-          </div>
+          </aside>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

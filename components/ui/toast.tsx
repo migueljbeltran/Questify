@@ -12,14 +12,14 @@ import { X, CheckCircle, AlertCircle, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const toastVariants = cva(
-  "pointer-events-auto relative flex w-full max-w-sm items-center gap-3 overflow-hidden rounded-2xl border p-4 shadow-xl shadow-slate-950/30 backdrop-blur transition-all duration-300",
+  "pointer-events-auto relative flex w-full max-w-sm items-center gap-3 overflow-hidden rounded-lg border p-4 transition-all duration-300",
   {
     variants: {
       variant: {
-        default: "border-slate-800 bg-slate-900/90 text-slate-50",
-        success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-50",
-        error: "border-red-500/30 bg-red-500/10 text-red-50",
-        info: "border-sky-500/30 bg-sky-500/10 text-sky-50",
+        default: "border-border bg-surface-1 text-foreground",
+        success: "border-xp/30 bg-xp/10 text-foreground",
+        error: "border-red-500/30 bg-red-500/10 text-foreground",
+        info: "border-primary/30 bg-primary/10 text-foreground",
       },
     },
     defaultVariants: {
@@ -85,7 +85,7 @@ function ToastContainer() {
 
   return (
     <div
-      className="pointer-events-none fixed right-0 bottom-0 z-50 flex max-h-screen w-full flex-col gap-2 p-4 sm:max-w-sm"
+      className="pointer-events-none fixed bottom-0 right-0 z-50 flex max-h-screen w-full flex-col gap-2 p-4 sm:max-w-sm"
       aria-live="polite"
       aria-label="Notifications"
     >
@@ -126,9 +126,9 @@ const ToastItem = forwardRef<HTMLDivElement, ToastItemProps>(
           <Icon
             className={cn(
               "h-5 w-5 shrink-0",
-              toast.variant === "success" && "text-emerald-400",
+              toast.variant === "success" && "text-xp",
               toast.variant === "error" && "text-red-400",
-              toast.variant === "info" && "text-sky-400"
+              toast.variant === "info" && "text-primary"
             )}
             aria-hidden="true"
           />
@@ -136,12 +136,12 @@ const ToastItem = forwardRef<HTMLDivElement, ToastItemProps>(
         <div className="flex-1 space-y-1">
           <p className="text-sm font-semibold">{toast.title}</p>
           {toast.description && (
-            <p className="text-xs opacity-80">{toast.description}</p>
+            <p className="text-xs text-muted-foreground">{toast.description}</p>
           )}
         </div>
         <button
           onClick={onClose}
-          className="shrink-0 rounded-lg p-1 text-slate-400 transition hover:bg-slate-800 hover:text-slate-200"
+          className="shrink-0 rounded-md p-1 text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
           aria-label="Dismiss notification"
         >
           <X className="h-4 w-4" aria-hidden="true" />

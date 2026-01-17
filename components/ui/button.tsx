@@ -5,27 +5,27 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] active:brightness-110",
+  "inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         primary:
-          "bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500 text-white shadow-lg shadow-violet-900/40 hover:shadow-violet-500/30 hover:shadow-xl animate-gradient-shift bg-[length:200%_200%]",
+          "bg-primary text-primary-foreground hover:bg-primary/90",
         secondary:
-          "border border-border/50 bg-surface-1 text-foreground hover:border-violet-500/30 hover:bg-surface-2",
-        ghost: "text-muted-foreground hover:text-foreground hover:bg-surface-1/50",
+          "border border-border bg-surface-1 text-foreground hover:bg-surface-2",
+        ghost: "text-muted-foreground hover:text-foreground hover:bg-surface-1",
         danger:
-          "border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:border-red-500/50 hover:shadow-red-500/20 hover:shadow-lg",
+          "border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20",
         success:
-          "border border-xp/30 bg-xp/10 text-xp hover:bg-xp/20 hover:border-xp/50 hover:shadow-xp/20 hover:shadow-lg",
-        xp: "bg-gradient-to-r from-emerald-500 to-teal-400 text-white shadow-lg shadow-emerald-900/40 hover:shadow-xp-glow/30 hover:shadow-xl",
+          "bg-xp text-white hover:bg-xp/90",
+        xp: "bg-xp text-white hover:bg-xp/90",
       },
       size: {
-        sm: "h-8 px-3 text-xs rounded-lg",
-        md: "h-10 px-4 text-sm rounded-lg",
-        lg: "h-12 px-6 text-sm rounded-xl",
-        icon: "h-10 w-10 rounded-lg",
-        "icon-sm": "h-8 w-8 rounded-lg",
+        sm: "h-8 px-3 text-xs rounded-md",
+        md: "h-9 px-4 text-sm rounded-md",
+        lg: "h-10 px-5 text-sm rounded-lg",
+        icon: "h-9 w-9 rounded-md",
+        "icon-sm": "h-8 w-8 rounded-md",
       },
     },
     defaultVariants: {
