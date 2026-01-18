@@ -1,19 +1,43 @@
-# ⚔️ Questify
+# Questify
 
-**Gamified chore tracking for roommates and shared spaces.**
+A gamified personal task management application that transforms your daily goals into rewarding quests. Build habits, earn XP, level up, and track your progress over time.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js%2016-black?logo=next.js)](https://nextjs.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 
-Turn household tasks into quests with XP, levels, and streaks. Built for roommates who want less nagging and more accountability.
+---
+
+## Overview
+
+Questify uses game mechanics to make personal productivity more engaging and sustainable:
+
+- **Experience Points (XP)** — Earn rewards for every completed task
+- **Level Progression** — Watch yourself grow over time
+- **Streak Tracking** — Build consistency with daily goals
+- **Progress Analytics** — Visualize your accomplishments
+
+---
 
 ## Features
 
-- ⭐ **XP & Leveling** — Earn points for completed chores
-- 🔥 **Streaks** — Build consistency with daily tracking
-- 🏆 **Leaderboards** — See who's contributing most
-- 📅 **Calendar Sync** — Integrate with Google Calendar
-- 🤖 **AI Assistant** — Auto-generate chore lists
-- 📱 **Mobile Responsive** — Works on any device
+### Current
+
+- Create and complete personal quests with XP rewards
+- Level system based on accumulated experience
+- Dashboard with daily tasks and recent activity
+- Stats page with completion history and analytics
+- Responsive design for desktop and mobile
+
+### Planned
+
+- Daily streaks with bonus rewards
+- Recurring tasks with automatic reset
+- Shared groups for accountability partners or households
+- Leaderboards for friendly competition
+- Achievement badges and milestones
+
+---
 
 ## Tech Stack
 
@@ -24,135 +48,80 @@ Turn household tasks into quests with XP, levels, and streaks. Built for roommat
 [![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
-## Quick Start
+---
+
+## Getting Started
 
 ### Prerequisites
 
-```bash
-node >= 20.9.0
-npm or yarn or pnpm
-```
+- Node.js 20+
+- Supabase account
 
 ### Installation
-
-1. **Clone the repository**
 
 ```bash
 git clone https://github.com/yourusername/questify.git
 cd questify
-```
-
-2. **Install dependencies**
-
-```bash
 npm install
 ```
 
-3. **Set up environment variables**
+### Configuration
 
-```bash
-cp .env.example .env.local
-```
-
-Add your credentials:
+Create `.env.local` with your Supabase credentials:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-NEXTAUTH_SECRET=your_nextauth_secret
 ```
 
-4. **Run the development server**
+### Development
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and start your quest! 🎮
+Open [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 
 ```
-questify/
-├── app/                    # Next.js 16 App Router
-│   ├── auth/              # Authentication routes
-│   ├── dashboard/         # Main dashboard & actions
-│   ├── login/             # Login page
-│   └── page.tsx           # Landing page
-├── components/            # React components
-│   ├── add-chore-dialog.tsx
-│   ├── chore-list.tsx
-│   ├── dashboard-header.tsx
-│   ├── recent-activity.tsx
-│   └── user-stats.tsx
-├── lib/                   # Utilities & configurations
-│   ├── supabase/         # Supabase client setup
-│   └── database.types.ts # TypeScript types
-└── public/               # Static assets
+app/
+├── dashboard/          # Main application views
+│   ├── quests/         # All quests
+│   ├── completed/      # Completion history
+│   └── stats/          # Analytics
+├── login/              # Authentication
+└── page.tsx            # Landing page
+
+components/
+├── sidebar.tsx         # Navigation
+├── chore-list.tsx      # Task list
+└── ui/                 # Reusable components
 ```
 
 ---
 
-## 🗄️ Database Schema
+## Contributing
 
-```sql
--- Users Table
-users (
-  id: uuid (PK)
-  email: text
-  xp: integer
-  created_at: timestamp
-)
-
--- Chores Table
-chores (
-  id: uuid (PK)
-  user_id: uuid (FK)
-  title: text
-  description: text
-  base_xp: integer
-  is_active: boolean
-  created_at: timestamp
-)
-
--- Completions Table
-chore_completions (
-  id: uuid (PK)
-  user_id: uuid (FK)
-  chore_id: uuid (FK)
-  xp_awarded: integer
-  completed_at: timestamp
-)
-```
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes
+4. Open a pull request
 
 ---
 
-## 📜 License
+## License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👤 Author
-
-**Miguel Joaquin Beltran**  
-🎓 Computer Science @ UC Davis  
-🔗 [LinkedIn](https://www.linkedin.com/in/miguel-j-beltran/)  
-📧 [Email](mailto:migueljoaquinbeltran@gmail.com)
+[MIT](LICENSE)
 
 ---
 
-## 🔮 Roadmap
+## Author
 
-- [ ] Mobile app (React Native)
-- [ ] Household insights dashboard
-- [ ] Custom achievement badges
-- [ ] Integration with smart home devices
-- [ ] Multiplayer challenges
-- [ ] Voice command support
+**Miguel Joaquin Beltran**
+Computer Science, UC Davis
 
----
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/miguel-j-beltran/)
+[![Email](https://img.shields.io/badge/Email-EA4335?style=flat-square&logo=gmail&logoColor=white)](mailto:migueljoaquinbeltran@gmail.com)
