@@ -7,9 +7,9 @@ test.describe("Landing Page", () => {
     // Check for main heading
     await expect(page.locator("h1")).toBeVisible();
 
-    // Check for CTA button
+    // Check for CTA button (use first() since there are multiple get started links)
     await expect(
-      page.getByRole("link", { name: /get started/i })
+      page.getByRole("link", { name: /get started/i }).first()
     ).toBeVisible();
   });
 
