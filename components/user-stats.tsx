@@ -23,12 +23,12 @@ export function UserStats({ xp }: UserStatsProps) {
     >
       {/* Level */}
       <div className="flex items-center gap-2">
-        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-level/15">
-          <Trophy className="h-4 w-4 text-level" aria-hidden="true" />
+        <div className="bg-level/15 flex h-8 w-8 items-center justify-center rounded-md">
+          <Trophy className="text-level h-4 w-4" aria-hidden="true" />
         </div>
         <div>
-          <p className="text-xs text-muted-foreground">Level</p>
-          <p className="font-mono text-lg font-semibold text-foreground">
+          <p className="text-muted-foreground text-xs">Level</p>
+          <p className="text-foreground font-mono text-lg font-semibold">
             {level}
           </p>
         </div>
@@ -36,13 +36,15 @@ export function UserStats({ xp }: UserStatsProps) {
 
       {/* XP with progress */}
       <div className="flex items-center gap-3">
-        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-xp/15">
-          <Star className="h-4 w-4 text-xp" aria-hidden="true" />
+        <div className="bg-xp/15 flex h-8 w-8 items-center justify-center rounded-md">
+          <Star className="text-xp h-4 w-4" aria-hidden="true" />
         </div>
         <div className="w-32">
           <div className="flex items-baseline gap-1">
-            <span className="font-mono text-sm font-semibold text-xp">{xp}</span>
-            <span className="text-xs text-muted-foreground">XP</span>
+            <span className="text-xp font-mono text-sm font-semibold">
+              {xp}
+            </span>
+            <span className="text-muted-foreground text-xs">XP</span>
           </div>
           <Progress
             value={xpProgress}
@@ -57,12 +59,12 @@ export function UserStats({ xp }: UserStatsProps) {
 
       {/* Streak */}
       <div className="flex items-center gap-2">
-        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-streak/15">
-          <Zap className="h-4 w-4 text-streak" aria-hidden="true" />
+        <div className="bg-streak/15 flex h-8 w-8 items-center justify-center rounded-md">
+          <Zap className="text-streak h-4 w-4" aria-hidden="true" />
         </div>
         <div>
-          <p className="text-xs text-muted-foreground">Streak</p>
-          <p className="font-mono text-lg font-semibold text-foreground">
+          <p className="text-muted-foreground text-xs">Streak</p>
+          <p className="text-foreground font-mono text-lg font-semibold">
             1 day
           </p>
         </div>

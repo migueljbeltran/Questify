@@ -109,7 +109,7 @@ const DialogContent = forwardRef<
       role="dialog"
       aria-modal="true"
       className={cn(
-        "relative w-full max-w-md rounded-lg border border-border bg-surface-1 p-5",
+        "border-border bg-surface-1 relative w-full max-w-md rounded-lg border p-5",
         className
       )}
       {...props}
@@ -142,7 +142,7 @@ const DialogTitle = forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn("text-lg font-semibold text-foreground", className)}
+    className={cn("text-foreground text-lg font-semibold", className)}
     {...props}
   />
 ));
@@ -169,7 +169,7 @@ const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(
         onClick={onClose}
         aria-label="Close dialog"
         className={cn(
-          "rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground",
+          "text-muted-foreground hover:bg-surface-2 hover:text-foreground rounded-md p-1.5 transition-colors",
           className
         )}
         {...props}

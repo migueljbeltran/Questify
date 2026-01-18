@@ -8,9 +8,7 @@ interface SkeletonProps {
 
 export function Skeleton({ className }: SkeletonProps) {
   return (
-    <div
-      className={cn("animate-pulse rounded-md bg-surface-2", className)}
-    />
+    <div className={cn("bg-surface-2 animate-pulse rounded-md", className)} />
   );
 }
 
@@ -26,7 +24,7 @@ export function SkeletonCard({ className }: SkeletonProps) {
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-surface-1 p-4",
+        "border-border bg-surface-1 rounded-lg border p-4",
         className
       )}
     >
@@ -43,12 +41,7 @@ export function SkeletonCard({ className }: SkeletonProps) {
 
 export function SkeletonChoreItem({ className }: SkeletonProps) {
   return (
-    <div
-      className={cn(
-        "rounded-md px-2 py-2.5",
-        className
-      )}
-    >
+    <div className={cn("rounded-md px-2 py-2.5", className)}>
       <div className="flex items-center gap-3">
         <Skeleton className="h-5 w-5 rounded-full" />
         <div className="flex-1 space-y-1">

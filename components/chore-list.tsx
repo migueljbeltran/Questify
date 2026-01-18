@@ -39,10 +39,10 @@ export function ChoreList({ chores }: ChoreListProps) {
   if (chores.length === 0) {
     return (
       <div
-        className="rounded-lg border border-dashed border-border bg-transparent px-4 py-10 text-center"
+        className="border-border rounded-lg border border-dashed bg-transparent px-4 py-10 text-center"
         role="status"
       >
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           No quests yet. Create one to get started!
         </p>
       </div>
@@ -62,12 +62,12 @@ export function ChoreList({ chores }: ChoreListProps) {
           return (
             <li
               key={chore.id}
-              className="task-item group flex items-center gap-3 rounded-md px-2 py-2.5 transition-colors hover:bg-surface-1"
+              className="task-item group hover:bg-surface-1 flex items-center gap-3 rounded-md px-2 py-2.5 transition-colors"
             >
               {/* Circular checkbox */}
               {isProcessing ? (
                 <div className="flex h-5 w-5 items-center justify-center">
-                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  <Loader2 className="text-muted-foreground h-4 w-4 animate-spin" />
                 </div>
               ) : (
                 <CircleCheckbox
@@ -83,7 +83,7 @@ export function ChoreList({ chores }: ChoreListProps) {
               {/* Task content */}
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="truncate text-sm text-foreground">
+                  <span className="text-foreground truncate text-sm">
                     {chore.title}
                   </span>
                   <Badge variant="xp" size="sm">
@@ -91,7 +91,7 @@ export function ChoreList({ chores }: ChoreListProps) {
                   </Badge>
                 </div>
                 {chore.description && (
-                  <p className="truncate text-xs text-muted-foreground">
+                  <p className="text-muted-foreground truncate text-xs">
                     {chore.description}
                   </p>
                 )}
@@ -107,7 +107,7 @@ export function ChoreList({ chores }: ChoreListProps) {
                   onClick={() => handleDelete(chore.id, chore.title)}
                   disabled={isProcessing}
                   aria-label={`Delete quest: ${chore.title}`}
-                  className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-red-500/10 hover:text-red-400"
+                  className="text-muted-foreground rounded-md p-1.5 transition-colors hover:bg-red-500/10 hover:text-red-400"
                 >
                   <Trash2 className="h-4 w-4" aria-hidden="true" />
                 </button>

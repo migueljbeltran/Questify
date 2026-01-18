@@ -18,7 +18,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <Sidebar email={user.email} />
 
       {/* Main content area with responsive margin for sidebar */}

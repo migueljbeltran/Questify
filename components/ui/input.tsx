@@ -33,7 +33,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     if (icon) {
       return (
         <div className="relative">
-          <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+          <div className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2">
             {icon}
           </div>
           <input

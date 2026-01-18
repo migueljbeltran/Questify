@@ -39,7 +39,7 @@ export function Progress({
     <div className={cn("w-full", className)}>
       <div
         className={cn(
-          "relative overflow-hidden rounded-full bg-surface-2",
+          "bg-surface-2 relative overflow-hidden rounded-full",
           sizeStyles[size]
         )}
       >
@@ -56,7 +56,7 @@ export function Progress({
         />
       </div>
       {showLabel && (
-        <div className="mt-1 flex justify-between font-mono text-xs text-muted-foreground">
+        <div className="text-muted-foreground mt-1 flex justify-between font-mono text-xs">
           <span className={cn(variant === "xp" && "text-xp")}>{value}</span>
           <span>{max}</span>
         </div>

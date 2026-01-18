@@ -19,7 +19,7 @@ export function CompletionProgress({
     <div className={cn("flex items-center gap-3", className)}>
       <span
         className={cn(
-          "text-xs font-medium uppercase tracking-wider",
+          "text-xs font-medium tracking-wider uppercase",
           isAllComplete ? "text-xp" : "text-muted-foreground"
         )}
       >
@@ -33,9 +33,7 @@ export function CompletionProgress({
       >
         {completed}/{total}
       </span>
-      {isAllComplete && (
-        <span className="text-xs text-xp">All done!</span>
-      )}
+      {isAllComplete && <span className="text-xp text-xs">All done!</span>}
     </div>
   );
 }

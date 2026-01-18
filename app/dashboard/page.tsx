@@ -25,7 +25,12 @@ export default async function DashboardPage() {
   }
 
   // Fetch user profile, chores, and recent completions in parallel
-  const [profileResult, choresResult, completionsResult, todayCompletionsResult] = await Promise.all([
+  const [
+    profileResult,
+    choresResult,
+    completionsResult,
+    todayCompletionsResult,
+  ] = await Promise.all([
     supabase.from("users").select("*").eq("id", user.id).single(),
     supabase
       .from("chores")
@@ -66,7 +71,7 @@ export default async function DashboardPage() {
         />
 
         {/* Stats bar */}
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
+        <div className="border-border mb-8 flex flex-wrap items-center justify-between gap-4 border-b pb-6">
           <UserStats xp={xp} />
         </div>
 
@@ -76,7 +81,7 @@ export default async function DashboardPage() {
           <section>
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <h2 className="text-lg font-semibold text-foreground">
+                <h2 className="text-foreground text-lg font-semibold">
                   Active Quests
                 </h2>
                 <CompletionProgress
@@ -91,7 +96,7 @@ export default async function DashboardPage() {
 
           {/* Recent activity sidebar */}
           <aside>
-            <h3 className="mb-4 text-sm font-medium text-muted-foreground">
+            <h3 className="text-muted-foreground mb-4 text-sm font-medium">
               Recent Activity
             </h3>
             <RecentActivity activities={completions} />

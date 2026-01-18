@@ -24,20 +24,20 @@ export default function DashboardError({
           </div>
           <div className="space-y-2">
             <h1 className="text-xl font-semibold">Dashboard Error</h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               We could not load your dashboard. This might be a temporary issue.
             </p>
           </div>
           <div className="flex justify-center gap-3">
             <button
               onClick={reset}
-              className="rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-5 py-2 text-sm font-medium"
             >
               Try again
             </button>
             <Link
               href="/"
-              className="rounded-md border border-border bg-surface-1 px-5 py-2 text-sm font-medium hover:bg-surface-2"
+              className="border-border bg-surface-1 hover:bg-surface-2 rounded-md border px-5 py-2 text-sm font-medium"
             >
               Go home
             </Link>

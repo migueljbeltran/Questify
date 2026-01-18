@@ -85,7 +85,7 @@ function ToastContainer() {
 
   return (
     <div
-      className="pointer-events-none fixed bottom-0 right-0 z-50 flex max-h-screen w-full flex-col gap-2 p-4 sm:max-w-sm"
+      className="pointer-events-none fixed right-0 bottom-0 z-50 flex max-h-screen w-full flex-col gap-2 p-4 sm:max-w-sm"
       aria-live="polite"
       aria-label="Notifications"
     >
@@ -136,12 +136,12 @@ const ToastItem = forwardRef<HTMLDivElement, ToastItemProps>(
         <div className="flex-1 space-y-1">
           <p className="text-sm font-semibold">{toast.title}</p>
           {toast.description && (
-            <p className="text-xs text-muted-foreground">{toast.description}</p>
+            <p className="text-muted-foreground text-xs">{toast.description}</p>
           )}
         </div>
         <button
           onClick={onClose}
-          className="shrink-0 rounded-md p-1 text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
+          className="text-muted-foreground hover:bg-surface-2 hover:text-foreground shrink-0 rounded-md p-1 transition"
           aria-label="Dismiss notification"
         >
           <X className="h-4 w-4" aria-hidden="true" />

@@ -29,13 +29,15 @@ const CircleCheckbox = forwardRef<HTMLButtonElement, CircleCheckboxProps>(
           "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-150",
           checked
             ? "border-xp bg-xp text-white"
-            : "border-border bg-transparent hover:border-xp/60 hover:bg-xp/10",
+            : "border-border hover:border-xp/60 hover:bg-xp/10 bg-transparent",
           disabled && "cursor-not-allowed opacity-50",
           className
         )}
         {...props}
       >
-        {checked && <Check className="h-3 w-3 animate-check" aria-hidden="true" />}
+        {checked && (
+          <Check className="animate-check h-3 w-3" aria-hidden="true" />
+        )}
       </button>
     );
   }

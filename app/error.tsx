@@ -16,7 +16,7 @@ export default function GlobalError({
 
   return (
     <html lang="en">
-      <body className="min-h-screen bg-background text-foreground">
+      <body className="bg-background text-foreground min-h-screen">
         <div className="flex min-h-screen items-center justify-center px-4">
           <div className="max-w-md space-y-6 text-center">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-red-500/15">
@@ -24,13 +24,13 @@ export default function GlobalError({
             </div>
             <div className="space-y-2">
               <h1 className="text-xl font-semibold">Something went wrong</h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 We encountered an unexpected error. Please try again.
               </p>
             </div>
             <button
               onClick={reset}
-              className="rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-5 py-2 text-sm font-medium"
             >
               Try again
             </button>

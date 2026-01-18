@@ -35,7 +35,7 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed left-4 top-4 z-40 flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface-1 text-muted-foreground lg:hidden"
+        className="border-border bg-surface-1 text-muted-foreground fixed top-4 left-4 z-40 flex h-10 w-10 items-center justify-center rounded-lg border lg:hidden"
         aria-label="Open navigation menu"
       >
         <Menu className="h-5 w-5" />
@@ -53,23 +53,23 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "sidebar fixed left-0 top-0 z-50 flex h-full flex-col",
+          "sidebar fixed top-0 left-0 z-50 flex h-full flex-col",
           // Desktop: always visible, full width
           "lg:w-64",
           // Tablet: collapsed (icons only)
           "md:w-16 md:translate-x-0",
           // Mobile: drawer
           "w-64 -translate-x-full md:translate-x-0",
-          mobileOpen && "translate-x-0 animate-slide-in-left"
+          mobileOpen && "animate-slide-in-left translate-x-0"
         )}
       >
         {/* Header */}
-        <div className="flex h-16 items-center justify-between border-b border-border px-4">
+        <div className="border-border flex h-16 items-center justify-between border-b px-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-xs font-bold text-primary-foreground">
+            <div className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold">
               Q
             </div>
-            <span className="font-semibold text-foreground md:hidden lg:inline">
+            <span className="text-foreground font-semibold md:hidden lg:inline">
               Questify
             </span>
           </div>
@@ -93,10 +93,7 @@ export function Sidebar({ email }: SidebarProps) {
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      "sidebar-item",
-                      isActive && "active"
-                    )}
+                    className={cn("sidebar-item", isActive && "active")}
                   >
                     <Icon className="h-5 w-5 shrink-0" />
                     <span className="md:hidden lg:inline">{item.label}</span>
@@ -108,9 +105,9 @@ export function Sidebar({ email }: SidebarProps) {
         </nav>
 
         {/* Footer */}
-        <div className="border-t border-border p-3">
+        <div className="border-border border-t p-3">
           {email && (
-            <div className="mb-3 truncate px-3 text-xs text-muted-foreground md:hidden lg:block">
+            <div className="text-muted-foreground mb-3 truncate px-3 text-xs md:hidden lg:block">
               {email}
             </div>
           )}

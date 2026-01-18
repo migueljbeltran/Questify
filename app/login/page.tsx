@@ -31,16 +31,16 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="bg-background text-foreground min-h-screen">
       <div className="flex min-h-screen items-center justify-center px-4 py-12">
         <div className="w-full max-w-sm space-y-6">
           {/* Logo */}
           <div className="text-center">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-foreground hover:opacity-80"
+              className="text-foreground inline-flex items-center gap-2 hover:opacity-80"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
+              <div className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold">
                 Q
               </div>
               <span className="font-semibold">Questify</span>
@@ -52,7 +52,7 @@ export default function LoginPage() {
             <h1 className="text-xl font-semibold">
               {mode === "login" ? "Welcome back" : "Create your account"}
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-1 text-sm">
               {mode === "login"
                 ? "Sign in to continue your quests"
                 : "Start turning tasks into XP"}
@@ -60,9 +60,9 @@ export default function LoginPage() {
           </div>
 
           {/* Card */}
-          <div className="rounded-lg border border-border bg-surface-1 p-5">
+          <div className="border-border bg-surface-1 rounded-lg border p-5">
             {/* Mode toggle */}
-            <div className="mb-5 flex rounded-md bg-surface-2 p-1 text-sm">
+            <div className="bg-surface-2 mb-5 flex rounded-md p-1 text-sm">
               <button
                 type="button"
                 onClick={() => {
@@ -97,40 +97,40 @@ export default function LoginPage() {
             <form action={handleSubmit} className="space-y-4">
               <div className="space-y-1.5">
                 <label
-                  className="text-xs font-medium text-muted-foreground"
+                  className="text-muted-foreground text-xs font-medium"
                   htmlFor="email"
                 >
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Mail className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
                     placeholder="name@example.com"
-                    className="w-full rounded-md border border-border bg-background py-2 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+                    className="border-border bg-background placeholder:text-muted-foreground focus:border-primary focus:ring-primary w-full rounded-md border py-2 pr-3 pl-10 text-sm transition-colors outline-none focus:ring-1"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 <label
-                  className="text-xs font-medium text-muted-foreground"
+                  className="text-muted-foreground text-xs font-medium"
                   htmlFor="password"
                 >
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Lock className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
                   <input
                     id="password"
                     name="password"
                     type="password"
                     required
                     placeholder="••••••••"
-                    className="w-full rounded-md border border-border bg-background py-2 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+                    className="border-border bg-background placeholder:text-muted-foreground focus:border-primary focus:ring-primary w-full rounded-md border py-2 pr-3 pl-10 text-sm transition-colors outline-none focus:ring-1"
                   />
                 </div>
               </div>
@@ -150,7 +150,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex w-full items-center justify-center gap-2 rounded-md bg-primary py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary focus:ring-offset-background flex w-full items-center justify-center gap-2 rounded-md py-2.5 text-sm font-medium transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
                 {mode === "login" ? "Sign in" : "Create account"}
@@ -158,7 +158,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-4 text-center text-xs text-muted-foreground">
+            <div className="text-muted-foreground mt-4 text-center text-xs">
               {mode === "login"
                 ? "Don't have an account? "
                 : "Already have an account? "}
@@ -167,7 +167,7 @@ export default function LoginPage() {
                   setMode(mode === "login" ? "signup" : "login");
                   setMessage(null);
                 }}
-                className="font-medium text-primary hover:underline"
+                className="text-primary font-medium hover:underline"
               >
                 {mode === "login" ? "Sign up" : "Sign in"}
               </button>
@@ -178,7 +178,7 @@ export default function LoginPage() {
           <div className="text-center">
             <Link
               href="/"
-              className="text-xs text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground text-xs"
             >
               ← Back to home
             </Link>
