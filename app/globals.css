@@ -14,13 +14,13 @@
 
 :root {
   /* Background layers */
-  --background: 240 22% 5%;           /* #0a0a0f - Base */
-  --foreground: 210 40% 98%;          /* #f8fafc - Primary text */
+  --background: 240 22% 5%; /* #0a0a0f - Base */
+  --foreground: 210 40% 98%; /* #f8fafc - Primary text */
 
   /* Surface layers */
-  --surface-1: 240 18% 8%;            /* #12121a - Cards */
-  --surface-2: 240 17% 12%;           /* #1a1a24 - Elevated cards */
-  --surface-3: 240 15% 16%;           /* #22222e - Modals */
+  --surface-1: 240 18% 8%; /* #12121a - Cards */
+  --surface-2: 240 17% 12%; /* #1a1a24 - Elevated cards */
+  --surface-3: 240 15% 16%; /* #22222e - Modals */
 
   /* Card (using surface-1) */
   --card: 240 18% 8%;
@@ -31,11 +31,11 @@
   --popover-foreground: 210 40% 98%;
 
   /* Primary accent gradient colors */
-  --primary: 258 90% 66%;             /* #8b5cf6 - Violet center */
+  --primary: 258 90% 66%; /* #8b5cf6 - Violet center */
   --primary-foreground: 210 40% 98%;
-  --accent-start: 239 84% 67%;        /* #6366f1 - Indigo */
-  --accent-via: 258 90% 66%;          /* #8b5cf6 - Violet */
-  --accent-end: 271 91% 65%;          /* #a855f7 - Purple */
+  --accent-start: 239 84% 67%; /* #6366f1 - Indigo */
+  --accent-via: 258 90% 66%; /* #8b5cf6 - Violet */
+  --accent-end: 271 91% 65%; /* #a855f7 - Purple */
 
   /* Secondary */
   --secondary: 240 17% 12%;
@@ -43,23 +43,23 @@
 
   /* Muted */
   --muted: 240 17% 12%;
-  --muted-foreground: 215 16% 47%;    /* #64748b - Muted text */
+  --muted-foreground: 215 16% 47%; /* #64748b - Muted text */
 
   /* Accent */
   --accent: 258 90% 66%;
   --accent-foreground: 210 40% 98%;
 
   /* XP/Success colors */
-  --xp: 160 84% 39%;                  /* #10b981 - Emerald */
-  --xp-glow: 159 65% 51%;             /* #34d399 - Emerald glow */
+  --xp: 160 84% 39%; /* #10b981 - Emerald */
+  --xp-glow: 159 65% 51%; /* #34d399 - Emerald glow */
 
   /* Streak/Fire colors */
-  --streak: 38 92% 50%;               /* #f59e0b - Amber */
-  --streak-glow: 43 96% 56%;          /* #fbbf24 - Amber glow */
+  --streak: 38 92% 50%; /* #f59e0b - Amber */
+  --streak-glow: 43 96% 56%; /* #fbbf24 - Amber glow */
 
   /* Level/Rank colors */
-  --level: 217 91% 60%;               /* #3b82f6 - Blue */
-  --level-glow: 213 94% 68%;          /* #60a5fa - Blue glow */
+  --level: 217 91% 60%; /* #3b82f6 - Blue */
+  --level-glow: 213 94% 68%; /* #60a5fa - Blue glow */
 
   /* Destructive */
   --destructive: 0 84% 60%;
@@ -74,11 +74,11 @@
   --radius: 0.75rem;
 
   /* Chart colors */
-  --chart-1: 258 90% 66%;             /* Violet */
-  --chart-2: 160 84% 39%;             /* Emerald */
-  --chart-3: 217 91% 60%;             /* Blue */
-  --chart-4: 38 92% 50%;              /* Amber */
-  --chart-5: 271 91% 65%;             /* Purple */
+  --chart-1: 258 90% 66%; /* Violet */
+  --chart-2: 160 84% 39%; /* Emerald */
+  --chart-3: 217 91% 60%; /* Blue */
+  --chart-4: 38 92% 50%; /* Amber */
+  --chart-5: 271 91% 65%; /* Purple */
 
   /* === GLOW & SHADOW SYSTEM === */
 
@@ -96,11 +96,9 @@
 
   /* Card shadows with glow */
   --card-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-    0 4px 24px rgba(0, 0, 0, 0.4);
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 4px 24px rgba(0, 0, 0, 0.4);
   --card-shadow-hover:
-    0 0 0 1px rgba(139, 92, 246, 0.2) inset,
-    0 8px 32px rgba(139, 92, 246, 0.15);
+    0 0 0 1px rgba(139, 92, 246, 0.2) inset, 0 8px 32px rgba(139, 92, 246, 0.15);
 
   /* Glow effects */
   --glow-sm: 0 0 10px;
@@ -244,7 +242,9 @@ body {
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   color: hsl(var(--muted-foreground));
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .sidebar-item:hover {
