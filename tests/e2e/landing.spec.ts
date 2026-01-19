@@ -7,31 +7,28 @@ test.describe("Landing Page", () => {
     // Check for main heading
     await expect(page.locator("h1")).toBeVisible();
 
-    // Check for CTA button (use first() since there are multiple get started links)
+    // Check for CTA button
     await expect(
-      page.getByRole("link", { name: /get started/i }).first()
+      page.getByRole("link", { name: /get started/i })
     ).toBeVisible();
   });
 
   test("should navigate to login page", async ({ page }) => {
     await page.goto("/");
 
-    // Find and click the login/get started link
-    await page
-      .getByRole("link", { name: /get started/i })
-      .first()
-      .click();
+    // Find and click the get started link
+    await page.getByRole("link", { name: /get started/i }).click();
 
     // Should navigate to login page
     await expect(page).toHaveURL(/\/login/);
   });
 
-  test("should have working navigation links", async ({ page }) => {
+  test("should have header with logo and sign in link", async ({ page }) => {
     await page.goto("/");
 
-    // Check navigation links exist
-    const nav = page.locator("nav");
-    await expect(nav).toBeVisible();
+    // Check header exists with logo and sign in
+    await expect(page.locator("header")).toBeVisible();
+    await expect(page.getByRole("link", { name: /sign in/i })).toBeVisible();
   });
 
   test("should be responsive", async ({ page }) => {

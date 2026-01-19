@@ -88,24 +88,30 @@ export default function LoginPage() {
           {/* Form */}
           <form action={handleSubmit} className="space-y-4">
             <div>
+              <label htmlFor="email" className="sr-only">
+                Email
+              </label>
               <input
                 id="email"
                 name="email"
                 type="email"
                 required
                 placeholder="Email"
-                className="placeholder:text-muted-foreground/50 focus:border-primary/50 w-full border-b border-white/10 bg-transparent py-3 text-sm outline-none transition-colors"
+                className="w-full border-b border-white/10 bg-transparent py-3 text-sm transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-primary/50"
               />
             </div>
 
             <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
               <input
                 id="password"
                 name="password"
                 type="password"
                 required
                 placeholder="Password"
-                className="placeholder:text-muted-foreground/50 focus:border-primary/50 w-full border-b border-white/10 bg-transparent py-3 text-sm outline-none transition-colors"
+                className="w-full border-b border-white/10 bg-transparent py-3 text-sm transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-primary/50"
               />
             </div>
 
