@@ -87,7 +87,7 @@ export default async function DashboardPage() {
 
           {/* Recent activity */}
           <aside>
-            <h3 className="mb-4 text-xs font-medium uppercase tracking-wider text-white/30">
+            <h3 className="mb-4 text-xs font-medium tracking-wider text-white/30 uppercase">
               Recent
             </h3>
             <RecentActivity activities={completions} />

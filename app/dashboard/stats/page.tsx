@@ -116,9 +116,7 @@ export default async function StatsPage() {
             <p className="mt-1 text-xs text-white/40">Total XP</p>
           </div>
           <div>
-            <p className="font-mono text-2xl text-white">
-              {totalCompletions}
-            </p>
+            <p className="font-mono text-2xl text-white">{totalCompletions}</p>
             <p className="mt-1 text-xs text-white/40">Completed</p>
           </div>
           <div>

@@ -35,7 +35,7 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed left-4 top-4 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-white/60 backdrop-blur-sm transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+        className="fixed top-4 left-4 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-white/60 backdrop-blur-sm transition-colors hover:bg-white/10 hover:text-white lg:hidden"
         aria-label="Open navigation menu"
       >
         <Menu className="h-5 w-5" />
@@ -53,7 +53,7 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-50 flex h-full flex-col bg-white/[0.02] backdrop-blur-md",
+          "fixed top-0 left-0 z-50 flex h-full flex-col bg-white/[0.02] backdrop-blur-md",
           // Desktop: always visible, full width
           "lg:w-64",
           // Tablet: collapsed (icons only)

@@ -8,9 +8,9 @@ export default function LandingPage() {
     <main className="bg-background text-foreground relative min-h-screen overflow-hidden">
       {/* Ambient background orbs */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/4 top-1/4 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] translate-x-1/2 translate-y-1/2 rounded-full bg-emerald-500/8 blur-[100px]" />
-        <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/5 blur-[80px]" />
+        <div className="absolute top-1/4 left-1/4 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-[120px]" />
+        <div className="absolute right-1/4 bottom-1/4 h-[400px] w-[400px] translate-x-1/2 translate-y-1/2 rounded-full bg-emerald-500/8 blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/5 blur-[80px]" />
       </div>
 
       {/* Header */}
@@ -61,7 +61,12 @@ export default function LandingPage() {
             <div className="space-y-3">
               {[
                 { title: "Morning workout", xp: 30, done: true, delay: "0s" },
-                { title: "Review project docs", xp: 20, done: false, delay: "0.1s" },
+                {
+                  title: "Review project docs",
+                  xp: 20,
+                  done: false,
+                  delay: "0.1s",
+                },
                 { title: "Team standup", xp: 10, done: false, delay: "0.2s" },
               ].map((quest) => (
                 <div
@@ -118,7 +123,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="text-muted-foreground absolute bottom-0 left-0 right-0 py-6 text-center text-xs">
+      <footer className="text-muted-foreground absolute right-0 bottom-0 left-0 py-6 text-center text-xs">
         Gamified productivity for the rest of us
       </footer>
     </main>

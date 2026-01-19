@@ -94,7 +94,7 @@ export function ChoreList({ chores }: ChoreListProps) {
                 onClick={() => handleDelete(chore.id, chore.title)}
                 disabled={isProcessing}
                 aria-label={`Delete quest: ${chore.title}`}
-                className="rounded-md p-1.5 text-white/0 transition-all hover:bg-red-500/10 hover:text-red-400 group-hover:text-white/20"
+                className="rounded-md p-1.5 text-white/0 transition-all group-hover:text-white/20 hover:bg-red-500/10 hover:text-red-400"
               >
                 <Trash2 className="h-4 w-4" aria-hidden="true" />
               </button>

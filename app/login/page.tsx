@@ -34,8 +34,8 @@ export default function LoginPage() {
     <main className="bg-background text-foreground relative min-h-screen overflow-hidden">
       {/* Ambient background */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/3 top-1/4 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-[100px]" />
-        <div className="absolute bottom-1/3 right-1/3 h-[300px] w-[300px] rounded-full bg-emerald-500/8 blur-[80px]" />
+        <div className="absolute top-1/4 left-1/3 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-[100px]" />
+        <div className="absolute right-1/3 bottom-1/3 h-[300px] w-[300px] rounded-full bg-emerald-500/8 blur-[80px]" />
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
@@ -97,7 +97,7 @@ export default function LoginPage() {
                 type="email"
                 required
                 placeholder="Email"
-                className="w-full border-b border-white/10 bg-transparent py-3 text-sm transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-primary/50"
+                className="placeholder:text-muted-foreground/50 focus:border-primary/50 w-full border-b border-white/10 bg-transparent py-3 text-sm transition-colors outline-none"
               />
             </div>
 
@@ -111,7 +111,7 @@ export default function LoginPage() {
                 type="password"
                 required
                 placeholder="Password"
-                className="w-full border-b border-white/10 bg-transparent py-3 text-sm transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-primary/50"
+                className="placeholder:text-muted-foreground/50 focus:border-primary/50 w-full border-b border-white/10 bg-transparent py-3 text-sm transition-colors outline-none"
               />
             </div>
 

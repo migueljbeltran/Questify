@@ -140,11 +140,7 @@ const DialogTitle = forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn("text-lg font-semibold", className)}
-    {...props}
-  />
+  <h3 ref={ref} className={cn("text-lg font-semibold", className)} {...props} />
 ));
 
 DialogTitle.displayName = "DialogTitle";
