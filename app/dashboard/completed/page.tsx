@@ -1,8 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { DashboardHeader } from "@/components/dashboard-header";
 import { Database } from "@/lib/database.types";
-import { CheckCircle2 } from "lucide-react";
+import { Check } from "lucide-react";
 
 type CompletionWithChore =
   Database["public"]["Tables"]["chore_completions"]["Row"] & {
@@ -36,9 +35,8 @@ export default async function CompletedPage() {
       const date = new Date(completion.completed_at).toLocaleDateString(
         "en-US",
         {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
+          weekday: "short",
+          month: "short",
           day: "numeric",
         }
       );
@@ -58,55 +56,48 @@ export default async function CompletedPage() {
 
   return (
     <div className="min-h-screen p-6 pt-16 md:pt-6">
-      <div className="mx-auto max-w-4xl">
-        <DashboardHeader
-          title="Completed"
-          subtitle="Your quest completion history"
-        />
-
-        {/* Summary */}
-        <div className="border-border mb-8 flex gap-6 border-b pb-6">
-          <div>
-            <p className="text-foreground text-2xl font-semibold">
-              {typedCompletions.length}
+      <div className="mx-auto max-w-2xl">
+        {/* Header */}
+        <header className="mb-8">
+          <h1 className="text-3xl font-semibold tracking-tight">Completed</h1>
+          <div className="mt-4 flex items-center gap-6">
+            <p className="text-sm text-white/40">
+              <span className="font-mono text-white/60">
+                {typedCompletions.length}
+              </span>{" "}
+              quests
             </p>
-            <p className="text-muted-foreground text-sm">Quests completed</p>
+            <p className="text-sm text-white/40">
+              <span className="font-mono text-emerald-400">{totalXp}</span> XP
+              earned
+            </p>
           </div>
-          <div>
-            <p className="text-xp text-2xl font-semibold">{totalXp}</p>
-            <p className="text-muted-foreground text-sm">Total XP earned</p>
-          </div>
-        </div>
+        </header>
 
-        {/* Completion list grouped by date */}
+        {/* Completion list */}
         {Object.keys(groupedByDate).length === 0 ? (
-          <div className="py-12 text-center">
-            <CheckCircle2 className="text-muted-foreground/50 mx-auto mb-4 h-12 w-12" />
-            <p className="text-muted-foreground">
-              No completed quests yet. Start completing some!
-            </p>
+          <div className="py-16 text-center">
+            <p className="text-white/30">No completed quests yet</p>
           </div>
         ) : (
           <div className="space-y-8">
             {Object.entries(groupedByDate).map(([date, items]) => (
               <section key={date}>
-                <h3 className="text-muted-foreground mb-3 text-sm font-medium">
-                  {date}
-                </h3>
-                <ul className="space-y-2">
+                <h3 className="mb-3 text-xs text-white/30">{date}</h3>
+                <ul className="space-y-1">
                   {items.map((completion) => (
                     <li
                       key={completion.id}
-                      className="border-border bg-surface-1 flex items-center justify-between rounded-lg border px-4 py-3"
+                      className="group flex items-center gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-white/[0.03]"
                     >
-                      <div className="flex items-center gap-3">
-                        <CheckCircle2 className="text-xp h-5 w-5" />
-                        <span className="text-foreground">
-                          {completion.chores?.title || "Unknown quest"}
-                        </span>
+                      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-400/20">
+                        <Check className="h-3 w-3 text-emerald-400" />
                       </div>
-                      <span className="text-xp font-mono text-sm">
-                        +{completion.xp_awarded} XP
+                      <span className="flex-1 text-sm">
+                        {completion.chores?.title || "Unknown quest"}
+                      </span>
+                      <span className="font-mono text-xs text-emerald-400/60">
+                        +{completion.xp_awarded}
                       </span>
                     </li>
                   ))}

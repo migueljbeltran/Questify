@@ -75,7 +75,7 @@ const DialogOverlay = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-8",
+        "fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-8 backdrop-blur-sm",
         className
       )}
       onClick={(e) => {
@@ -109,7 +109,7 @@ const DialogContent = forwardRef<
       role="dialog"
       aria-modal="true"
       className={cn(
-        "border-border bg-surface-1 relative w-full max-w-md rounded-lg border p-5",
+        "relative w-full max-w-sm rounded-2xl bg-white/[0.03] p-6 backdrop-blur-xl",
         className
       )}
       {...props}
@@ -129,7 +129,7 @@ const DialogHeader = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("mb-4 flex items-center justify-between", className)}
+    className={cn("mb-6 flex items-center justify-between", className)}
     {...props}
   />
 ));
@@ -142,7 +142,7 @@ const DialogTitle = forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn("text-foreground text-lg font-semibold", className)}
+    className={cn("text-lg font-semibold", className)}
     {...props}
   />
 ));
@@ -169,7 +169,7 @@ const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(
         onClick={onClose}
         aria-label="Close dialog"
         className={cn(
-          "text-muted-foreground hover:bg-surface-2 hover:text-foreground rounded-md p-1.5 transition-colors",
+          "rounded-full p-1.5 text-white/40 transition-colors hover:bg-white/10 hover:text-white",
           className
         )}
         {...props}
@@ -186,7 +186,7 @@ const DialogFooter = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("flex gap-3 pt-4", className)} {...props} />
+  <div ref={ref} className={cn("flex gap-3 pt-6", className)} {...props} />
 ));
 
 DialogFooter.displayName = "DialogFooter";

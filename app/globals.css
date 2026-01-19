@@ -340,3 +340,20 @@ body {
 .animate-check {
   animation: check-scale 0.2s ease-out;
 }
+
+/* Subtle float animation for landing page */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}

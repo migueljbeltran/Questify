@@ -1,6 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { DashboardHeader } from "@/components/dashboard-header";
 import { ChoreList } from "@/components/chore-list";
 import { AddChore } from "@/components/add-chore-dialog";
 
@@ -25,22 +24,22 @@ export default async function QuestsPage() {
 
   return (
     <div className="min-h-screen p-6 pt-16 md:pt-6">
-      <div className="mx-auto max-w-4xl">
-        <DashboardHeader
-          title="All Quests"
-          subtitle="Manage your recurring quests"
-        />
+      <div className="mx-auto max-w-2xl">
+        {/* Header */}
+        <header className="mb-8">
+          <h1 className="text-3xl font-semibold tracking-tight">All Quests</h1>
+          <p className="mt-2 text-sm text-white/40">
+            {chores?.length || 0} active
+          </p>
+        </header>
 
-        <section>
-          <div className="mb-4 flex items-center justify-between">
-            <p className="text-muted-foreground text-sm">
-              {chores?.length || 0} active quest
-              {chores?.length !== 1 ? "s" : ""}
-            </p>
-            <AddChore />
-          </div>
-          <ChoreList chores={chores || []} />
-        </section>
+        {/* Actions */}
+        <div className="mb-6 flex justify-end">
+          <AddChore />
+        </div>
+
+        {/* Quest list */}
+        <ChoreList chores={chores || []} />
       </div>
     </div>
   );

@@ -3,8 +3,6 @@ import { redirect } from "next/navigation";
 import { UserStats } from "@/components/user-stats";
 import { ChoreList } from "@/components/chore-list";
 import { AddChore } from "@/components/add-chore-dialog";
-import { DashboardHeader } from "@/components/dashboard-header";
-import { CompletionProgress } from "@/components/completion-progress";
 import { RecentActivity } from "@/components/recent-activity";
 import { Database } from "@/lib/database.types";
 
@@ -65,39 +63,32 @@ export default async function DashboardPage() {
     <div className="min-h-screen p-6 pt-16 md:pt-6">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <DashboardHeader
-          title="Today"
-          subtitle="Your daily quests and progress"
-        />
+        <header className="mb-8">
+          <h1 className="text-3xl font-semibold tracking-tight">Today</h1>
+          <div className="mt-4">
+            <UserStats xp={xp} />
+          </div>
+        </header>
 
-        {/* Stats bar */}
-        <div className="border-border mb-8 flex flex-wrap items-center justify-between gap-4 border-b pb-6">
-          <UserStats xp={xp} />
-        </div>
-
-        {/* Main content grid */}
-        <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
+        {/* Main content */}
+        <div className="grid gap-12 lg:grid-cols-[1fr_240px]">
           {/* Quest list section */}
           <section>
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-6 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <h2 className="text-foreground text-lg font-semibold">
-                  Active Quests
-                </h2>
-                <CompletionProgress
-                  completed={todayCompleted}
-                  total={totalQuests}
-                />
+                <span className="text-sm text-white/40">
+                  {todayCompleted}/{totalQuests} completed
+                </span>
               </div>
               <AddChore />
             </div>
             <ChoreList chores={chores} />
           </section>
 
-          {/* Recent activity sidebar */}
+          {/* Recent activity */}
           <aside>
-            <h3 className="text-muted-foreground mb-4 text-sm font-medium">
-              Recent Activity
+            <h3 className="mb-4 text-xs font-medium uppercase tracking-wider text-white/30">
+              Recent
             </h3>
             <RecentActivity activities={completions} />
           </aside>

@@ -5,25 +5,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+        primary:
+          "bg-primary text-white hover:bg-primary/90 hover:scale-[1.02]",
         secondary:
-          "border border-border bg-surface-1 text-foreground hover:bg-surface-2",
-        ghost: "text-muted-foreground hover:text-foreground hover:bg-surface-1",
-        danger:
-          "border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20",
-        success: "bg-xp text-white hover:bg-xp/90",
-        xp: "bg-xp text-white hover:bg-xp/90",
+          "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white",
+        ghost: "text-white/50 hover:text-white hover:bg-white/5",
+        danger: "bg-red-500/10 text-red-400 hover:bg-red-500/20",
+        success: "bg-emerald-500 text-white hover:bg-emerald-500/90",
       },
       size: {
-        sm: "h-8 px-3 text-xs rounded-md",
-        md: "h-9 px-4 text-sm rounded-md",
-        lg: "h-10 px-5 text-sm rounded-lg",
-        icon: "h-9 w-9 rounded-md",
-        "icon-sm": "h-8 w-8 rounded-md",
+        sm: "h-8 px-4 text-xs rounded-full",
+        md: "h-9 px-5 text-sm rounded-full",
+        lg: "h-10 px-6 text-sm rounded-full",
+        icon: "h-9 w-9 rounded-full",
+        "icon-sm": "h-8 w-8 rounded-full",
       },
     },
     defaultVariants: {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { login, signup } from "./actions";
-import { Loader2, Mail, Lock, ArrowRight } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,159 +31,115 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="bg-background text-foreground min-h-screen">
-      <div className="flex min-h-screen items-center justify-center px-4 py-12">
-        <div className="w-full max-w-sm space-y-6">
-          {/* Logo */}
-          <div className="text-center">
-            <Link
-              href="/"
-              className="text-foreground inline-flex items-center gap-2 hover:opacity-80"
+    <main className="bg-background text-foreground relative min-h-screen overflow-hidden">
+      {/* Ambient background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/3 top-1/4 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-[100px]" />
+        <div className="absolute bottom-1/3 right-1/3 h-[300px] w-[300px] rounded-full bg-emerald-500/8 blur-[80px]" />
+      </div>
+
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="mb-12 flex items-center gap-2.5 transition-opacity hover:opacity-80"
+        >
+          <div className="bg-primary flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold text-white">
+            Q
+          </div>
+          <span className="text-lg font-semibold tracking-tight">Questify</span>
+        </Link>
+
+        {/* Form container */}
+        <div className="w-full max-w-xs">
+          {/* Mode toggle */}
+          <div className="mb-8 flex justify-center gap-6 text-sm">
+            <button
+              type="button"
+              onClick={() => {
+                setMode("login");
+                setMessage(null);
+              }}
+              className={`transition-colors ${
+                mode === "login"
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
-              <div className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold">
-                Q
-              </div>
-              <span className="font-semibold">Questify</span>
-            </Link>
+              Sign in
+            </button>
+            <span className="text-muted-foreground/30">|</span>
+            <button
+              type="button"
+              onClick={() => {
+                setMode("signup");
+                setMessage(null);
+              }}
+              className={`transition-colors ${
+                mode === "signup"
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Create account
+            </button>
           </div>
 
-          {/* Header */}
-          <div className="text-center">
-            <h1 className="text-xl font-semibold">
-              {mode === "login" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="text-muted-foreground mt-1 text-sm">
-              {mode === "login"
-                ? "Sign in to continue your quests"
-                : "Start turning tasks into XP"}
-            </p>
-          </div>
-
-          {/* Card */}
-          <div className="border-border bg-surface-1 rounded-lg border p-5">
-            {/* Mode toggle */}
-            <div className="bg-surface-2 mb-5 flex rounded-md p-1 text-sm">
-              <button
-                type="button"
-                onClick={() => {
-                  setMode("login");
-                  setMessage(null);
-                }}
-                className={`flex-1 rounded-md px-3 py-1.5 font-medium transition-colors ${
-                  mode === "login"
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Sign in
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMode("signup");
-                  setMessage(null);
-                }}
-                className={`flex-1 rounded-md px-3 py-1.5 font-medium transition-colors ${
-                  mode === "signup"
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Create account
-              </button>
+          {/* Form */}
+          <form action={handleSubmit} className="space-y-4">
+            <div>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="Email"
+                className="placeholder:text-muted-foreground/50 focus:border-primary/50 w-full border-b border-white/10 bg-transparent py-3 text-sm outline-none transition-colors"
+              />
             </div>
 
-            {/* Form */}
-            <form action={handleSubmit} className="space-y-4">
-              <div className="space-y-1.5">
-                <label
-                  className="text-muted-foreground text-xs font-medium"
-                  htmlFor="email"
-                >
-                  Email
-                </label>
-                <div className="relative">
-                  <Mail className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="name@example.com"
-                    className="border-border bg-background placeholder:text-muted-foreground focus:border-primary focus:ring-primary w-full rounded-md border py-2 pr-3 pl-10 text-sm transition-colors outline-none focus:ring-1"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <label
-                  className="text-muted-foreground text-xs font-medium"
-                  htmlFor="password"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    required
-                    placeholder="••••••••"
-                    className="border-border bg-background placeholder:text-muted-foreground focus:border-primary focus:ring-primary w-full rounded-md border py-2 pr-3 pl-10 text-sm transition-colors outline-none focus:ring-1"
-                  />
-                </div>
-              </div>
-
-              {message && (
-                <div
-                  className={`rounded-md p-3 text-xs ${
-                    message.includes("Check your email")
-                      ? "bg-xp/10 text-xp"
-                      : "bg-red-500/10 text-red-400"
-                  }`}
-                >
-                  {message}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary focus:ring-offset-background flex w-full items-center justify-center gap-2 rounded-md py-2.5 text-sm font-medium transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-                {mode === "login" ? "Sign in" : "Create account"}
-                {!isLoading && <ArrowRight className="h-4 w-4" />}
-              </button>
-            </form>
-
-            <div className="text-muted-foreground mt-4 text-center text-xs">
-              {mode === "login"
-                ? "Don't have an account? "
-                : "Already have an account? "}
-              <button
-                onClick={() => {
-                  setMode(mode === "login" ? "signup" : "login");
-                  setMessage(null);
-                }}
-                className="text-primary font-medium hover:underline"
-              >
-                {mode === "login" ? "Sign up" : "Sign in"}
-              </button>
+            <div>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="Password"
+                className="placeholder:text-muted-foreground/50 focus:border-primary/50 w-full border-b border-white/10 bg-transparent py-3 text-sm outline-none transition-colors"
+              />
             </div>
-          </div>
 
-          {/* Back to home */}
-          <div className="text-center">
-            <Link
-              href="/"
-              className="text-muted-foreground hover:text-foreground text-xs"
+            {message && (
+              <div
+                className={`rounded-lg py-3 text-center text-xs ${
+                  message.includes("Check your email")
+                    ? "text-xp"
+                    : "text-red-400"
+                }`}
+              >
+                {message}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="bg-primary hover:bg-primary/90 mt-6 flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-medium text-white transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              ← Back to home
-            </Link>
-          </div>
+              {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {mode === "login" ? "Sign in" : "Create account"}
+              {!isLoading && <ArrowRight className="h-4 w-4" />}
+            </button>
+          </form>
         </div>
+
+        {/* Back to home */}
+        <Link
+          href="/"
+          className="text-muted-foreground hover:text-foreground mt-12 text-xs transition-colors"
+        >
+          ← Back to home
+        </Link>
       </div>
     </main>
   );

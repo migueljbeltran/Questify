@@ -1,8 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { DashboardHeader } from "@/components/dashboard-header";
 import { Database } from "@/lib/database.types";
-import { Trophy, Zap, Target, Calendar } from "lucide-react";
 
 type CompletionWithChore =
   Database["public"]["Tables"]["chore_completions"]["Row"] & {
@@ -83,100 +81,71 @@ export default async function StatsPage() {
 
   return (
     <div className="min-h-screen p-6 pt-16 md:pt-6">
-      <div className="mx-auto max-w-4xl">
-        <DashboardHeader
-          title="Stats"
-          subtitle="Track your progress and achievements"
-        />
+      <div className="mx-auto max-w-2xl">
+        {/* Header */}
+        <header className="mb-12">
+          <h1 className="text-3xl font-semibold tracking-tight">Stats</h1>
+        </header>
 
-        {/* Level progress */}
-        <section className="border-border bg-surface-1 mb-8 rounded-lg border p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <Trophy className="text-level h-6 w-6" />
-            <h2 className="text-foreground text-lg font-semibold">
-              Level {level}
-            </h2>
+        {/* Level section */}
+        <section className="mb-12">
+          <div className="mb-4 flex items-baseline gap-3">
+            <span className="font-mono text-5xl font-bold text-blue-400">
+              {level}
+            </span>
+            <span className="text-sm text-white/40">level</span>
           </div>
-          <div className="bg-surface-2 mb-2 h-3 overflow-hidden rounded-full">
+          <div className="mb-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
             <div
-              className="bg-level h-full transition-all"
+              className="h-full bg-blue-400/60 transition-all"
               style={{ width: `${progressToNextLevel}%` }}
             />
           </div>
-          <p className="text-muted-foreground text-sm">
-            <span className="text-foreground font-mono">{xp}</span> /{" "}
-            <span className="font-mono">{nextLevelXp}</span> XP to level{" "}
-            {level + 1}
+          <p className="text-sm text-white/40">
+            <span className="font-mono text-white/60">{xp}</span> /{" "}
+            <span className="font-mono">{nextLevelXp}</span> XP
           </p>
         </section>
 
         {/* Stats grid */}
-        <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            icon={Zap}
-            label="Total XP"
-            value={totalXpEarned.toLocaleString()}
-            iconColor="text-xp"
-          />
-          <StatCard
-            icon={Target}
-            label="Quests Completed"
-            value={totalCompletions.toString()}
-            iconColor="text-primary"
-          />
-          <StatCard
-            icon={Calendar}
-            label="This Week"
-            value={weeklyCompletions.toString()}
-            iconColor="text-streak"
-          />
-          <StatCard
-            icon={Trophy}
-            label="Active Quests"
-            value={chores.length.toString()}
-            iconColor="text-level"
-          />
-        </div>
+        <section className="mb-12 grid grid-cols-2 gap-8 sm:grid-cols-4">
+          <div>
+            <p className="font-mono text-2xl text-emerald-400">
+              {totalXpEarned.toLocaleString()}
+            </p>
+            <p className="mt-1 text-xs text-white/40">Total XP</p>
+          </div>
+          <div>
+            <p className="font-mono text-2xl text-white">
+              {totalCompletions}
+            </p>
+            <p className="mt-1 text-xs text-white/40">Completed</p>
+          </div>
+          <div>
+            <p className="font-mono text-2xl text-amber-400">
+              {weeklyCompletions}
+            </p>
+            <p className="mt-1 text-xs text-white/40">This week</p>
+          </div>
+          <div>
+            <p className="font-mono text-2xl text-violet-400">
+              {chores.length}
+            </p>
+            <p className="mt-1 text-xs text-white/40">Active quests</p>
+          </div>
+        </section>
 
         {/* Top quest */}
         {topQuest && (
-          <section className="border-border bg-surface-1 rounded-lg border p-6">
-            <h3 className="text-muted-foreground mb-2 text-sm font-medium">
-              Most Completed Quest
-            </h3>
-            <p className="text-foreground text-lg font-semibold">
-              {topQuest[0]}
-            </p>
-            <p className="text-muted-foreground text-sm">
-              Completed {topQuest[1]} time{topQuest[1] !== 1 ? "s" : ""}
+          <section>
+            <p className="mb-2 text-xs text-white/40">Most completed</p>
+            <p className="text-lg">{topQuest[0]}</p>
+            <p className="mt-1 text-sm text-white/40">
+              {topQuest[1]} time{topQuest[1] !== 1 ? "s" : ""}
             </p>
           </section>
         )}
       </div>
-    </div>
-  );
-}
-
-function StatCard({
-  icon: Icon,
-  label,
-  value,
-  iconColor,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-  iconColor: string;
-}) {
-  return (
-    <div className="border-border bg-surface-1 rounded-lg border p-4">
-      <div className="mb-2 flex items-center gap-2">
-        <Icon className={`h-5 w-5 ${iconColor}`} />
-        <span className="text-muted-foreground text-sm">{label}</span>
-      </div>
-      <p className="text-foreground font-mono text-2xl font-semibold">
-        {value}
-      </p>
     </div>
   );
 }

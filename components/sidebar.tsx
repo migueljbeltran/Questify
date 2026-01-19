@@ -35,7 +35,7 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="border-border bg-surface-1 text-muted-foreground fixed top-4 left-4 z-40 flex h-10 w-10 items-center justify-center rounded-lg border lg:hidden"
+        className="fixed left-4 top-4 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-white/60 backdrop-blur-sm transition-colors hover:bg-white/10 hover:text-white lg:hidden"
         aria-label="Open navigation menu"
       >
         <Menu className="h-5 w-5" />
@@ -44,7 +44,7 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
@@ -53,7 +53,7 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "sidebar fixed top-0 left-0 z-50 flex h-full flex-col",
+          "fixed left-0 top-0 z-50 flex h-full flex-col bg-white/[0.02] backdrop-blur-md",
           // Desktop: always visible, full width
           "lg:w-64",
           // Tablet: collapsed (icons only)
@@ -64,9 +64,9 @@ export function Sidebar({ email }: SidebarProps) {
         )}
       >
         {/* Header */}
-        <div className="border-border flex h-16 items-center justify-between border-b px-4">
+        <div className="flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-3">
-            <div className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold">
+            <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-white">
               Q
             </div>
             <span className="text-foreground font-semibold md:hidden lg:inline">
@@ -75,7 +75,7 @@ export function Sidebar({ email }: SidebarProps) {
           </div>
           <button
             onClick={() => setMobileOpen(false)}
-            className="text-muted-foreground lg:hidden"
+            className="text-white/40 transition-colors hover:text-white lg:hidden"
             aria-label="Close navigation menu"
           >
             <X className="h-5 w-5" />
@@ -83,7 +83,7 @@ export function Sidebar({ email }: SidebarProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto p-3">
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
@@ -93,7 +93,12 @@ export function Sidebar({ email }: SidebarProps) {
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className={cn("sidebar-item", isActive && "active")}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all",
+                      isActive
+                        ? "bg-white/10 text-white"
+                        : "text-white/50 hover:bg-white/5 hover:text-white/80"
+                    )}
                   >
                     <Icon className="h-5 w-5 shrink-0" />
                     <span className="md:hidden lg:inline">{item.label}</span>
@@ -105,15 +110,15 @@ export function Sidebar({ email }: SidebarProps) {
         </nav>
 
         {/* Footer */}
-        <div className="border-border border-t p-3">
+        <div className="p-3">
           {email && (
-            <div className="text-muted-foreground mb-3 truncate px-3 text-xs md:hidden lg:block">
+            <div className="mb-3 truncate px-3 text-xs text-white/30 md:hidden lg:block">
               {email}
             </div>
           )}
           <button
             onClick={() => logout()}
-            className="sidebar-item w-full text-left hover:text-red-400"
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/50 transition-all hover:bg-white/5 hover:text-red-400"
           >
             <LogOut className="h-5 w-5 shrink-0" />
             <span className="md:hidden lg:inline">Sign out</span>
