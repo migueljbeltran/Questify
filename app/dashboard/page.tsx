@@ -55,8 +55,10 @@ export default async function DashboardPage() {
   const completions = (completionsResult.data || []) as CompletionWithChore[];
   const todayCompleted = todayCompletionsResult.count || 0;
 
-  // If profile doesn't exist (e.g. old user), use default
+  // If profile doesn't exist (e.g. old user), use defaults
   const xp = profile?.xp || 0;
+  const currentStreak = profile?.current_streak || 0;
+  const lastCompletionDate = profile?.last_completion_date || null;
   const totalQuests = chores.length;
 
   return (
@@ -66,7 +68,11 @@ export default async function DashboardPage() {
         <header className="mb-8">
           <h1 className="text-3xl font-semibold tracking-tight">Today</h1>
           <div className="mt-4">
-            <UserStats xp={xp} />
+            <UserStats
+              xp={xp}
+              currentStreak={currentStreak}
+              lastCompletionDate={lastCompletionDate}
+            />
           </div>
         </header>
 

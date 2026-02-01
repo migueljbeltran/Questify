@@ -14,18 +14,27 @@ export interface Database {
           id: string;
           email: string;
           xp: number;
+          current_streak: number;
+          longest_streak: number;
+          last_completion_date: string | null;
           created_at: string;
         };
         Insert: {
           id: string;
           email: string;
           xp?: number;
+          current_streak?: number;
+          longest_streak?: number;
+          last_completion_date?: string | null;
           created_at?: string;
         };
         Update: {
           id?: string;
           email?: string;
           xp?: number;
+          current_streak?: number;
+          longest_streak?: number;
+          last_completion_date?: string | null;
           created_at?: string;
         };
       };

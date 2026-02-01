@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Plus, Loader2 } from "lucide-react";
-import { addChore } from "@/app/dashboard/actions";
+import { addChore, updateChore } from "@/app/dashboard/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,30 +17,54 @@ import {
   DialogClose,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Database } from "@/lib/database.types";
 
-export function AddChore() {
-  const [isOpen, setIsOpen] = useState(false);
+type Chore = Database["public"]["Tables"]["chores"]["Row"];
+
+interface ChoreDialogProps {
+  chore?: Chore;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  trigger?: React.ReactNode;
+}
+
+export function ChoreDialog({
+  chore,
+  open: controlledOpen,
+  onOpenChange,
+  trigger,
+}: ChoreDialogProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const isControlled = controlledOpen !== undefined;
+  const isOpen = isControlled ? controlledOpen : internalOpen;
+  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen;
+
+  const isEditMode = !!chore;
 
   async function handleSubmit(formData: FormData) {
     setIsLoading(true);
-    await addChore(formData);
+    if (isEditMode) {
+      await updateChore(chore.id, formData);
+    } else {
+      await addChore(formData);
+    }
     setIsLoading(false);
     setIsOpen(false);
   }
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)} size="sm">
-        <Plus className="h-4 w-4" aria-hidden="true" />
-        New Quest
-      </Button>
+      {trigger && <div onClick={() => setIsOpen(true)}>{trigger}</div>}
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogOverlay>
           <DialogContent aria-labelledby="dialog-title">
             <DialogHeader>
-              <DialogTitle id="dialog-title">New Quest</DialogTitle>
+              <DialogTitle id="dialog-title">
+                {isEditMode ? "Edit Quest" : "New Quest"}
+              </DialogTitle>
               <DialogClose />
             </DialogHeader>
 
@@ -51,6 +75,7 @@ export function AddChore() {
                   id="title"
                   name="title"
                   required
+                  defaultValue={chore?.title || ""}
                   placeholder="e.g. Wash the dishes"
                   aria-required="true"
                 />
@@ -62,13 +87,18 @@ export function AddChore() {
                   id="description"
                   name="description"
                   rows={2}
+                  defaultValue={chore?.description || ""}
                   placeholder="Additional details..."
                 />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="xp">XP Reward</Label>
-                <Select id="xp" name="xp">
+                <Select
+                  id="xp"
+                  name="xp"
+                  defaultValue={String(chore?.base_xp || 10)}
+                >
                   <option value="10">10 XP - Easy</option>
                   <option value="20">20 XP - Medium</option>
                   <option value="50">50 XP - Hard</option>
@@ -97,7 +127,13 @@ export function AddChore() {
                       aria-hidden="true"
                     />
                   )}
-                  {isLoading ? "Creating..." : "Create"}
+                  {isLoading
+                    ? isEditMode
+                      ? "Saving..."
+                      : "Creating..."
+                    : isEditMode
+                      ? "Save"
+                      : "Create"}
                 </Button>
               </DialogFooter>
             </form>
@@ -105,5 +141,19 @@ export function AddChore() {
         </DialogOverlay>
       </Dialog>
     </>
+  );
+}
+
+// Convenience wrapper for the "Add" use case with built-in button
+export function AddChore() {
+  return (
+    <ChoreDialog
+      trigger={
+        <Button size="sm">
+          <Plus className="h-4 w-4" aria-hidden="true" />
+          New Quest
+        </Button>
+      }
+    />
   );
 }

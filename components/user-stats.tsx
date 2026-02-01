@@ -2,9 +2,15 @@
 
 interface UserStatsProps {
   xp: number;
+  currentStreak: number;
+  lastCompletionDate: string | null;
 }
 
-export function UserStats({ xp }: UserStatsProps) {
+export function UserStats({
+  xp,
+  currentStreak,
+  lastCompletionDate,
+}: UserStatsProps) {
   // Level = floor(sqrt(xp/100))
   const level = Math.floor(Math.sqrt(xp / 100)) || 1;
   const currentLevelXp = Math.pow(level, 2) * 100;
@@ -12,6 +18,10 @@ export function UserStats({ xp }: UserStatsProps) {
   const xpProgress = xp - currentLevelXp;
   const xpNeeded = nextLevelXp - currentLevelXp;
   const progressPercent = Math.round((xpProgress / xpNeeded) * 100);
+
+  // Check if streak is at risk (no completion today)
+  const today = new Date().toISOString().split("T")[0];
+  const streakAtRisk = lastCompletionDate !== today && currentStreak > 0;
 
   return (
     <div className="flex items-center gap-8" aria-label="Player statistics">
@@ -39,8 +49,15 @@ export function UserStats({ xp }: UserStatsProps) {
 
       {/* Streak */}
       <div className="flex items-center gap-2">
-        <span className="font-mono text-sm text-amber-400">1</span>
-        <span className="text-xs text-white/40">day streak</span>
+        <span
+          className={`font-mono text-sm ${streakAtRisk ? "animate-pulse text-amber-500" : "text-amber-400"}`}
+        >
+          {currentStreak}
+        </span>
+        <span className="text-xs text-white/40">
+          day{currentStreak !== 1 ? "s" : ""} streak
+          {streakAtRisk && " ⚠️"}
+        </span>
       </div>
     </div>
   );

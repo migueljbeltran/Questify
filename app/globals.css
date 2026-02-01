@@ -357,3 +357,24 @@ body {
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
+
+/* XP float effect on quest completion */
+@keyframes xp-float {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-30px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.9);
+  }
+}
+
+.animate-xp-float {
+  animation: xp-float 1s ease-out forwards;
+  pointer-events: none;
+}

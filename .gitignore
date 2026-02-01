@@ -45,5 +45,4 @@ next-env.d.ts
 # claude
 CLAUDE.md
 DESIGN_PLAN.md
-ROADMAP.md
-TODO.md
+/docs/

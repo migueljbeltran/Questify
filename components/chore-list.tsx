@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { Trash2, Loader2 } from "lucide-react";
+import { useRef, useState } from "react";
+import { Trash2, Loader2, Pencil } from "lucide-react";
 import { completeChore, deleteChore } from "@/app/dashboard/actions";
 import { Database } from "@/lib/database.types";
 import { CircleCheckbox } from "@/components/ui/circle-checkbox";
+import { ChoreDialog } from "@/components/add-chore-dialog";
 
 type Chore = Database["public"]["Tables"]["chores"]["Row"];
 
@@ -12,13 +13,31 @@ interface ChoreListProps {
   chores: Chore[];
 }
 
+interface XpFloat {
+  id: string;
+  xp: number;
+  choreId: string;
+}
+
 export function ChoreList({ chores }: ChoreListProps) {
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string>("");
+  const [editingChore, setEditingChore] = useState<Chore | null>(null);
+  const [xpFloats, setXpFloats] = useState<XpFloat[]>([]);
+  const floatCounter = useRef(0);
 
   async function handleComplete(id: string, xp: number, title: string) {
     setProcessingId(id);
     setStatusMessage(`Completing quest: ${title}`);
+
+    // Trigger XP float animation
+    floatCounter.current += 1;
+    const floatId = `${id}-${floatCounter.current}`;
+    setXpFloats((prev) => [...prev, { id: floatId, xp, choreId: id }]);
+    setTimeout(() => {
+      setXpFloats((prev) => prev.filter((f) => f.id !== floatId));
+    }, 1000);
+
     await completeChore(id, xp);
     setStatusMessage(`Quest completed: ${title}! +${xp} XP earned`);
     setProcessingId(null);
@@ -56,8 +75,20 @@ export function ChoreList({ chores }: ChoreListProps) {
           return (
             <li
               key={chore.id}
-              className="group flex items-center gap-4 rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.03]"
+              className="group relative flex items-center gap-4 rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.03]"
             >
+              {/* XP float animation */}
+              {xpFloats
+                .filter((f) => f.choreId === chore.id)
+                .map((f) => (
+                  <span
+                    key={f.id}
+                    className="animate-xp-float absolute top-0 left-3 z-10 font-mono text-sm font-semibold text-emerald-400"
+                  >
+                    +{f.xp} XP
+                  </span>
+                ))}
+
               {/* Circular checkbox */}
               {isProcessing ? (
                 <div className="flex h-5 w-5 items-center justify-center">
@@ -89,6 +120,16 @@ export function ChoreList({ chores }: ChoreListProps) {
                 +{chore.base_xp}
               </span>
 
+              {/* Edit button (hover) */}
+              <button
+                onClick={() => setEditingChore(chore)}
+                disabled={isProcessing}
+                aria-label={`Edit quest: ${chore.title}`}
+                className="rounded-md p-1.5 text-white/0 transition-all group-hover:text-white/20 hover:bg-white/5 hover:text-white/60"
+              >
+                <Pencil className="h-4 w-4" aria-hidden="true" />
+              </button>
+
               {/* Delete button (hover) */}
               <button
                 onClick={() => handleDelete(chore.id, chore.title)}
@@ -102,6 +143,15 @@ export function ChoreList({ chores }: ChoreListProps) {
           );
         })}
       </ul>
+
+      {/* Edit dialog */}
+      <ChoreDialog
+        chore={editingChore || undefined}
+        open={!!editingChore}
+        onOpenChange={(open) => {
+          if (!open) setEditingChore(null);
+        }}
+      />
     </>
   );
 }
