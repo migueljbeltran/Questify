@@ -1,6 +1,6 @@
-# Questify
+# ⚜ Questify
 
-A gamified personal task management application that transforms your daily goals into rewarding quests. Build habits, earn XP, level up, and track your progress over time.
+A gamified household task app built for roommates. Complete bounties, earn gold, claim your rank, and track your deeds in the guild chronicles.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js%2016-black?logo=next.js)](https://nextjs.org/)
@@ -10,32 +10,40 @@ A gamified personal task management application that transforms your daily goals
 
 ## Overview
 
-Questify uses game mechanics to make personal productivity more engaging and sustainable:
+Questify turns household chores into a medieval guild experience. Every task is a bounty, every completion earns gold, and your rank rises as you prove your worth.
 
-- **Experience Points (XP)** — Earn rewards for every completed task
-- **Level Progression** — Watch yourself grow over time
-- **Streak Tracking** — Build consistency with daily goals
-- **Progress Analytics** — Visualize your accomplishments
+- **Gold (XP)** — Earn rewards for every fulfilled bounty
+- **Rank Progression** — Rise from Recruit to Grand Master
+- **Vigilance (Streaks)** — Maintain daily consistency or risk your streak
+- **Chronicles** — A full history of all deeds fulfilled
+- **Guild Record** — Stats, analytics, and your standing in the guild
+
+---
+
+## Ranks
+
+| Level | Rank         |
+| ----- | ------------ |
+| 1     | Recruit      |
+| 2     | Squire       |
+| 3     | Knight       |
+| 4     | Veteran      |
+| 5     | Champion     |
+| 6     | Warlord      |
+| 7+    | Grand Master |
 
 ---
 
 ## Features
 
-### Current
-
-- Create and complete personal quests with XP rewards
-- Level system based on accumulated experience
-- Dashboard with daily tasks and recent activity
-- Stats page with completion history and analytics
-- Responsive design for desktop and mobile
-
-### Planned
-
-- Daily streaks with bonus rewards
-- Recurring tasks with automatic reset
-- Shared groups for accountability partners or households
-- Leaderboards for friendly competition
-- Achievement badges and milestones
+- Post bounties with gold rewards (10 / 20 / 50 / 100)
+- Fulfill bounties to earn gold and level up your rank
+- Daily bounty view with streak tracking (Vigilance)
+- Quest Board for managing all active bounties
+- Chronicles — completion history grouped by date
+- Guild Record — stats including gold earned, deeds done, and open bounties
+- Responsive sidebar with rank displayed in the footer
+- Medieval guild aesthetic: deep navy + burnished gold palette, Cinzel Decorative typography
 
 ---
 
@@ -60,8 +68,8 @@ Questify uses game mechanics to make personal productivity more engaging and sus
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/questify.git
-cd questify
+git clone https://github.com/migueljbeltran/Questify.git
+cd Questify
 npm install
 ```
 
@@ -72,6 +80,7 @@ Create `.env.local` with your Supabase credentials:
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
 ### Development
@@ -88,27 +97,22 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ```
 app/
-├── dashboard/          # Main application views
-│   ├── quests/         # All quests
-│   ├── completed/      # Completion history
-│   └── stats/          # Analytics
-├── login/              # Authentication
-└── page.tsx            # Landing page
+├── dashboard/
+│   ├── page.tsx          # Today's Bounties
+│   ├── quests/           # Quest Board
+│   ├── completed/        # Chronicles
+│   └── stats/            # Guild Record
+├── login/                # Authentication
+└── page.tsx              # Landing page
 
 components/
-├── sidebar.tsx         # Navigation
-├── chore-list.tsx      # Task list
-└── ui/                 # Reusable components
+├── sidebar.tsx           # Guild navigation
+├── chore-list.tsx        # Bounty list
+├── user-stats.tsx        # Rank, gold, vigilance
+├── add-chore-dialog.tsx  # Post a Bounty dialog
+├── recent-activity.tsx   # Recent Deeds
+└── ui/                   # Reusable components
 ```
-
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes
-4. Open a pull request
 
 ---
 
