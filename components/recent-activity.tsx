@@ -16,8 +16,8 @@ interface RecentActivityProps {
 export function RecentActivity({ activities }: RecentActivityProps) {
   if (activities.length === 0) {
     return (
-      <div className="py-8 text-center text-xs text-white/30">
-        No recent activity
+      <div className="text-cream/30 py-8 text-center text-xs">
+        No deeds recorded
       </div>
     );
   }
@@ -27,16 +27,16 @@ export function RecentActivity({ activities }: RecentActivityProps) {
       {activities.map((activity) => (
         <div
           key={activity.id}
-          className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-white/[0.03]"
+          className="hover:bg-surface-1 flex items-center gap-3 px-2 py-2 transition-colors"
         >
-          <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-400/20">
-            <Check className="h-2.5 w-2.5 text-emerald-400" />
+          <div className="bg-gold/20 flex h-4 w-4 shrink-0 items-center justify-center rounded-full">
+            <Check className="text-gold h-2.5 w-2.5" />
           </div>
-          <span className="flex-1 truncate text-xs text-white/60">
+          <span className="text-cream/60 flex-1 truncate text-xs">
             {activity.chores?.title || "Unknown"}
           </span>
-          <span className="font-mono text-[10px] text-emerald-400/50">
-            +{activity.xp_awarded}
+          <span className="text-gold/50 font-mono text-[10px]">
+            +{activity.xp_awarded}g
           </span>
         </div>
       ))}

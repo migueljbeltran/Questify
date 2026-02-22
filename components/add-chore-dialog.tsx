@@ -63,7 +63,7 @@ export function ChoreDialog({
           <DialogContent aria-labelledby="dialog-title">
             <DialogHeader>
               <DialogTitle id="dialog-title">
-                {isEditMode ? "Edit Quest" : "New Quest"}
+                {isEditMode ? "Edit Bounty" : "Post a Bounty"}
               </DialogTitle>
               <DialogClose />
             </DialogHeader>
@@ -93,16 +93,16 @@ export function ChoreDialog({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="xp">XP Reward</Label>
+                <Label htmlFor="xp">Gold Reward</Label>
                 <Select
                   id="xp"
                   name="xp"
                   defaultValue={String(chore?.base_xp || 10)}
                 >
-                  <option value="10">10 XP - Easy</option>
-                  <option value="20">20 XP - Medium</option>
-                  <option value="50">50 XP - Hard</option>
-                  <option value="100">100 XP - Epic</option>
+                  <option value="10">10 Gold — Minor Errand</option>
+                  <option value="20">20 Gold — Standard Task</option>
+                  <option value="50">50 Gold — Major Deed</option>
+                  <option value="100">100 Gold — Epic Quest</option>
                 </Select>
               </div>
 
@@ -130,10 +130,10 @@ export function ChoreDialog({
                   {isLoading
                     ? isEditMode
                       ? "Saving..."
-                      : "Creating..."
+                      : "Posting..."
                     : isEditMode
-                      ? "Save"
-                      : "Create"}
+                      ? "Save Changes"
+                      : "Post Bounty"}
                 </Button>
               </DialogFooter>
             </form>
@@ -144,14 +144,13 @@ export function ChoreDialog({
   );
 }
 
-// Convenience wrapper for the "Add" use case with built-in button
 export function AddChore() {
   return (
     <ChoreDialog
       trigger={
         <Button size="sm">
           <Plus className="h-4 w-4" aria-hidden="true" />
-          New Quest
+          Post Bounty
         </Button>
       }
     />

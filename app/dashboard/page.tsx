@@ -11,6 +11,19 @@ type CompletionWithChore =
     chores: { title: string } | null;
   };
 
+function getOrdinalDay(day: number): string {
+  const suffix = ["th", "st", "nd", "rd"];
+  const v = day % 100;
+  return day + (suffix[(v - 20) % 10] || suffix[v] || suffix[0]);
+}
+
+function formatMedievalDate(date: Date): string {
+  const weekday = date.toLocaleDateString("en-US", { weekday: "long" });
+  const month = date.toLocaleDateString("en-US", { month: "long" });
+  const day = date.getDate();
+  return `${weekday}, the ${getOrdinalDay(day)} of ${month}`;
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient();
 
@@ -22,7 +35,6 @@ export default async function DashboardPage() {
     return redirect("/login");
   }
 
-  // Fetch user profile, chores, and recent completions in parallel
   const [
     profileResult,
     choresResult,
@@ -42,7 +54,6 @@ export default async function DashboardPage() {
       .eq("user_id", user.id)
       .order("completed_at", { ascending: false })
       .limit(5),
-    // Get today's completions count
     supabase
       .from("chore_completions")
       .select("id", { count: "exact" })
@@ -55,18 +66,23 @@ export default async function DashboardPage() {
   const completions = (completionsResult.data || []) as CompletionWithChore[];
   const todayCompleted = todayCompletionsResult.count || 0;
 
-  // If profile doesn't exist (e.g. old user), use defaults
   const xp = profile?.xp || 0;
   const currentStreak = profile?.current_streak || 0;
   const lastCompletionDate = profile?.last_completion_date || null;
   const totalQuests = chores.length;
+  const remaining = totalQuests - todayCompleted;
+
+  const todayDate = formatMedievalDate(new Date());
 
   return (
     <div className="min-h-screen p-6 pt-16 md:pt-6">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <header className="mb-8">
-          <h1 className="text-3xl font-semibold tracking-tight">Today</h1>
+          <h1 className="font-display text-cream text-3xl font-bold tracking-wide">
+            Today&apos;s Bounties
+          </h1>
+          <p className="text-cream/50 mt-1 text-sm italic">{todayDate}</p>
           <div className="mt-4">
             <UserStats
               xp={xp}
@@ -80,21 +96,22 @@ export default async function DashboardPage() {
         <div className="grid gap-12 lg:grid-cols-[1fr_240px]">
           {/* Quest list section */}
           <section>
-            <div className="mb-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-white/40">
-                  {todayCompleted}/{totalQuests} completed
-                </span>
-              </div>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-cream/40 text-sm">
+                {todayCompleted} bounties fulfilled &middot; {remaining}{" "}
+                remaining
+              </span>
               <AddChore />
             </div>
+            {/* Ornamental divider */}
+            <hr className="ornament-divider mb-4" />
             <ChoreList chores={chores} />
           </section>
 
           {/* Recent activity */}
           <aside>
-            <h3 className="mb-4 text-xs font-medium tracking-wider text-white/30 uppercase">
-              Recent
+            <h3 className="text-cream/30 mb-4 text-xs font-medium tracking-widest uppercase">
+              Recent Deeds
             </h3>
             <RecentActivity activities={completions} />
           </aside>

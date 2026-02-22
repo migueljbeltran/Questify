@@ -28,9 +28,8 @@ export function ChoreList({ chores }: ChoreListProps) {
 
   async function handleComplete(id: string, xp: number, title: string) {
     setProcessingId(id);
-    setStatusMessage(`Completing quest: ${title}`);
+    setStatusMessage(`Fulfilling bounty: ${title}`);
 
-    // Trigger XP float animation
     floatCounter.current += 1;
     const floatId = `${id}-${floatCounter.current}`;
     setXpFloats((prev) => [...prev, { id: floatId, xp, choreId: id }]);
@@ -39,17 +38,17 @@ export function ChoreList({ chores }: ChoreListProps) {
     }, 1000);
 
     await completeChore(id, xp);
-    setStatusMessage(`Quest completed: ${title}! +${xp} XP earned`);
+    setStatusMessage(`Bounty fulfilled: ${title}! +${xp} gold earned`);
     setProcessingId(null);
     setTimeout(() => setStatusMessage(""), 3000);
   }
 
   async function handleDelete(id: string, title: string) {
-    if (!confirm("Are you sure you want to delete this quest?")) return;
+    if (!confirm("Are you sure you want to remove this bounty?")) return;
     setProcessingId(id);
-    setStatusMessage(`Deleting quest: ${title}`);
+    setStatusMessage(`Removing bounty: ${title}`);
     await deleteChore(id);
-    setStatusMessage(`Quest deleted: ${title}`);
+    setStatusMessage(`Bounty removed: ${title}`);
     setProcessingId(null);
     setTimeout(() => setStatusMessage(""), 3000);
   }
@@ -57,7 +56,7 @@ export function ChoreList({ chores }: ChoreListProps) {
   if (chores.length === 0) {
     return (
       <div className="py-12 text-center" role="status">
-        <p className="text-sm text-white/30">No quests yet</p>
+        <p className="text-cream/30 text-sm">No bounties posted yet</p>
       </div>
     );
   }
@@ -68,31 +67,31 @@ export function ChoreList({ chores }: ChoreListProps) {
         {statusMessage}
       </div>
 
-      <ul className="space-y-1" aria-label="Active quests">
+      <ul className="space-y-1" aria-label="Active bounties">
         {chores.map((chore) => {
           const isProcessing = processingId === chore.id;
 
           return (
             <li
               key={chore.id}
-              className="group relative flex items-center gap-4 rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.03]"
+              className="group hover:border-gold/20 hover:bg-surface-1 relative flex items-center gap-4 border border-transparent px-3 py-3 transition-all"
             >
-              {/* XP float animation */}
+              {/* Gold XP float animation */}
               {xpFloats
                 .filter((f) => f.choreId === chore.id)
                 .map((f) => (
                   <span
                     key={f.id}
-                    className="animate-xp-float absolute top-0 left-3 z-10 font-mono text-sm font-semibold text-emerald-400"
+                    className="animate-gold-shimmer text-gold absolute top-0 left-3 z-10 font-mono text-sm font-semibold"
                   >
-                    +{f.xp} XP
+                    +{f.xp} gold
                   </span>
                 ))}
 
               {/* Circular checkbox */}
               {isProcessing ? (
                 <div className="flex h-5 w-5 items-center justify-center">
-                  <Loader2 className="h-4 w-4 animate-spin text-white/30" />
+                  <Loader2 className="text-cream/30 h-4 w-4 animate-spin" />
                 </div>
               ) : (
                 <CircleCheckbox
@@ -101,31 +100,31 @@ export function ChoreList({ chores }: ChoreListProps) {
                     handleComplete(chore.id, chore.base_xp, chore.title)
                   }
                   disabled={isProcessing}
-                  aria-label={`Complete quest: ${chore.title}`}
+                  aria-label={`Fulfill bounty: ${chore.title}`}
                 />
               )}
 
               {/* Task content */}
               <div className="min-w-0 flex-1">
-                <span className="text-sm">{chore.title}</span>
+                <span className="text-cream/80 text-sm">{chore.title}</span>
                 {chore.description && (
-                  <p className="mt-0.5 truncate text-xs text-white/30">
+                  <p className="text-cream/30 mt-0.5 truncate text-xs">
                     {chore.description}
                   </p>
                 )}
               </div>
 
-              {/* XP badge */}
-              <span className="font-mono text-xs text-emerald-400/70">
-                +{chore.base_xp}
+              {/* Gold badge */}
+              <span className="text-gold/70 font-mono text-xs">
+                +{chore.base_xp}g
               </span>
 
               {/* Edit button (hover) */}
               <button
                 onClick={() => setEditingChore(chore)}
                 disabled={isProcessing}
-                aria-label={`Edit quest: ${chore.title}`}
-                className="rounded-md p-1.5 text-white/0 transition-all group-hover:text-white/20 hover:bg-white/5 hover:text-white/60"
+                aria-label={`Edit bounty: ${chore.title}`}
+                className="text-cream/0 group-hover:text-cream/20 hover:bg-gold/10 hover:text-gold/60 rounded-sm p-1.5 transition-all"
               >
                 <Pencil className="h-4 w-4" aria-hidden="true" />
               </button>
@@ -134,8 +133,8 @@ export function ChoreList({ chores }: ChoreListProps) {
               <button
                 onClick={() => handleDelete(chore.id, chore.title)}
                 disabled={isProcessing}
-                aria-label={`Delete quest: ${chore.title}`}
-                className="rounded-md p-1.5 text-white/0 transition-all group-hover:text-white/20 hover:bg-red-500/10 hover:text-red-400"
+                aria-label={`Remove bounty: ${chore.title}`}
+                className="text-cream/0 group-hover:text-cream/20 hover:bg-crimson/15 rounded-sm p-1.5 transition-all hover:text-red-400"
               >
                 <Trash2 className="h-4 w-4" aria-hidden="true" />
               </button>

@@ -75,7 +75,7 @@ const DialogOverlay = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-8 backdrop-blur-sm",
+        "bg-background/80 fixed inset-0 z-50 flex items-center justify-center px-4 py-8 backdrop-blur-sm",
         className
       )}
       onClick={(e) => {
@@ -109,11 +109,15 @@ const DialogContent = forwardRef<
       role="dialog"
       aria-modal="true"
       className={cn(
-        "relative w-full max-w-sm rounded-2xl bg-white/[0.03] p-6 backdrop-blur-xl",
+        "relative w-full max-w-sm rounded-sm border p-6",
+        "border-gold/20 bg-surface-3",
         className
       )}
       {...props}
     >
+      <div className="text-gold/60 animate-ornament-fade mb-1 text-center select-none">
+        ◆
+      </div>
       <div ref={contentRef} className="relative">
         {children}
       </div>
@@ -129,7 +133,7 @@ const DialogHeader = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("mb-6 flex items-center justify-between", className)}
+    className={cn("mb-4 flex items-center justify-between", className)}
     {...props}
   />
 ));
@@ -139,8 +143,20 @@ DialogHeader.displayName = "DialogHeader";
 const DialogTitle = forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3 ref={ref} className={cn("text-lg font-semibold", className)} {...props} />
+>(({ className, children, ...props }, ref) => (
+  <div>
+    <h3
+      ref={ref}
+      className={cn(
+        "font-display text-gold text-base font-semibold tracking-wide",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </h3>
+    <hr className="ornament-divider mt-3" />
+  </div>
 ));
 
 DialogTitle.displayName = "DialogTitle";
@@ -165,7 +181,7 @@ const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(
         onClick={onClose}
         aria-label="Close dialog"
         className={cn(
-          "rounded-full p-1.5 text-white/40 transition-colors hover:bg-white/10 hover:text-white",
+          "text-cream/40 hover:bg-gold/10 hover:text-gold rounded-sm p-1.5 transition-colors",
           className
         )}
         {...props}

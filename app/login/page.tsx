@@ -31,27 +31,27 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="bg-background text-foreground relative min-h-screen overflow-hidden">
-      {/* Ambient background */}
+    <main className="bg-background text-cream relative min-h-screen overflow-hidden">
+      {/* Ambient background — gold + crimson */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/4 left-1/3 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-[100px]" />
-        <div className="absolute right-1/3 bottom-1/3 h-[300px] w-[300px] rounded-full bg-emerald-500/8 blur-[80px]" />
+        <div className="absolute top-1/4 left-1/3 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-yellow-900/20 blur-[100px]" />
+        <div className="absolute right-1/3 bottom-1/3 h-[300px] w-[300px] rounded-full bg-red-900/15 blur-[80px]" />
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
         {/* Logo */}
         <Link
           href="/"
-          className="mb-12 flex items-center gap-2.5 transition-opacity hover:opacity-80"
+          className="mb-10 flex flex-col items-center gap-2 transition-opacity hover:opacity-80"
         >
-          <div className="bg-primary flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold text-white">
-            Q
-          </div>
-          <span className="text-lg font-semibold tracking-tight">Questify</span>
+          <span className="text-gold text-3xl">⚜</span>
+          <span className="font-display text-gold text-sm font-bold tracking-widest">
+            QUESTIFY
+          </span>
         </Link>
 
         {/* Form container */}
-        <div className="w-full max-w-xs">
+        <div className="border-gold/20 bg-surface-1 w-full max-w-xs rounded-sm border p-8">
           {/* Mode toggle */}
           <div className="mb-8 flex justify-center gap-6 text-sm">
             <button
@@ -62,13 +62,13 @@ export default function LoginPage() {
               }}
               className={`transition-colors ${
                 mode === "login"
-                  ? "text-foreground font-medium"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-gold font-semibold"
+                  : "text-cream/40 hover:text-cream/70"
               }`}
             >
-              Sign in
+              Enter the Guild
             </button>
-            <span className="text-muted-foreground/30">|</span>
+            <span className="text-cream/20">|</span>
             <button
               type="button"
               onClick={() => {
@@ -77,11 +77,11 @@ export default function LoginPage() {
               }}
               className={`transition-colors ${
                 mode === "signup"
-                  ? "text-foreground font-medium"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-gold font-semibold"
+                  : "text-cream/40 hover:text-cream/70"
               }`}
             >
-              Create account
+              Found Your Chapter
             </button>
           </div>
 
@@ -97,7 +97,7 @@ export default function LoginPage() {
                 type="email"
                 required
                 placeholder="Email"
-                className="placeholder:text-muted-foreground/50 focus:border-primary/50 w-full border-b border-white/10 bg-transparent py-3 text-sm transition-colors outline-none"
+                className="border-cream/10 text-cream placeholder:text-cream/30 focus:border-gold/50 w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
               />
             </div>
 
@@ -111,15 +111,15 @@ export default function LoginPage() {
                 type="password"
                 required
                 placeholder="Password"
-                className="placeholder:text-muted-foreground/50 focus:border-primary/50 w-full border-b border-white/10 bg-transparent py-3 text-sm transition-colors outline-none"
+                className="border-cream/10 text-cream placeholder:text-cream/30 focus:border-gold/50 w-full border-b bg-transparent py-3 text-sm transition-colors outline-none"
               />
             </div>
 
             {message && (
               <div
-                className={`rounded-lg py-3 text-center text-xs ${
+                className={`py-3 text-center text-xs ${
                   message.includes("Check your email")
-                    ? "text-xp"
+                    ? "text-gold"
                     : "text-red-400"
                 }`}
               >
@@ -130,10 +130,10 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="bg-primary hover:bg-primary/90 mt-6 flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-medium text-white transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
+              className="border-gold bg-gold text-background hover:bg-gold/90 mt-6 flex w-full items-center justify-center gap-2 rounded-sm border py-3 text-sm font-medium transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {mode === "login" ? "Sign in" : "Create account"}
+              {mode === "login" ? "Enter" : "Create Chapter"}
               {!isLoading && <ArrowRight className="h-4 w-4" />}
             </button>
           </form>
@@ -142,9 +142,9 @@ export default function LoginPage() {
         {/* Back to home */}
         <Link
           href="/"
-          className="text-muted-foreground hover:text-foreground mt-12 text-xs transition-colors"
+          className="text-cream/30 hover:text-cream/60 mt-10 text-xs transition-colors"
         >
-          ← Back to home
+          ← Return to the Gates
         </Link>
       </div>
     </main>

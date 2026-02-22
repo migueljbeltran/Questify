@@ -14,7 +14,6 @@ export default async function QuestsPage() {
     return redirect("/login");
   }
 
-  // Fetch all active chores
   const { data: chores } = await supabase
     .from("chores")
     .select("*")
@@ -27,16 +26,21 @@ export default async function QuestsPage() {
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <header className="mb-8">
-          <h1 className="text-3xl font-semibold tracking-tight">All Quests</h1>
-          <p className="mt-2 text-sm text-white/40">
-            {chores?.length || 0} active
+          <h1 className="font-display text-cream text-3xl font-bold tracking-wide">
+            Quest Board
+          </h1>
+          <p className="text-cream/50 mt-2 text-sm italic">
+            Active bounties posted to the guild
           </p>
         </header>
 
         {/* Actions */}
-        <div className="mb-6 flex justify-end">
+        <div className="mb-4 flex justify-end">
           <AddChore />
         </div>
+
+        {/* Ornamental divider */}
+        <hr className="ornament-divider mb-4" />
 
         {/* Quest list */}
         <ChoreList chores={chores || []} />

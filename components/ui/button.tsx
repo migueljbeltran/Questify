@@ -9,19 +9,20 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-primary text-white hover:bg-primary/90 hover:scale-[1.02]",
+        primary:
+          "bg-gold text-background hover:bg-gold/90 hover:scale-[1.02] border border-gold",
         secondary:
-          "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white",
-        ghost: "text-white/50 hover:text-white hover:bg-white/5",
-        danger: "bg-red-500/10 text-red-400 hover:bg-red-500/20",
-        success: "bg-emerald-500 text-white hover:bg-emerald-500/90",
+          "border border-gold/40 text-cream/60 hover:border-gold/70 hover:text-cream/80",
+        ghost: "text-cream/50 hover:text-cream hover:bg-cream/5",
+        danger: "bg-crimson/15 text-red-400 hover:bg-crimson/25",
+        success: "bg-emerald text-cream hover:bg-emerald/80",
       },
       size: {
-        sm: "h-8 px-4 text-xs rounded-full",
-        md: "h-9 px-5 text-sm rounded-full",
-        lg: "h-10 px-6 text-sm rounded-full",
-        icon: "h-9 w-9 rounded-full",
-        "icon-sm": "h-8 w-8 rounded-full",
+        sm: "h-8 px-4 text-xs rounded-sm",
+        md: "h-9 px-5 text-sm rounded-sm",
+        lg: "h-10 px-6 text-sm rounded-sm",
+        icon: "h-9 w-9 rounded-sm",
+        "icon-sm": "h-8 w-8 rounded-sm",
       },
     },
     defaultVariants: {

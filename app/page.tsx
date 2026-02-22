@@ -5,30 +5,28 @@ import { Check } from "lucide-react";
 
 export default function LandingPage() {
   return (
-    <main className="bg-background text-foreground relative min-h-screen overflow-hidden">
-      {/* Ambient background orbs */}
+    <main className="bg-background text-cream relative min-h-screen overflow-hidden">
+      {/* Ambient background orbs — gold + crimson */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-[120px]" />
-        <div className="absolute right-1/4 bottom-1/4 h-[400px] w-[400px] translate-x-1/2 translate-y-1/2 rounded-full bg-emerald-500/8 blur-[100px]" />
-        <div className="absolute top-1/2 left-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/5 blur-[80px]" />
+        <div className="absolute top-0 right-1/4 h-[500px] w-[500px] translate-x-1/2 rounded-full bg-yellow-900/20 blur-[150px]" />
+        <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-red-900/15 blur-[120px]" />
+        <div className="absolute top-1/2 right-0 h-[300px] w-[300px] rounded-full bg-blue-900/20 blur-[100px]" />
       </div>
 
       {/* Header */}
       <header className="relative z-10">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
           <div className="flex items-center gap-2.5">
-            <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-white">
-              Q
-            </div>
-            <span className="text-lg font-semibold tracking-tight">
-              Questify
+            <span className="text-gold text-xl">⚜</span>
+            <span className="font-display text-gold text-sm font-bold tracking-widest">
+              QUESTIFY
             </span>
           </div>
           <Link
             href="/login"
-            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+            className="text-cream/50 hover:text-gold text-sm transition-colors"
           >
-            Sign in
+            Enter the Guild
           </Link>
         </div>
       </header>
@@ -36,27 +34,39 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="relative z-10 flex min-h-[calc(100vh-80px)] flex-col items-center justify-center px-6">
         <div className="flex max-w-4xl flex-col items-center text-center">
+          {/* Guild emblem */}
+          <span className="text-gold animate-ornament-fade mb-6 text-5xl select-none">
+            ⚜
+          </span>
+
           {/* Tagline */}
-          <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
-            Tasks become{" "}
-            <span className="bg-gradient-to-r from-violet-400 via-violet-500 to-purple-500 bg-clip-text text-transparent">
-              quests
-            </span>
+          <h1 className="font-display text-cream text-4xl font-bold tracking-wide sm:text-5xl lg:text-6xl">
+            Where Household Quests
+            <br />
+            <span className="text-gold">Become Legend</span>
           </h1>
 
-          <p className="text-muted-foreground mt-6 max-w-md text-lg">
-            Earn XP. Level up. Stay motivated.
+          <p className="text-cream/60 mt-6 max-w-md text-lg italic">
+            Earn gold. Claim your rank. Rule the household.
           </p>
 
           {/* CTA */}
-          <Link
-            href="/login"
-            className="bg-primary hover:bg-primary/90 mt-10 rounded-full px-8 py-3 text-sm font-medium text-white transition-all hover:scale-[1.02]"
-          >
-            Get started
-          </Link>
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
+            <Link
+              href="/login?mode=signup"
+              className="border-gold bg-gold text-background hover:bg-gold/90 rounded-sm border px-8 py-3 text-sm font-medium transition-all hover:scale-[1.02]"
+            >
+              Join the Guild
+            </Link>
+            <Link
+              href="/login"
+              className="border-gold/40 text-cream/70 hover:border-gold/70 hover:text-cream rounded-sm border px-8 py-3 text-sm font-medium transition-all"
+            >
+              Enter the Guild
+            </Link>
+          </div>
 
-          {/* Floating quest preview */}
+          {/* Floating bounty preview */}
           <div className="mt-20 w-full max-w-sm">
             <div className="space-y-3">
               {[
@@ -67,31 +77,40 @@ export default function LandingPage() {
                   done: false,
                   delay: "0.1s",
                 },
-                { title: "Team standup", xp: 10, done: false, delay: "0.2s" },
+                {
+                  title: "Team standup",
+                  xp: 10,
+                  done: false,
+                  delay: "0.2s",
+                },
               ].map((quest) => (
                 <div
                   key={quest.title}
-                  className="animate-float group flex items-center gap-4 rounded-2xl bg-white/[0.03] px-5 py-4 backdrop-blur-sm transition-all hover:bg-white/[0.06]"
+                  className="animate-float border-gold/20 bg-surface-1 hover:border-gold/40 flex items-center gap-4 border px-5 py-4 transition-all"
                   style={{ animationDelay: quest.delay }}
                 >
                   <div
                     className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
                       quest.done
-                        ? "border-xp bg-xp"
-                        : "border-white/20 group-hover:border-white/40"
+                        ? "border-gold bg-gold"
+                        : "border-cream/20 hover:border-gold/40"
                     }`}
                   >
-                    {quest.done && <Check className="h-3 w-3 text-white" />}
+                    {quest.done && (
+                      <Check className="text-background h-3 w-3" />
+                    )}
                   </div>
                   <span
                     className={`flex-1 text-left text-sm ${
-                      quest.done ? "text-muted-foreground line-through" : ""
+                      quest.done
+                        ? "text-cream/30 line-through"
+                        : "text-cream/80"
                     }`}
                   >
                     {quest.title}
                   </span>
-                  <span className="font-mono text-xs text-emerald-400/80">
-                    +{quest.xp}
+                  <span className="text-gold/70 font-mono text-xs">
+                    +{quest.xp}g
                   </span>
                 </div>
               ))}
@@ -100,21 +119,24 @@ export default function LandingPage() {
             {/* Subtle stats */}
             <div className="mt-8 flex items-center justify-center gap-6 text-xs">
               <div className="flex items-center gap-2">
-                <div className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                <span className="text-muted-foreground">
-                  <span className="font-mono text-emerald-400">2,450</span> XP
+                <div className="bg-gold h-1.5 w-1.5 rounded-full" />
+                <span className="text-cream/40">
+                  <span className="text-gold font-mono">2,450</span> gold
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                <span className="text-muted-foreground">
-                  <span className="font-mono text-amber-400">7</span> day streak
+                <span className="text-cream/40">
+                  <span className="font-mono text-amber-400">7</span> vigilance
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                <span className="text-muted-foreground">
-                  Level <span className="font-mono text-blue-400">12</span>
+                <div className="bg-gold/60 h-1.5 w-1.5 rounded-full" />
+                <span className="text-cream/40">
+                  Rank{" "}
+                  <span className="font-display text-gold/80 text-xs">
+                    Veteran
+                  </span>
                 </span>
               </div>
             </div>
@@ -123,8 +145,8 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="text-muted-foreground absolute right-0 bottom-0 left-0 py-6 text-center text-xs">
-        Gamified productivity for the rest of us
+      <footer className="text-cream/30 absolute right-0 bottom-0 left-0 py-6 text-center text-xs">
+        A guild for the household
       </footer>
     </main>
   );
