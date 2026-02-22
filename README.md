@@ -2,7 +2,6 @@
 
 A gamified household task app built for roommates. Complete bounties, earn gold, claim your rank, and track your deeds in the guild chronicles.
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js%2016-black?logo=next.js)](https://nextjs.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 
@@ -113,12 +112,6 @@ components/
 ├── recent-activity.tsx   # Recent Deeds
 └── ui/                   # Reusable components
 ```
-
----
-
-## License
-
-[MIT](LICENSE)
 
 ---
 

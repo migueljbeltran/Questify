@@ -9,7 +9,9 @@ test.describe("Authentication", () => {
     await expect(page.getByLabel(/password/i)).toBeVisible();
     // Use form-specific selector to avoid matching tab buttons
     await expect(
-      page.locator("form").getByRole("button", { name: /sign in/i })
+      page
+        .locator("form")
+        .getByRole("button", { name: /enter|create chapter/i })
     ).toBeVisible();
   });
 
@@ -18,7 +20,7 @@ test.describe("Authentication", () => {
 
     // Find the tab toggle button specifically (not the form button)
     const createAccountTab = page.getByRole("button", {
-      name: "Create account",
+      name: "Found Your Chapter",
     });
 
     if (await createAccountTab.isVisible()) {
@@ -41,7 +43,7 @@ test.describe("Authentication", () => {
     // Submit the form using the form's submit button
     await page
       .locator("form")
-      .getByRole("button", { name: /sign in/i })
+      .getByRole("button", { name: /enter|create chapter/i })
       .click();
 
     // Wait for potential error message (validation happens client or server side)
@@ -61,7 +63,7 @@ test.describe("Authentication", () => {
     // Submit the form using the form's submit button
     await page
       .locator("form")
-      .getByRole("button", { name: /sign in/i })
+      .getByRole("button", { name: /enter|create chapter/i })
       .click();
 
     // Wait for error response

@@ -9,7 +9,7 @@ test.describe("Landing Page", () => {
 
     // Check for CTA button
     await expect(
-      page.getByRole("link", { name: /get started/i })
+      page.getByRole("link", { name: /join the guild/i })
     ).toBeVisible();
   });
 
@@ -17,7 +17,7 @@ test.describe("Landing Page", () => {
     await page.goto("/");
 
     // Find and click the get started link
-    await page.getByRole("link", { name: /get started/i }).click();
+    await page.getByRole("link", { name: /join the guild/i }).click();
 
     // Should navigate to login page
     await expect(page).toHaveURL(/\/login/);
@@ -28,7 +28,9 @@ test.describe("Landing Page", () => {
 
     // Check header exists with logo and sign in
     await expect(page.locator("header")).toBeVisible();
-    await expect(page.getByRole("link", { name: /sign in/i })).toBeVisible();
+    await expect(
+      page.locator("header").getByRole("link", { name: /enter the guild/i })
+    ).toBeVisible();
   });
 
   test("should be responsive", async ({ page }) => {
