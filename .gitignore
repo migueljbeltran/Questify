@@ -46,3 +46,6 @@ next-env.d.ts
 CLAUDE.md
 DESIGN_PLAN.md
 /docs/
+
+# worktrees
+.worktrees/
