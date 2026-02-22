@@ -7,16 +7,17 @@ interface ProgressProps {
   max?: number;
   className?: string;
   showLabel?: boolean;
-  variant?: "default" | "xp" | "level" | "streak" | "primary";
+  variant?: "default" | "xp" | "level" | "streak" | "primary" | "gold";
   size?: "sm" | "md" | "lg";
 }
 
 const variantStyles = {
-  default: "bg-primary",
-  primary: "bg-primary",
-  xp: "bg-xp",
-  level: "bg-level",
-  streak: "bg-streak",
+  default: "bg-gold",
+  primary: "bg-gold",
+  gold: "bg-gold",
+  xp: "bg-gold",
+  level: "bg-gold",
+  streak: "bg-amber-400",
 };
 
 const sizeStyles = {
@@ -56,8 +57,8 @@ export function Progress({
         />
       </div>
       {showLabel && (
-        <div className="text-muted-foreground mt-1 flex justify-between font-mono text-xs">
-          <span className={cn(variant === "xp" && "text-xp")}>{value}</span>
+        <div className="text-cream/60 mt-1 flex justify-between font-mono text-xs">
+          <span className="text-gold">{value}</span>
           <span>{max}</span>
         </div>
       )}

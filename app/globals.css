@@ -1,8 +1,4 @@
 @import "tailwindcss";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
 
@@ -10,229 +6,150 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ===== NEON QUEST THEME ===== */
+/* ===== MEDIEVAL GUILD THEME ===== */
 
 :root {
   /* Background layers */
-  --background: 240 22% 5%; /* #0a0a0f - Base */
-  --foreground: 210 40% 98%; /* #f8fafc - Primary text */
+  --background: #0d0f1a; /* deep midnight navy */
+  --surface-1: #12152a; /* card backgrounds */
+  --surface-2: #171b33; /* elevated surfaces, hover */
+  --surface-3: #1d2240; /* dialog backgrounds */
 
-  /* Surface layers */
-  --surface-1: 240 18% 8%; /* #12121a - Cards */
-  --surface-2: 240 17% 12%; /* #1a1a24 - Elevated cards */
-  --surface-3: 240 15% 16%; /* #22222e - Modals */
+  /* Gold accent */
+  --gold: #c9a84c;
+  --gold-muted: rgba(201, 168, 76, 0.2);
+  --gold-glow: rgba(201, 168, 76, 0.3);
 
-  /* Card (using surface-1) */
-  --card: 240 18% 8%;
-  --card-foreground: 210 40% 98%;
+  /* Danger */
+  --crimson: #8b1a1a;
+  --crimson-muted: rgba(139, 26, 26, 0.15);
 
-  /* Popover (using surface-3) */
-  --popover: 240 15% 16%;
-  --popover-foreground: 210 40% 98%;
+  /* Success */
+  --emerald: #2d6a4f;
+  --emerald-muted: rgba(45, 106, 79, 0.15);
 
-  /* Primary accent gradient colors */
-  --primary: 258 90% 66%; /* #8b5cf6 - Violet center */
-  --primary-foreground: 210 40% 98%;
-  --accent-start: 239 84% 67%; /* #6366f1 - Indigo */
-  --accent-via: 258 90% 66%; /* #8b5cf6 - Violet */
-  --accent-end: 271 91% 65%; /* #a855f7 - Purple */
+  /* Text — parchment */
+  --cream: #f5e6d0;
+  --cream-60: rgba(245, 230, 208, 0.6);
+  --cream-30: rgba(245, 230, 208, 0.3);
+  --cream-10: rgba(245, 230, 208, 0.1);
 
-  /* Secondary */
-  --secondary: 240 17% 12%;
-  --secondary-foreground: 210 40% 98%;
+  /* Shadcn-compatible aliases */
+  --foreground: #f5e6d0;
+  --card: #12152a;
+  --card-foreground: #f5e6d0;
+  --popover: #1d2240;
+  --popover-foreground: #f5e6d0;
+  --primary: #c9a84c;
+  --primary-foreground: #0d0f1a;
+  --secondary: #171b33;
+  --secondary-foreground: #f5e6d0;
+  --muted: #171b33;
+  --muted-foreground: rgba(245, 230, 208, 0.6);
+  --accent: #c9a84c;
+  --accent-foreground: #0d0f1a;
+  --destructive: #8b1a1a;
+  --destructive-foreground: #f5e6d0;
+  --border: rgba(245, 230, 208, 0.1);
+  --input: #171b33;
+  --ring: #c9a84c;
+  --radius: 0.25rem;
 
-  /* Muted */
-  --muted: 240 17% 12%;
-  --muted-foreground: 215 16% 47%; /* #64748b - Muted text */
-
-  /* Accent */
-  --accent: 258 90% 66%;
-  --accent-foreground: 210 40% 98%;
-
-  /* XP/Success colors */
-  --xp: 160 84% 39%; /* #10b981 - Emerald */
-  --xp-glow: 159 65% 51%; /* #34d399 - Emerald glow */
-
-  /* Streak/Fire colors */
-  --streak: 38 92% 50%; /* #f59e0b - Amber */
-  --streak-glow: 43 96% 56%; /* #fbbf24 - Amber glow */
-
-  /* Level/Rank colors */
-  --level: 217 91% 60%; /* #3b82f6 - Blue */
-  --level-glow: 213 94% 68%; /* #60a5fa - Blue glow */
-
-  /* Destructive */
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 98%;
-
-  /* Border & Input */
-  --border: 240 15% 16%;
-  --input: 240 17% 12%;
-  --ring: 258 90% 66%;
-
-  /* Radius */
-  --radius: 0.75rem;
-
-  /* Chart colors */
-  --chart-1: 258 90% 66%; /* Violet */
-  --chart-2: 160 84% 39%; /* Emerald */
-  --chart-3: 217 91% 60%; /* Blue */
-  --chart-4: 38 92% 50%; /* Amber */
-  --chart-5: 271 91% 65%; /* Purple */
-
-  /* === GLOW & SHADOW SYSTEM === */
-
-  /* Glow colors (with alpha) */
-  --glow-primary: 258 90% 66%;
-  --glow-xp: 159 65% 51%;
-  --glow-streak: 43 96% 56%;
-  --glow-level: 213 94% 68%;
-
-  /* Shadow intensities */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-
-  /* Card shadows with glow */
-  --card-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 4px 24px rgba(0, 0, 0, 0.4);
-  --card-shadow-hover:
-    0 0 0 1px rgba(139, 92, 246, 0.2) inset, 0 8px 32px rgba(139, 92, 246, 0.15);
-
-  /* Glow effects */
-  --glow-sm: 0 0 10px;
-  --glow-md: 0 0 20px;
-  --glow-lg: 0 0 30px;
-}
-
-/* Dark mode is the default/only mode for Neon Quest */
-.dark {
-  --background: 240 22% 5%;
-  --foreground: 210 40% 98%;
-  --card: 240 18% 8%;
-  --card-foreground: 210 40% 98%;
-  --popover: 240 15% 16%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 258 90% 66%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 240 17% 12%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 240 17% 12%;
-  --muted-foreground: 215 16% 47%;
-  --accent: 258 90% 66%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62% 50%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 240 15% 16%;
-  --input: 240 17% 12%;
-  --ring: 258 90% 66%;
-  --chart-1: 258 90% 66%;
-  --chart-2: 160 84% 39%;
-  --chart-3: 217 91% 60%;
-  --chart-4: 38 92% 50%;
-  --chart-5: 271 91% 65%;
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 @theme inline {
-  /* Base colors */
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
+  /* Background / surface */
+  --color-background: #0d0f1a;
+  --color-foreground: #f5e6d0;
+  --color-surface-1: #12152a;
+  --color-surface-2: #171b33;
+  --color-surface-3: #1d2240;
 
-  /* Surface layers */
-  --color-surface-1: hsl(var(--surface-1));
-  --color-surface-2: hsl(var(--surface-2));
-  --color-surface-3: hsl(var(--surface-3));
+  /* Accent colors */
+  --color-gold: #c9a84c;
+  --color-crimson: #8b1a1a;
+  --color-emerald: #2d6a4f;
+  --color-cream: #f5e6d0;
 
-  /* Accent gradient */
-  --color-accent-start: hsl(var(--accent-start));
-  --color-accent-via: hsl(var(--accent-via));
-  --color-accent-end: hsl(var(--accent-end));
-
-  /* Game-specific colors */
-  --color-xp: hsl(var(--xp));
-  --color-xp-glow: hsl(var(--xp-glow));
-  --color-streak: hsl(var(--streak));
-  --color-streak-glow: hsl(var(--streak-glow));
-  --color-level: hsl(var(--level));
-  --color-level-glow: hsl(var(--level-glow));
-
-  /* Chart colors */
-  --color-chart-1: hsl(var(--chart-1));
-  --color-chart-2: hsl(var(--chart-2));
-  --color-chart-3: hsl(var(--chart-3));
-  --color-chart-4: hsl(var(--chart-4));
-  --color-chart-5: hsl(var(--chart-5));
-
-  /* Radii */
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
+  /* Shadcn tokens */
+  --color-card: #12152a;
+  --color-card-foreground: #f5e6d0;
+  --color-popover: #1d2240;
+  --color-popover-foreground: #f5e6d0;
+  --color-primary: #c9a84c;
+  --color-primary-foreground: #0d0f1a;
+  --color-secondary: #171b33;
+  --color-secondary-foreground: #f5e6d0;
+  --color-muted: #171b33;
+  --color-muted-foreground: rgba(245, 230, 208, 0.6);
+  --color-accent: #c9a84c;
+  --color-accent-foreground: #0d0f1a;
+  --color-destructive: #8b1a1a;
+  --color-destructive-foreground: #f5e6d0;
+  --color-border: rgba(245, 230, 208, 0.1);
+  --color-input: #171b33;
+  --color-ring: #c9a84c;
 
   /* Font families */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-cinzel), "Cinzel Decorative", serif;
+  --font-sans: var(--font-cormorant), "Cormorant Garamond", serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Radii */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.75rem;
 }
 
 body {
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background: var(--background);
+  color: var(--cream);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* === MINIMAL THEME UTILITIES === */
+/* === FONT UTILITIES === */
 
-/* Mono font for numbers */
+.font-display {
+  font-family: var(--font-display);
+}
+
 .font-mono {
   font-family: var(--font-mono);
 }
 
-/* Minimal number styling (no glow) */
+/* === GAME TYPOGRAPHY === */
+
 .xp-number {
   font-family: var(--font-mono);
   font-weight: 600;
-  color: hsl(var(--xp));
+  color: var(--gold);
 }
 
 .streak-number {
   font-family: var(--font-mono);
   font-weight: 600;
-  color: hsl(var(--streak));
+  color: #f59e0b;
 }
 
 .level-number {
   font-family: var(--font-mono);
   font-weight: 600;
-  color: hsl(var(--level));
+  color: var(--gold);
 }
 
-/* === SIDEBAR & LAYOUT === */
+/* === SIDEBAR === */
 
-/* Sidebar navigation */
 .sidebar {
-  background: hsl(var(--surface-1));
-  border-right: 1px solid hsl(var(--border));
+  background: var(--surface-1);
+  border-right: 1px solid var(--cream-10);
 }
 
 .sidebar-item {
@@ -240,26 +157,27 @@ body {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  color: hsl(var(--muted-foreground));
+  border-radius: 0.125rem;
+  color: var(--cream-30);
   transition:
     background 0.15s ease,
     color 0.15s ease;
 }
 
 .sidebar-item:hover {
-  background: hsl(var(--surface-2));
-  color: hsl(var(--foreground));
+  background: rgba(201, 168, 76, 0.05);
+  color: var(--cream-60);
 }
 
 .sidebar-item.active {
-  background: hsl(var(--primary) / 0.1);
-  color: hsl(var(--primary));
+  background: rgba(201, 168, 76, 0.05);
+  color: var(--gold);
+  border-left: 2px solid var(--gold);
+  box-shadow: inset 0 0 12px rgba(201, 168, 76, 0.1);
 }
 
-/* === TASK LIST UTILITIES === */
+/* === TASK LIST === */
 
-/* Hover-reveal actions */
 .task-actions {
   opacity: 0;
   transition: opacity 0.15s ease;
@@ -275,7 +193,7 @@ body {
   width: 1.25rem;
   height: 1.25rem;
   border-radius: 50%;
-  border: 2px solid hsl(var(--border));
+  border: 2px solid var(--cream-30);
   transition: all 0.15s ease;
   cursor: pointer;
   display: flex;
@@ -285,18 +203,32 @@ body {
 }
 
 .circle-checkbox:hover {
-  border-color: hsl(var(--xp));
-  background: hsl(var(--xp) / 0.1);
+  border-color: rgba(201, 168, 76, 0.6);
+  background: rgba(201, 168, 76, 0.1);
 }
 
 .circle-checkbox.completed {
-  background: hsl(var(--xp));
-  border-color: hsl(var(--xp));
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--background);
 }
 
-/* === MINIMAL ANIMATIONS === */
+/* === ORNAMENTAL DIVIDER === */
 
-/* Simple fade in */
+.ornament-divider {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(201, 168, 76, 0.4),
+    transparent
+  );
+  margin: 1rem 0;
+}
+
+/* === ANIMATIONS === */
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -310,7 +242,6 @@ body {
   animation: fade-in 0.2s ease-out;
 }
 
-/* Slide in from left (for mobile sidebar) */
 @keyframes slide-in-left {
   from {
     transform: translateX(-100%);
@@ -324,7 +255,6 @@ body {
   animation: slide-in-left 0.2s ease-out;
 }
 
-/* Check mark animation */
 @keyframes check-scale {
   0% {
     transform: scale(0);
@@ -341,7 +271,6 @@ body {
   animation: check-scale 0.2s ease-out;
 }
 
-/* Subtle float animation for landing page */
 @keyframes float {
   0%,
   100% {
@@ -358,7 +287,44 @@ body {
   animation: float 4s ease-in-out infinite;
 }
 
-/* XP float effect on quest completion */
+/* Parchment reveal — list item entrance */
+@keyframes parchment-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-parchment-reveal {
+  animation: parchment-reveal 0.3s ease-out;
+}
+
+/* Gold shimmer — XP gain */
+@keyframes gold-shimmer {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translateY(-20px) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.9);
+  }
+}
+
+.animate-gold-shimmer {
+  animation: gold-shimmer 1s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Legacy alias */
 @keyframes xp-float {
   0% {
     opacity: 1;
@@ -377,4 +343,18 @@ body {
 .animate-xp-float {
   animation: xp-float 1s ease-out forwards;
   pointer-events: none;
+}
+
+/* Ornament fade */
+@keyframes ornament-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-ornament-fade {
+  animation: ornament-fade 0.6s ease-out;
 }

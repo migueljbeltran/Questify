@@ -28,8 +28,8 @@ const CircleCheckbox = forwardRef<HTMLButtonElement, CircleCheckboxProps>(
         className={cn(
           "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-150",
           checked
-            ? "border-xp bg-xp text-white"
-            : "border-border hover:border-xp/60 hover:bg-xp/10 bg-transparent",
+            ? "border-gold bg-gold text-background"
+            : "border-cream/30 hover:border-gold/60 hover:bg-gold/10 bg-transparent",
           disabled && "cursor-not-allowed opacity-50",
           className
         )}

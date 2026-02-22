@@ -12,30 +12,32 @@ import {
   X,
   LogOut,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, getRankName } from "@/lib/utils";
 import { logout } from "@/app/login/actions";
 
 interface SidebarProps {
   email?: string;
+  level?: number;
 }
 
 const navItems = [
-  { href: "/dashboard", label: "Today", icon: Calendar },
-  { href: "/dashboard/quests", label: "All Quests", icon: ListTodo },
-  { href: "/dashboard/completed", label: "Completed", icon: CheckCircle2 },
-  { href: "/dashboard/stats", label: "Stats", icon: BarChart3 },
+  { href: "/dashboard", label: "Bounties", icon: Calendar },
+  { href: "/dashboard/quests", label: "Quest Board", icon: ListTodo },
+  { href: "/dashboard/completed", label: "Chronicles", icon: CheckCircle2 },
+  { href: "/dashboard/stats", label: "Guild Record", icon: BarChart3 },
 ];
 
-export function Sidebar({ email }: SidebarProps) {
+export function Sidebar({ email, level = 1 }: SidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const rankName = getRankName(level);
 
   return (
     <>
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed top-4 left-4 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-white/60 backdrop-blur-sm transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+        className="border-gold/20 bg-surface-1 text-cream/60 hover:border-gold/40 hover:text-gold fixed top-4 left-4 z-40 flex h-10 w-10 items-center justify-center rounded-sm border backdrop-blur-sm transition-colors lg:hidden"
         aria-label="Open navigation menu"
       >
         <Menu className="h-5 w-5" />
@@ -44,7 +46,7 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+          className="bg-background/60 fixed inset-0 z-40 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
@@ -53,7 +55,7 @@ export function Sidebar({ email }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 z-50 flex h-full flex-col bg-white/[0.02] backdrop-blur-md",
+          "border-cream/5 bg-surface-1 fixed top-0 left-0 z-50 flex h-full flex-col border-r backdrop-blur-md",
           // Desktop: always visible, full width
           "lg:w-64",
           // Tablet: collapsed (icons only)
@@ -66,16 +68,16 @@ export function Sidebar({ email }: SidebarProps) {
         {/* Header */}
         <div className="flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-3">
-            <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-white">
-              Q
-            </div>
-            <span className="text-foreground font-semibold md:hidden lg:inline">
-              Questify
+            <span className="text-gold text-2xl md:hidden lg:inline">⚜</span>
+            <span className="font-display text-gold text-sm font-bold tracking-widest md:hidden lg:inline">
+              QUESTIFY
             </span>
+            {/* Tablet collapsed: just the emblem */}
+            <span className="text-gold text-xl md:inline lg:hidden">⚜</span>
           </div>
           <button
             onClick={() => setMobileOpen(false)}
-            className="text-white/40 transition-colors hover:text-white lg:hidden"
+            className="text-cream/40 hover:text-gold transition-colors lg:hidden"
             aria-label="Close navigation menu"
           >
             <X className="h-5 w-5" />
@@ -94,10 +96,10 @@ export function Sidebar({ email }: SidebarProps) {
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all",
+                      "flex items-center gap-3 px-3 py-2.5 text-sm transition-all",
                       isActive
-                        ? "bg-white/10 text-white"
-                        : "text-white/50 hover:bg-white/5 hover:text-white/80"
+                        ? "border-gold bg-gold/5 text-gold border-l-2"
+                        : "text-cream/30 hover:bg-gold/5 hover:text-cream/60"
                     )}
                   >
                     <Icon className="h-5 w-5 shrink-0" />
@@ -110,18 +112,21 @@ export function Sidebar({ email }: SidebarProps) {
         </nav>
 
         {/* Footer */}
-        <div className="p-3">
+        <div className="border-cream/5 border-t p-3">
           {email && (
-            <div className="mb-3 truncate px-3 text-xs text-white/30 md:hidden lg:block">
-              {email}
+            <div className="mb-2 px-3 md:hidden lg:block">
+              <p className="text-gold/70 text-xs font-semibold tracking-wider md:hidden lg:block">
+                {rankName}
+              </p>
+              <p className="text-cream/30 truncate text-xs">{email}</p>
             </div>
           )}
           <button
             onClick={() => logout()}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/50 transition-all hover:bg-white/5 hover:text-red-400"
+            className="text-cream/30 hover:bg-crimson/10 flex w-full items-center gap-3 px-3 py-2.5 text-sm transition-all hover:text-red-400"
           >
             <LogOut className="h-5 w-5 shrink-0" />
-            <span className="md:hidden lg:inline">Sign out</span>
+            <span className="md:hidden lg:inline">Leave the Guild</span>
           </button>
         </div>
       </aside>
